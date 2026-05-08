@@ -1,0 +1,4 @@
+git init
+git add .
+git commit -m "init: yukiuix.dev personal site"
+gh repo create yukiuix-dev --public --push
