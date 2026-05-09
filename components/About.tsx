@@ -11,18 +11,18 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
+      className="relative border-t border-structure mx-auto max-w-6xl scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8"
       aria-labelledby="about-heading"
     >
       <h2
         id="about-heading"
-        className="font-mono text-[11px] tracking-[0.14em] text-primary-hover"
+        className="border-l-[3px] border-primary pl-2.5 font-mono text-[11px] tracking-[0.14em] text-primary"
       >
         关于
       </h2>
-      <p className="mt-2 text-sm text-muted">背景与现在在做什么</p>
+      <p className="mt-2 text-sm font-medium text-ink">背景与现在在做什么</p>
 
-      <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_2fr] lg:gap-16">
+      <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_2fr] lg:gap-14">
         <div>
           <h3 className="text-sm font-medium text-ink">现在在做</h3>
           <p className="mt-3 text-sm leading-relaxed text-muted">

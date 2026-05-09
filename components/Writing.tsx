@@ -20,18 +20,18 @@ export default function Writing() {
   return (
     <section
       id="writing"
-      className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
+      className="relative border-t border-structure mx-auto max-w-6xl scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8"
       aria-labelledby="writing-heading"
     >
       <h2
         id="writing-heading"
-        className="font-mono text-[11px] tracking-[0.14em] text-primary-hover"
+        className="border-l-[3px] border-primary pl-2.5 font-mono text-[11px] tracking-[0.14em] text-primary"
       >
         文章
       </h2>
-      <p className="mt-2 text-sm text-muted">文章与笔记</p>
+      <p className="mt-2 text-sm font-medium text-ink">文章与笔记</p>
 
-      <ul className="mt-8 divide-y-[0.5px] divide-hairline border-y-[0.5px] border-hairline">
+      <ul className="mt-8 divide-y-[0.5px] divide-hairline border-y border-structure">
         {sortedArticles.map((a, index) =>
           isFeatured(a) ? (
             <li key={a.title} className="py-6 sm:py-8">
@@ -40,12 +40,12 @@ export default function Writing() {
                   href={a.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block border-[0.5px] border-hairline bg-canvas p-5 transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary sm:p-6"
+                  className="group block border border-hairline bg-white p-5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md sm:p-6"
                 >
                   <FeaturedBody article={a} imagePriority={index === 0} />
                 </a>
               ) : (
-                <div className="border-[0.5px] border-hairline bg-canvas p-5 sm:p-6">
+                <div className="border border-hairline bg-white p-5 shadow-sm sm:p-6">
                   <FeaturedBody article={a} imagePriority={index === 0} />
                 </div>
               )}
@@ -58,18 +58,18 @@ export default function Writing() {
                     href={a.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 text-sm leading-snug text-ink transition-colors group-hover:text-primary-hover sm:text-[15px]"
+                    className="flex-1 text-sm font-medium leading-snug text-ink transition-colors group-hover:text-primary sm:text-[15px]"
                   >
                     {a.title}
                   </a>
                 ) : (
-                  <p className="flex-1 text-sm leading-snug text-ink transition-colors group-hover:text-primary-hover sm:text-[15px]">
+                  <p className="flex-1 text-sm font-medium leading-snug text-ink transition-colors group-hover:text-primary sm:text-[15px]">
                     {a.title}
                   </p>
                 )}
                 <time
                   dateTime={a.publishedAt}
-                  className="shrink-0 font-mono text-xs text-muted tabular-nums transition-colors group-hover:text-primary-hover sm:text-right sm:text-[13px]"
+                  className="shrink-0 font-mono text-xs text-muted tabular-nums transition-colors group-hover:text-primary sm:text-right sm:text-[13px]"
                 >
                   {articleMonthLabel(a.publishedAt)}
                 </time>
@@ -104,7 +104,7 @@ function FeaturedBody({
         </div>
       ) : null}
       <div className="min-w-0 flex-1">
-        <h3 className="text-base font-medium leading-snug text-ink transition-colors group-hover:text-primary-hover sm:text-lg">
+        <h3 className="text-base font-semibold leading-snug text-ink transition-colors group-hover:text-primary sm:text-lg">
           {a.title}
         </h3>
         {a.blurb ? (
@@ -118,7 +118,7 @@ function FeaturedBody({
             {articleMonthLabel(a.publishedAt)}
           </time>
           {a.url ? (
-            <span className="font-mono text-xs text-primary transition-colors group-hover:text-primary-hover">
+            <span className="font-mono text-xs text-primary transition-colors group-hover:text-ink">
               阅读全文 →
             </span>
           ) : null}

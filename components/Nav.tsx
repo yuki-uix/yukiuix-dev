@@ -13,11 +13,11 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b-[0.5px] border-hairline bg-canvas">
+    <header className="sticky top-0 z-50 border-b-2 border-structure bg-canvas">
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="font-mono text-[15px] tracking-tight text-ink"
+          className="font-mono text-[15px] font-medium tracking-tight text-ink"
           onClick={() => setOpen(false)}
         >
           yuki<span className="text-primary">.uix</span>
@@ -28,7 +28,7 @@ export default function Nav() {
             <a
               key={href}
               href={href}
-              className="text-sm text-muted transition-colors hover:text-primary-hover"
+              className="text-sm font-medium text-muted transition-colors hover:text-primary-hover"
             >
               {label}
             </a>
@@ -37,7 +37,7 @@ export default function Nav() {
             href="https://www.linkedin.com/in/kunyu-xu/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-sm text-muted transition-colors hover:text-primary-hover"
+            className="font-mono text-sm font-medium text-muted transition-colors hover:text-primary-hover"
           >
             EN
           </a>
@@ -63,7 +63,7 @@ export default function Nav() {
       </nav>
 
       {open ? (
-        <div className="border-b-[0.5px] border-hairline bg-canvas px-4 py-4 md:hidden">
+        <div className="border-b-2 border-structure bg-canvas px-4 py-4 md:hidden">
           <ul className="flex flex-col gap-4">
             {links.map(({ href, label }) => (
               <li key={href}>

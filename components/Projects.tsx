@@ -4,23 +4,23 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative mx-auto max-w-6xl scroll-mt-24 px-4 pb-20 pt-12 sm:px-6 sm:pt-14 lg:px-8"
+      className="relative border-t border-structure mx-auto max-w-6xl scroll-mt-24 px-4 pb-16 pt-10 sm:px-6 sm:pt-12 lg:px-8"
       aria-labelledby="projects-heading"
     >
       <h2
         id="projects-heading"
-        className="font-mono text-[11px] tracking-[0.14em] text-primary-hover"
+        className="border-l-[3px] border-primary pl-2.5 font-mono text-[11px] tracking-[0.14em] text-primary"
       >
         项目
       </h2>
-      <p className="mt-2 text-sm text-muted">精选项目与实验</p>
+      <p className="mt-2 text-sm font-medium text-ink">精选项目与实验</p>
 
-      <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
           <li key={p.title}>
-            <article className="flex h-full flex-col border-[0.5px] border-hairline bg-canvas p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary">
-              <h3 className="text-lg font-medium text-ink">{p.title}</h3>
-              <p className="mt-2 font-mono text-[11px] tracking-wide text-muted">
+            <article className="group flex h-full flex-col border border-hairline bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md">
+              <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-primary">{p.title}</h3>
+              <p className="mt-2 font-mono text-[11px] tracking-wide text-muted transition-colors group-hover:text-primary">
                 {p.tag}
               </p>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
@@ -31,7 +31,7 @@ export default function Projects() {
                   href={p.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary transition-colors hover:text-primary-hover"
+                  className="text-primary transition-colors group-hover:text-ink"
                 >
                   Demo →
                 </a>
@@ -39,7 +39,7 @@ export default function Projects() {
                   href={p.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted transition-colors hover:text-primary-hover"
+                  className="text-muted transition-colors group-hover:text-primary"
                 >
                   GitHub
                 </a>

@@ -7,8 +7,9 @@
   --color-primary: #2b6cb0;
   --color-primary-hover: #63b3ed;
   --color-text: #1a202c;
-  --color-text-muted: #718096;
+  --color-text-muted: #4f5a68;
   --color-border: #e2d9c8;
+  --color-border-strong: #1a202c;
 }
 
 html {
@@ -33,5 +34,5 @@ body {
     ),
     linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
   background-size: 40px 40px;
-  opacity: 0.35;
+  opacity: 0.5;
 }

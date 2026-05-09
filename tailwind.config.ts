@@ -17,6 +17,7 @@ const config: Config = {
         ink: "var(--color-text)",
         muted: "var(--color-text-muted)",
         hairline: "var(--color-border)",
+        structure: "var(--color-border-strong)",
       },
       fontFamily: {
         sans: [
