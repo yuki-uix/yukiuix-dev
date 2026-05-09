@@ -14,8 +14,8 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "yuki.uix · yukiuix.dev",
-  description: "Portfolio — architecture, UX, engineering, AI",
+  title: "yuki.uix · yukiuix.com",
+  description: "Design Engineer · AI · E-commerce — yukiuix.com",
 };
 
 export default function RootLayout({
