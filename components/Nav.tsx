@@ -33,14 +33,6 @@ export default function Nav() {
               {label}
             </a>
           ))}
-          <a
-            href="https://www.linkedin.com/in/kunyu-xu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-sm font-medium text-muted transition-colors hover:text-primary-hover"
-          >
-            EN
-          </a>
         </div>
 
         <button
@@ -76,17 +68,6 @@ export default function Nav() {
                 </a>
               </li>
             ))}
-            <li>
-              <a
-                href="https://www.linkedin.com/in/kunyu-xu/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block font-mono text-sm text-muted transition-colors hover:text-primary-hover"
-                onClick={() => setOpen(false)}
-              >
-                EN
-              </a>
-            </li>
           </ul>
         </div>
       ) : null}

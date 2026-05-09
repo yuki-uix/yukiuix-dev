@@ -25,11 +25,11 @@ export default function Writing() {
     >
       <h2
         id="writing-heading"
-        className="border-l-[3px] border-primary pl-2.5 font-mono text-[11px] tracking-[0.14em] text-primary"
+        className="border-l-[3px] border-primary pl-2.5 font-mono text-xs tracking-[0.14em] text-primary"
       >
         文章
       </h2>
-      <p className="mt-2 text-sm font-medium text-ink">文章与笔记</p>
+      <p className="mt-2 text-base font-semibold text-ink">文章与笔记</p>
 
       <ul className="mt-8 divide-y-[0.5px] divide-hairline border-y border-structure">
         {sortedArticles.map((a, index) =>

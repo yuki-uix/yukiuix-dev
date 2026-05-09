@@ -9,11 +9,11 @@ export default function Projects() {
     >
       <h2
         id="projects-heading"
-        className="border-l-[3px] border-primary pl-2.5 font-mono text-[11px] tracking-[0.14em] text-primary"
+        className="border-l-[3px] border-primary pl-2.5 font-mono text-xs tracking-[0.14em] text-primary"
       >
         项目
       </h2>
-      <p className="mt-2 text-sm font-medium text-ink">精选项目与实验</p>
+      <p className="mt-2 text-base font-semibold text-ink">精选项目与实验</p>
 
       <ul className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
