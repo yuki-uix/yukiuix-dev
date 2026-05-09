@@ -22,10 +22,10 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/yuki-uix/prompt-shop",
   },
   {
-    title: "IA 结构演示",
-    tag: "IA · INTERACTIVE",
-    description: "切换三种电商导航结构",
-    demoUrl: "https://yuki-uix.github.io/yukiss-store/ia-demo.html",
-    githubUrl: "https://github.com/yuki-uix/yukiss-store",
+    title: "Human vs AI Judge",
+    tag: "AI · GAME · E-COMMERCE",
+    description: "与 AI 同场竞技，对真实电商售后工单做意图分类，实时对比三方判断差异",
+    demoUrl: "https://post-agent-game.vercel.app/",
+    githubUrl: "https://github.com/yuki-uix/post-agent-game",
   },
 ];
