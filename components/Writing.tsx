@@ -2,11 +2,12 @@ import Image from "next/image";
 
 import { articles, articleMonthLabel, type Article } from "@/data/articles";
 
-const JUEJIN_PROFILE = "https://juejin.cn/user/3114009996068583/posts";
+const JUEJIN_PROFILE = "https://juejin.cn/user/3582625834347100";
 
 const platformLabel: Record<NonNullable<Article["platform"]>, string> = {
   juejin: "掘金",
   wechat: "公众号",
+  devto: "dev.to",
 };
 
 /** `publishedAt` ISO 日期，新在前；同一时刻按标题稳定排序 */
@@ -81,12 +82,12 @@ function FeaturedBody({
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
       {a.coverImage ? (
-        <div className="relative mx-auto h-56 w-44 shrink-0 overflow-hidden border-[0.5px] border-hairline sm:mx-0 sm:w-48">
+        <div className="relative mx-auto aspect-[3/2] h-[120px] shrink-0 overflow-hidden border-[0.5px] border-hairline sm:mx-0">
           <Image
             src={a.coverImage}
             alt={a.coverAlt ?? "文章封面插图"}
             fill
-            sizes="(max-width: 640px) 176px, 192px"
+            sizes="(max-width: 640px) 144px, 160px"
             className="object-cover object-center"
             priority={imagePriority}
           />

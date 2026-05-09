@@ -11,7 +11,7 @@ export type Article = {
   /** 列表内推荐语 / 摘要 */
   blurb?: string;
   /** 发布平台 */
-  platform?: "juejin" | "wechat";
+  platform?: "juejin" | "wechat" | "devto";
   /** 是否在首页精选展示 */
   featured?: boolean;
 };
@@ -39,6 +39,8 @@ export const articles: Article[] = [
     title: "赛博纺织工厂：一个比喻，讲透 AI Agent 工作流的四次进化",
     publishedAt: "2026-02-27",
     url: "https://juejin.cn/post/7611064285586440219",
+    coverImage: "/images/articles/cyber-textile-factory-agent.png",
+    coverAlt: "插图：工业织机与数字线程并置，比喻 AI Agent 工作流的四次进化",
     blurb:
       "用纺织工厂改造比喻 Agent 系统的演进——V1 结构化执行，V2 规划反思，V3 记忆管理，V4 安全护栏。能力越强，需要的约束越精密。工程化的关键不在 AI 本身，而在于通过流程设计与安全防护让复杂系统在生产环境里稳定运作。",
     platform: "juejin",
@@ -48,6 +50,8 @@ export const articles: Article[] = [
     title: "当系统「没了头」(headless)，AI 反而更好接手了？",
     publishedAt: "2026-02-19",
     url: "https://juejin.cn/post/7607255854146273318",
+    coverImage: "/images/articles/headless-ai-robot-api.png",
+    coverAlt: "插图：开顶建筑结构与机器人直连 API 接口，比喻 Headless 架构被 AI 接管",
     blurb:
       "Headless 架构的本质是「只暴露能力接口，不预设 UI 形态」。AI Agent 作为新型消费方，恰好不需要 UI——这让 Headless 成为最易被 AI 接手的系统形态。但 API 设计与治理成本并没有因此消失。",
     platform: "juejin",
@@ -57,6 +61,8 @@ export const articles: Article[] = [
     title: "你的页面对 Google 来说不存在 —— 一次微前端 SEO 链路排查",
     publishedAt: "2026-05-03",
     url: "https://juejin.cn/post/7635275904798326838",
+    coverImage: "/images/articles/seo-google-chain-four-layers.png",
+    coverAlt: "插图：四层纵向栈，第三层断裂，比喻 SEO 链路中的渲染断点",
     blurb:
       "不是排名低，是页面对 Google 完全不存在。这篇记录了一次微前端项目的完整 SEO 排查过程，以及从中整理出的四层诊断框架：链接发现、可访问性、内容渲染、语义理解。断点找错了层，改再多也没用。",
     platform: "juejin",
@@ -124,6 +130,24 @@ export const articles: Article[] = [
     publishedAt: "2026-02-25",
     url: "https://juejin.cn/post/7610160716067569674",
     platform: "juejin",
+    featured: false,
+  },
+  {
+    title: "用 AI 解决项目痛点：一个前端开发者的 Hackathon 实录",
+    publishedAt: "2026-03-22",
+    url: "https://juejin.cn/post/7619524626254970921",
+    blurb:
+      "GitLab AI Hackathon 参赛记录。用 TypeScript 构建 spec-driven 系统，以「规格鸿沟」为切入点——业务逻辑在产品、设计、开发之间反复翻译导致的失真。单一数据源让 AI 自动生成代码、测试与文档。",
+    platform: "juejin",
+    featured: false,
+  },
+  {
+    title: "Deep Dive into Array.reduce(): From Interview Questions to Design Thinking",
+    publishedAt: "2026-02-24",
+    url: "https://dev.to/yuki-uix/deep-dive-into-arrayreduce-from-interview-questions-to-design-thinking-15ih",
+    blurb:
+      "Why does reduce() appear in interviews but rarely in real projects? This piece reframes it as a paradigm for data transformation — \"reductive thinking\" — and walks through aggregation, restructuring, function composition, and sequential async patterns.",
+    platform: "devto",
     featured: false,
   },
 ];
