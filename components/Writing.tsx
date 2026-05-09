@@ -82,12 +82,12 @@ function FeaturedBody({
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
       {a.coverImage ? (
-        <div className="relative mx-auto aspect-[3/2] h-[120px] shrink-0 overflow-hidden border-[0.5px] border-hairline sm:mx-0">
+        <div className="relative h-44 w-full overflow-hidden border-[0.5px] border-hairline sm:h-[120px] sm:w-40 sm:shrink-0">
           <Image
             src={a.coverImage}
             alt={a.coverAlt ?? "文章封面插图"}
             fill
-            sizes="(max-width: 640px) 144px, 160px"
+            sizes="(max-width: 640px) 100vw, 160px"
             className="object-cover object-center"
             priority={imagePriority}
           />

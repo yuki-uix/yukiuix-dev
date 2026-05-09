@@ -27,7 +27,7 @@ export default function Footer() {
                     ? undefined
                     : "noopener noreferrer"
                 }
-                className="text-sm font-medium text-muted transition-colors hover:text-primary-hover"
+                className="text-sm font-medium text-muted transition-colors hover:text-primary"
               >
                 {s.label}
               </a>

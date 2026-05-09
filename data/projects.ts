@@ -28,4 +28,11 @@ export const projects: Project[] = [
     demoUrl: "https://post-agent-game.vercel.app/",
     githubUrl: "https://github.com/yuki-uix/post-agent-game",
   },
+  {
+    title: "Particle Flow Generator",
+    tag: "CANVAS · SIMULATION",
+    description: "粒子流模拟实验场，Canvas 2D 实时渲染；传送门 + BFS 流场绕墙寻路，支持参数实时调节与 GIF 导出",
+    demoUrl: "https://particle-flow-generator.vercel.app/",
+    githubUrl: "https://github.com/yuki-uix/particle-flow-generator",
+  },
 ];

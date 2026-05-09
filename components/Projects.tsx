@@ -1,3 +1,5 @@
+"use client";
+
 import { projects } from "@/data/projects";
 
 export default function Projects() {
@@ -15,33 +17,31 @@ export default function Projects() {
       </h2>
       <p className="mt-2 text-base font-semibold text-ink">精选项目与实验</p>
 
-      <ul className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {projects.map((p) => (
-          <li key={p.title}>
-            <article className="group flex h-full flex-col border border-hairline bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md">
-              <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-primary">{p.title}</h3>
+          <li key={p.title} className="group">
+            <article
+              className="flex h-full cursor-pointer flex-col border border-hairline bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md"
+              onClick={() => window.open(p.demoUrl, "_blank", "noopener,noreferrer")}
+            >
+              <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-primary">
+                {p.title}
+              </h3>
               <p className="mt-2 font-mono text-[11px] tracking-wide text-muted transition-colors group-hover:text-primary">
                 {p.tag}
               </p>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
                 {p.description}
               </p>
-              <div className="mt-6 flex flex-wrap gap-4 font-mono text-xs">
-                <a
-                  href={p.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary transition-colors group-hover:text-ink"
-                >
-                  Demo →
-                </a>
+              <div className="mt-6 flex justify-end">
                 <a
                   href={p.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted transition-colors group-hover:text-primary"
+                  onClick={(e) => e.stopPropagation()}
+                  className="border border-hairline px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-primary hover:text-primary"
                 >
-                  GitHub
+                  GitHub →
                 </a>
               </div>
             </article>
