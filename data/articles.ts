@@ -69,6 +69,30 @@ export const articles: Article[] = [
     featured: true,
   },
 
+  {
+    title: "双 RAF + MutationObserver：微前端跳转后的滚动复原完整方案",
+    publishedAt: "2026-05-10",
+    url: "https://juejin.cn/post/7637770855154548771",
+    coverImage: "/images/articles/micro-frontend-focus.png",
+    coverAlt: "插图：两帧之间的边界，节点从暗到亮的状态变化，比喻渲染管线时序",
+    blurb:
+      "微前端跳转后滚动复原，不是一个 scrollTo 能解决的。状态要活过跳转、元素要出现在 DOM、还要等渲染真正完成——三件事都得在浏览器渲染管线的正确时机触发。「元素在 DOM 里」和「元素画好了」是两个不同的问题，用错 API 就会踩坑。",
+    platform: "juejin",
+    featured: true,
+  },
+
+  {
+    title: "一张微前端技术卡的 AI 协作复盘：业务之下，还有一层",
+    publishedAt: "2026-05-10",
+    url: "https://mp.weixin.qq.com/s/ZiGE1HKMhjBxiWETbTbJ2Q",
+    coverImage: "/images/articles/looking-layer.png",
+    coverAlt: "插图：人向下俯视，地面以下多层地质剖面清晰可见，比喻认知深度决定你能看到的层次",
+    blurb:
+      "做了一张微前端技术卡，AI 给的代码能跑，但一直有个元素找不到。loop 了三四次才意识到：不是 AI 不行，是我从没给过它业务之下那一层的信息。这篇是对这次 pair coding 的复盘，也是对 AI 协作模式的一次重新想。",
+    platform: "wechat",
+    featured: true,
+  },
+
   // ── 归档（/writing 页面建好后展示）────────────────────
   {
     title: "筛选器解决不了的问题，Agent 从这里开始",
