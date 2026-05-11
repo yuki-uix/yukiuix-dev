@@ -1,7 +1,11 @@
+export type Topic = "frontend" | "ai" | "ecommerce";
+
 export type Article = {
   title: string;
   /** English title for Chinese articles shown in the English locale */
   titleEn?: string;
+  /** Topic tags for filtering */
+  topics?: Topic[];
   /** 发布日期 ISO `YYYY-MM-DD`，用于排序；界面用 `articleMonthLabel` 只显示到月 */
   publishedAt: string;
   /** 原文链接（掘金、公众号等） */
@@ -31,6 +35,7 @@ export const articles: Article[] = [
   {
     title: "「好逛」和「好找」不是同一件事——电商独立站的 IA 取舍",
     titleEn: "\"Easy to Browse\" vs \"Easy to Find\" — IA Trade-offs in E-commerce Storefronts",
+    topics: ["ecommerce"],
     publishedAt: "2026-05-07",
     url: "https://mp.weixin.qq.com/s/OX441mHruOlWVpQx3YdoWQ",
     coverImage: "/images/articles/boutique-vs-grid-ia.png",
@@ -45,6 +50,7 @@ export const articles: Article[] = [
   {
     title: "赛博纺织工厂：一个比喻，讲透 AI Agent 工作流的四次进化",
     titleEn: "The Cyber Textile Factory: Four Generations of AI Agent Workflow Design",
+    topics: ["ai"],
     publishedAt: "2026-02-27",
     url: "https://juejin.cn/post/7611064285586440219",
     coverImage: "/images/articles/cyber-textile-factory-agent.png",
@@ -59,6 +65,7 @@ export const articles: Article[] = [
   {
     title: "当系统「没了头」(headless)，AI 反而更好接手了？",
     titleEn: "When a System Goes Headless, Does AI Take Over More Easily?",
+    topics: ["frontend", "ai"],
     publishedAt: "2026-02-19",
     url: "https://juejin.cn/post/7607255854146273318",
     coverImage: "/images/articles/headless-ai-robot-api.png",
@@ -73,6 +80,7 @@ export const articles: Article[] = [
   {
     title: "你的页面对 Google 来说不存在 —— 一次微前端 SEO 链路排查",
     titleEn: "Your Page Doesn't Exist to Google — A Micro-Frontend SEO Post-mortem",
+    topics: ["frontend"],
     publishedAt: "2026-05-03",
     url: "https://juejin.cn/post/7635275904798326838",
     coverImage: "/images/articles/seo-google-chain-four-layers.png",
@@ -88,6 +96,7 @@ export const articles: Article[] = [
   {
     title: "双 RAF + MutationObserver：微前端跳转后的滚动复原完整方案",
     titleEn: "Double RAF + MutationObserver: Scroll Restoration After Micro-Frontend Redirects",
+    topics: ["frontend"],
     publishedAt: "2026-05-10",
     url: "https://juejin.cn/post/7637770855154548771",
     coverImage: "/images/articles/micro-frontend-focus.png",
@@ -103,6 +112,7 @@ export const articles: Article[] = [
   {
     title: "一张微前端技术卡的 AI 协作复盘：业务之下，还有一层",
     titleEn: "AI Pair Programming Retrospective: There's a Layer Beneath the Business Logic",
+    topics: ["frontend", "ai"],
     publishedAt: "2026-05-10",
     url: "https://mp.weixin.qq.com/s/ZiGE1HKMhjBxiWETbTbJ2Q",
     coverImage: "/images/articles/looking-layer.png",
@@ -118,6 +128,8 @@ export const articles: Article[] = [
   // ── 归档（/writing 页面建好后展示）────────────────────
   {
     title: "筛选器解决不了的问题，Agent 从这里开始",
+    titleEn: "When Filters Fail: Where AI Shopping Agents Begin",
+    topics: ["ecommerce", "ai"],
     publishedAt: "2026-04-06",
     url: "https://mp.weixin.qq.com/s/0cYIyTyU8XbWh4epNTGQqw",
     coverImage: "/images/articles/agent-filter-notebook-flatlay.png",
@@ -129,6 +141,8 @@ export const articles: Article[] = [
   },
   {
     title: "SEO 做好了，为什么 AI 还是搜不到你的页面？",
+    titleEn: "Your SEO Is Fine — So Why Can't AI Search Find Your Page?",
+    topics: ["frontend", "ai"],
     publishedAt: "2026-05-05",
     url: "https://mp.weixin.qq.com/s/iUC_p9gGz9lA5LMSszDNYQ",
     coverImage: "/images/articles/seo-vs-geo-ai-search.png",
@@ -140,6 +154,8 @@ export const articles: Article[] = [
   },
   {
     title: "AI 能做什么，不能做什么：一次 Hackathon 复盘的真实答案",
+    titleEn: "What AI Can and Can't Do: Honest Answers from a Hackathon Retrospective",
+    topics: ["ai"],
     publishedAt: "2026-04-29",
     url: "https://mp.weixin.qq.com/s/cvBMXhEQ5PCSRncBPsJVtg",
     coverImage: "/images/articles/hackathon-ai-capabilities-brain.png",
@@ -151,6 +167,8 @@ export const articles: Article[] = [
   },
   {
     title: "把时间垒进空间里——如何让 AI 读懂消失的用户轨迹",
+    titleEn: "Stacking Time into Space: Helping AI Read Invisible User Journeys",
+    topics: ["ecommerce", "ai"],
     publishedAt: "2026-04-04",
     url: "https://mp.weixin.qq.com/s/z-yCjuYR-Hq35w9BCJkpKA",
     coverImage: "/images/articles/time-stacked-space-heatmap.png",
@@ -162,6 +180,8 @@ export const articles: Article[] = [
   },
   {
     title: "你的页面对 Google 来说不存在 —— 一次 SEO 链路排查",
+    titleEn: "Your Page Doesn't Exist to Google — An SEO Chain Audit",
+    topics: ["frontend"],
     publishedAt: "2026-05-03",
     url: "https://mp.weixin.qq.com/s/83A4fxu6dG6LHySt8-O9tg",
     coverImage: "/images/articles/seo-google-chain-four-layers.png",
@@ -173,6 +193,8 @@ export const articles: Article[] = [
   },
   {
     title: "WebSocket 连上了，然后呢？聊聊实时数据的「后半场」",
+    titleEn: "WebSocket Connected — Now What? The Second Half of Real-Time Data",
+    topics: ["frontend"],
     publishedAt: "2026-02-25",
     url: "https://juejin.cn/post/7610160716067569674",
     platform: "juejin",
@@ -180,6 +202,8 @@ export const articles: Article[] = [
   },
   {
     title: "用 AI 解决项目痛点：一个前端开发者的 Hackathon 实录",
+    titleEn: "Using AI to Solve Real Dev Pain Points: A Frontend Hackathon Story",
+    topics: ["ai"],
     publishedAt: "2026-03-22",
     url: "https://juejin.cn/post/7619524626254970921",
     blurb:
@@ -189,6 +213,7 @@ export const articles: Article[] = [
   },
   {
     title: "Scroll Restoration After Micro-Frontend Redirects: Double RAF + MutationObserver",
+    topics: ["frontend"],
     publishedAt: "2026-05-11",
     url: "https://dev.to/yuki-uix/scroll-restoration-after-micro-frontend-redirects-double-raf-mutationobserver-3h77",
     blurb:
@@ -198,6 +223,7 @@ export const articles: Article[] = [
   },
   {
     title: "Deep Dive into Array.reduce(): From Interview Questions to Design Thinking",
+    topics: ["frontend"],
     publishedAt: "2026-02-24",
     url: "https://dev.to/yuki-uix/deep-dive-into-arrayreduce-from-interview-questions-to-design-thinking-15ih",
     blurb:

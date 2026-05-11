@@ -24,10 +24,17 @@
   },
   "writing": {
     "heading": "Writing",
-    "subtitle": "Articles & Notes",
-    "viewAll": "View all on Juejin →",
+    "subtitle": "Featured Articles & Notes",
+    "archiveSubtitle": "All Articles & Notes",
+    "viewAll": "View all articles →",
     "readFull": "Read full article →",
     "coverAlt": "Article cover image",
+    "filterAll": "All",
+    "topics": {
+      "frontend": "Frontend Engineering",
+      "ai": "AI",
+      "ecommerce": "E-commerce SaaS"
+    },
     "platforms": {
       "juejin": "Juejin (CN)",
       "wechat": "WeChat (CN)",

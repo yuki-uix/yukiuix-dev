@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 import { articles, articleMonthLabel, type Article } from "@/data/articles";
 
-const JUEJIN_PROFILE = "https://juejin.cn/user/3582625834347100";
 
 /** `publishedAt` ISO 日期，新在前；同一时刻按标题稳定排序 */
 function compareArticlesByPublishedDesc(a: Article, b: Article) {
@@ -77,14 +77,12 @@ export default function Writing() {
       </ul>
 
       <div className="mt-6 text-right">
-        <a
-          href={JUEJIN_PROFILE}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/writing"
           className="font-mono text-xs text-muted transition-colors hover:text-primary"
         >
           {t("viewAll")}
-        </a>
+        </Link>
       </div>
     </section>
   );

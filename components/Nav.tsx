@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 
 export default function Nav() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const otherLocale = locale === "zh" ? "en" : "zh";
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "#about", label: t("about") },
-    { href: "#experience", label: t("experience") },
-    { href: "#projects", label: t("projects") },
-    { href: "#writing", label: t("writing") },
+    { href: "/#about", label: t("about") },
+    { href: "/#experience", label: t("experience") },
+    { href: "/writing", label: t("writing") },
+    { href: "/#projects", label: t("projects") },
   ];
 
   return (
@@ -39,7 +40,7 @@ export default function Nav() {
             </a>
           ))}
           <Link
-            href="/"
+            href={pathname}
             locale={otherLocale}
             className="border border-hairline px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:border-primary hover:text-primary"
           >
@@ -49,7 +50,7 @@ export default function Nav() {
 
         <div className="flex items-center gap-3 md:hidden">
           <Link
-            href="/"
+            href={pathname}
             locale={otherLocale}
             className="border border-hairline px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:border-primary hover:text-primary"
           >

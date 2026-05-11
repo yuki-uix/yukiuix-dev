@@ -24,10 +24,17 @@
   },
   "writing": {
     "heading": "文章",
-    "subtitle": "文章与笔记",
-    "viewAll": "在掘金查看全部文章 →",
+    "subtitle": "精选文章与笔记",
+    "archiveSubtitle": "全部文章与笔记",
+    "viewAll": "查看全部文章 →",
     "readFull": "阅读全文 →",
     "coverAlt": "文章封面插图",
+    "filterAll": "全部",
+    "topics": {
+      "frontend": "前端工程",
+      "ai": "AI",
+      "ecommerce": "电商 SaaS"
+    },
     "platforms": {
       "juejin": "掘金",
       "wechat": "公众号",
