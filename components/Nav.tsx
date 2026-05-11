@@ -1,16 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-
-const links = [
-  { href: "#projects", label: "项目" },
-  { href: "#writing", label: "文章" },
-  { href: "#about", label: "关于" },
-];
+import { useTranslations, useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function Nav() {
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const otherLocale = locale === "zh" ? "en" : "zh";
   const [open, setOpen] = useState(false);
+
+  const links = [
+    { href: "#projects", label: t("projects") },
+    { href: "#writing", label: t("writing") },
+    { href: "#about", label: t("about") },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b-2 border-structure bg-canvas">
@@ -33,25 +37,41 @@ export default function Nav() {
               {label}
             </a>
           ))}
+          <Link
+            href="/"
+            locale={otherLocale}
+            className="border border-hairline px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:border-primary hover:text-primary"
+          >
+            {t("switchLang")}
+          </Link>
         </div>
 
-        <button
-          type="button"
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 border-[0.5px] border-hairline md:hidden"
-          aria-expanded={open}
-          aria-label={open ? "关闭菜单" : "打开菜单"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span
-            className={`block h-[0.5px] w-5 bg-ink transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
-          />
-          <span
-            className={`block h-[0.5px] w-5 bg-ink transition-opacity ${open ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block h-[0.5px] w-5 bg-ink transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
-          />
-        </button>
+        <div className="flex items-center gap-3 md:hidden">
+          <Link
+            href="/"
+            locale={otherLocale}
+            className="border border-hairline px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:border-primary hover:text-primary"
+          >
+            {t("switchLang")}
+          </Link>
+          <button
+            type="button"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 border-[0.5px] border-hairline"
+            aria-expanded={open}
+            aria-label={open ? t("closeMenu") : t("openMenu")}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span
+              className={`block h-[0.5px] w-5 bg-ink transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
+            />
+            <span
+              className={`block h-[0.5px] w-5 bg-ink transition-opacity ${open ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`block h-[0.5px] w-5 bg-ink transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
+            />
+          </button>
+        </div>
       </nav>
 
       {open ? (

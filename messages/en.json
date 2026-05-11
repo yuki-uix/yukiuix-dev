@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "writing": "Writing",
+    "about": "About",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu",
+    "switchLang": "中文"
+  },
+  "hero": {
+    "tag": "Design Engineer · AI · E-commerce",
+    "headingBefore": "Engineering at the E-commerce SaaS ×",
+    "headingAfter": "frontier",
+    "description": "Delivering engineering and experience across the full e-commerce SaaS stack — using AI to amplify judgment, and data to validate intuition.",
+    "viewProjects": "View Projects",
+    "contact": "Contact"
+  },
+  "projects": {
+    "heading": "Projects",
+    "subtitle": "Selected Projects & Experiments"
+  },
+  "writing": {
+    "heading": "Writing",
+    "subtitle": "Articles & Notes",
+    "viewAll": "View all on Juejin →",
+    "readFull": "Read full article →",
+    "coverAlt": "Article cover image",
+    "platforms": {
+      "juejin": "Juejin",
+      "wechat": "WeChat",
+      "devto": "dev.to"
+    }
+  },
+  "about": {
+    "heading": "About",
+    "subtitle": "Background & Direction",
+    "currentWork": "Currently",
+    "currentWorkDesc": "Full-stack frontend engineering at ThoughtWorks on an e-commerce SaaS product, contributing to a cross-team AI Playbook.",
+    "techStack": "Tech Stack",
+    "bio1": "I'm drawn to identifying problems upstream. Spotted a filtering logic gap after a cross-border launch — courses were returned in full, and users only discovered they couldn't subscribe after entering the detail page; pushed for the initiative and led the technical approach. Introduced Figma MCP into a client's private environment, splitting UI construction into structure and event layers, which became a team-wide skill. Built a sub-agent for parallel Azure App Insight queries to auto-generate error reports, replacing manual layer-by-layer investigation. Architecture + UX background — but what I care about most is what can actually be delivered.",
+    "bio2": "That perspective comes from a flow-mapping mindset — understanding where users get stuck is closer to the root of a problem than understanding what they 'want'.",
+    "bio3": "Things I've worked on: Module Federation refactor of the purchase flow (cross-team login state sharing); Chrome Performance profiling to identify filter-switching jank, optimized at both logic and rendering layers; designed a Figma API-driven i18n automation pipeline with built-in multi-country consistency checks; MiniMax AI Hackathon global award winner.",
+    "bio4": "Now breaking these down into articles and demos — systematically validating where AI genuinely adds value across each layer of e-commerce SaaS.",
+    "directions": "Focus Areas",
+    "dir1Title": "E-commerce SaaS Full Stack",
+    "dir1Desc": "Layer-by-layer breakdown from Discovery to Checkout",
+    "dir2Title": "AI Agent Engineering",
+    "dir2Desc": "Real-world Claude API / tool calling implementation",
+    "dir3Title": "Design Engineering",
+    "dir3Desc": "Delivering at the intersection of engineering and experience"
+  },
+  "footer": {
+    "copy": "yukiuix.com · 2026",
+    "juejin": "Juejin"
+  }
+}

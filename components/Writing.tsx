@@ -1,14 +1,9 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { articles, articleMonthLabel, type Article } from "@/data/articles";
 
 const JUEJIN_PROFILE = "https://juejin.cn/user/3582625834347100";
-
-const platformLabel: Record<NonNullable<Article["platform"]>, string> = {
-  juejin: "掘金",
-  wechat: "公众号",
-  devto: "dev.to",
-};
 
 /** `publishedAt` ISO 日期，新在前；同一时刻按标题稳定排序 */
 function compareArticlesByPublishedDesc(a: Article, b: Article) {
@@ -19,9 +14,17 @@ function compareArticlesByPublishedDesc(a: Article, b: Article) {
 }
 
 export default function Writing() {
+  const t = useTranslations("writing");
+
   const featuredArticles = [...articles]
     .filter((a) => a.featured)
     .sort(compareArticlesByPublishedDesc);
+
+  const platformLabel: Record<NonNullable<Article["platform"]>, string> = {
+    juejin: t("platforms.juejin"),
+    wechat: t("platforms.wechat"),
+    devto: t("platforms.devto"),
+  };
 
   return (
     <section
@@ -33,9 +36,9 @@ export default function Writing() {
         id="writing-heading"
         className="border-l-[3px] border-primary pl-2.5 font-mono text-xs tracking-[0.14em] text-primary"
       >
-        文章
+        {t("heading")}
       </h2>
-      <p className="mt-2 text-base font-semibold text-ink">文章与笔记</p>
+      <p className="mt-2 text-base font-semibold text-ink">{t("subtitle")}</p>
 
       <ul className="mt-8 divide-y-[0.5px] divide-hairline border-y border-structure">
         {featuredArticles.map((a, index) => (
@@ -47,11 +50,23 @@ export default function Writing() {
                 rel="noopener noreferrer"
                 className="group block border border-hairline bg-white p-5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md sm:p-6"
               >
-                <FeaturedBody article={a} imagePriority={index === 0} />
+                <FeaturedBody
+                  article={a}
+                  imagePriority={index === 0}
+                  platformLabel={platformLabel}
+                  readFullLabel={t("readFull")}
+                  coverAltFallback={t("coverAlt")}
+                />
               </a>
             ) : (
               <div className="border border-hairline bg-white p-5 shadow-sm sm:p-6">
-                <FeaturedBody article={a} imagePriority={index === 0} />
+                <FeaturedBody
+                  article={a}
+                  imagePriority={index === 0}
+                  platformLabel={platformLabel}
+                  readFullLabel={t("readFull")}
+                  coverAltFallback={t("coverAlt")}
+                />
               </div>
             )}
           </li>
@@ -65,7 +80,7 @@ export default function Writing() {
           rel="noopener noreferrer"
           className="font-mono text-xs text-muted transition-colors hover:text-primary"
         >
-          在掘金查看全部文章 →
+          {t("viewAll")}
         </a>
       </div>
     </section>
@@ -75,9 +90,15 @@ export default function Writing() {
 function FeaturedBody({
   article: a,
   imagePriority,
+  platformLabel,
+  readFullLabel,
+  coverAltFallback,
 }: {
   article: Article;
   imagePriority: boolean;
+  platformLabel: Record<NonNullable<Article["platform"]>, string>;
+  readFullLabel: string;
+  coverAltFallback: string;
 }) {
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
@@ -85,7 +106,7 @@ function FeaturedBody({
         <div className="relative h-44 w-full overflow-hidden border-[0.5px] border-hairline sm:h-[120px] sm:w-40 sm:shrink-0">
           <Image
             src={a.coverImage}
-            alt={a.coverAlt ?? "文章封面插图"}
+            alt={a.coverAlt ?? coverAltFallback}
             fill
             sizes="(max-width: 640px) 100vw, 160px"
             className="object-cover object-center"
@@ -114,7 +135,7 @@ function FeaturedBody({
           ) : null}
           {a.url ? (
             <span className="font-mono text-xs text-primary transition-colors group-hover:text-ink">
-              阅读全文 →
+              {readFullLabel}
             </span>
           ) : null}
         </div>

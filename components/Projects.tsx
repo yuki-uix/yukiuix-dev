@@ -1,8 +1,12 @@
 "use client";
 
+import { useTranslations, useLocale } from "next-intl";
 import { projects } from "@/data/projects";
 
 export default function Projects() {
+  const t = useTranslations("projects");
+  const locale = useLocale() as "zh" | "en";
+
   return (
     <section
       id="projects"
@@ -13,9 +17,9 @@ export default function Projects() {
         id="projects-heading"
         className="border-l-[3px] border-primary pl-2.5 font-mono text-xs tracking-[0.14em] text-primary"
       >
-        项目
+        {t("heading")}
       </h2>
-      <p className="mt-2 text-base font-semibold text-ink">精选项目与实验</p>
+      <p className="mt-2 text-base font-semibold text-ink">{t("subtitle")}</p>
 
       <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {projects.map((p) => (
@@ -31,7 +35,7 @@ export default function Projects() {
                 {p.tag}
               </p>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
-                {p.description}
+                {p.description[locale]}
               </p>
               <div className="mt-6 flex justify-end">
                 <a
