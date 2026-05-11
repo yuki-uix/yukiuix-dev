@@ -166,6 +166,15 @@ export const articles: Article[] = [
     featured: false,
   },
   {
+    title: "Scroll Restoration After Micro-Frontend Redirects: Double RAF + MutationObserver",
+    publishedAt: "2026-05-11",
+    url: "https://dev.to/yuki-uix/scroll-restoration-after-micro-frontend-redirects-double-raf-mutationobserver-3h77",
+    blurb:
+      "Scroll restoration after a redirect isn't a scroll problem — it's a timing problem. Three things must happen in sequence at the right moment in the browser's rendering pipeline: state survives the redirect, the element appears in the DOM, and the element is actually painted. Wrong API, wrong moment, broken behavior.",
+    platform: "devto",
+    featured: false,
+  },
+  {
     title: "Deep Dive into Array.reduce(): From Interview Questions to Design Thinking",
     publishedAt: "2026-02-24",
     url: "https://dev.to/yuki-uix/deep-dive-into-arrayreduce-from-interview-questions-to-design-thinking-15ih",
