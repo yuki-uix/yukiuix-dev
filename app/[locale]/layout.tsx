@@ -17,10 +17,50 @@ const dmMono = DM_Mono({
   weight: ["400", "500"],
 });
 
-export const metadata: Metadata = {
-  title: "yuki.uix · yukiuix.com",
-  description: "Design Engineer · AI · E-commerce — yukiuix.com",
-};
+const META = {
+  zh: {
+    title: "Kunyu Xu · Design Engineer · AI · 电商 SaaS",
+    description:
+      "在 ThoughtWorks 做电商 SaaS 全链路工程，探索 AI 与前端交付的边界。写浏览器原理、渲染管线、AI 工程化。",
+    url: "https://yukiuix.com",
+  },
+  en: {
+    title: "Kunyu Xu — Design Engineer · AI · E-commerce",
+    description:
+      "Design Engineer at ThoughtWorks — building at the intersection of frontend engineering, AI tooling, and e-commerce SaaS. Writing about browser internals, rendering, and product thinking.",
+    url: "https://yukiuix.com/en",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const locale = (params.locale === "en" ? "en" : "zh") as "zh" | "en";
+  const m = META[locale];
+
+  return {
+    metadataBase: new URL("https://yukiuix.com"),
+    title: m.title,
+    description: m.description,
+    openGraph: {
+      title: m.title,
+      description: m.description,
+      url: m.url,
+      siteName: "yukiuix.com",
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+      type: "website",
+    },
+    alternates: {
+      canonical: m.url,
+      languages: {
+        zh: META.zh.url,
+        en: META.en.url,
+      },
+    },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

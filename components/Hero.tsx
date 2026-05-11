@@ -14,6 +14,10 @@ export default function Hero() {
         <span>{t("tag")}</span>
       </div>
 
+      <p className="mb-4 text-base font-semibold text-ink">
+        {t("intro")}
+      </p>
+
       <h1 className="max-w-4xl font-sans text-3xl font-semibold leading-snug tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-snug">
         {t("headingBefore")}{" "}
         <span className="text-primary">AI</span>{" "}
