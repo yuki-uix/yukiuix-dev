@@ -1,8 +1,9 @@
 {
   "nav": {
+    "about": "关于",
+    "experience": "经历",
     "projects": "项目",
     "writing": "文章",
-    "about": "关于",
     "closeMenu": "关闭菜单",
     "openMenu": "打开菜单",
     "switchLang": "EN"
@@ -18,7 +19,8 @@
   },
   "projects": {
     "heading": "项目",
-    "subtitle": "精选项目与实验"
+    "subtitle": "精选项目与实验",
+    "liveDemo": "查看 Demo →"
   },
   "writing": {
     "heading": "文章",
@@ -32,15 +34,19 @@
       "devto": "dev.to"
     }
   },
+  "experience": {
+    "heading": "经历",
+    "subtitle": "工作经历"
+  },
   "about": {
     "heading": "关于",
     "subtitle": "背景与方向",
     "currentWork": "现在在做",
-    "currentWorkDesc": "在 ThoughtWorks 做电商 SaaS 全链路工程，现参与跨团队 AI Playbook 编撰。",
+    "currentWorkDesc": "在 ThoughtWorks 做电商 SaaS 全链路前端工程，现参与跨团队 AI Playbook 的探索与撰写。",
     "techStack": "技术栈",
-    "bio1": "习惯主动识别问题。发现跨境上线后筛选逻辑缺陷——课程全量返回，用户进入详情才发现无法订阅，推动立项并主导技术方案；把 Figma MCP 引入客户私有环境，将 UI 构建拆分为结构层与事件层，沉淀为团队 skill；构建 sub-agent 并行查询 Azure App Insight，自动汇总错误报告，替代人工逐层排查。有建筑学 + UX 背景，但更在意能交付什么。",
+    "bio1": "有建筑学和 UX 的背景，转到前端之后发现这些经历带来了一种特别的视角——习惯从整体动线往下看，而不是从单个功能往上建。这让我更容易在需求还没清晰的时候就注意到链路里的断点，比起等问题暴露，更想在上游就把它找出来。",
     "bio2": "这个视角来自动线思维——理解用户在哪里卡住，比理解他们「想要什么」更接近问题的根。",
-    "bio3": "做过的一些事：Module Federation 重构购买流程（跨子团队登录态共享）；Chrome Performance 定位 filter 切换阻塞，从逻辑层与渲染层双向优化；设计 Figma API 驱动的 i18n 自动化方案，内置多国一致性校验；MiniMax AI Hackathon 全球获奖，现参与跨团队 AI Playbook 编撰。",
+    "bio3": "在工程和体验的交叉点工作，一直觉得「能不能交付」和「值不值得交付」同样重要。AI 的出现让这件事变得更有意思——不只是把开发提速，更像是一个重新审视交付方式本身的机会。",
     "bio4": "现在把这些拆成文章和 demo，系统验证 AI 在电商 SaaS 每一层的真实介入价值。",
     "directions": "探索方向",
     "dir1Title": "电商 SaaS 全链路",

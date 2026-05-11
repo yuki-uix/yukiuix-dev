@@ -1,8 +1,9 @@
 {
   "nav": {
+    "about": "About",
+    "experience": "Experience",
     "projects": "Projects",
     "writing": "Writing",
-    "about": "About",
     "closeMenu": "Close menu",
     "openMenu": "Open menu",
     "switchLang": "中文"
@@ -18,7 +19,8 @@
   },
   "projects": {
     "heading": "Projects",
-    "subtitle": "Selected Projects & Experiments"
+    "subtitle": "Selected Projects & Experiments",
+    "liveDemo": "Live Demo →"
   },
   "writing": {
     "heading": "Writing",
@@ -27,20 +29,24 @@
     "readFull": "Read full article →",
     "coverAlt": "Article cover image",
     "platforms": {
-      "juejin": "Juejin",
-      "wechat": "WeChat",
+      "juejin": "Juejin (CN)",
+      "wechat": "WeChat (CN)",
       "devto": "dev.to"
     }
+  },
+  "experience": {
+    "heading": "Experience",
+    "subtitle": "Work History"
   },
   "about": {
     "heading": "About",
     "subtitle": "Background & Direction",
     "currentWork": "Currently",
-    "currentWorkDesc": "Full-stack frontend engineering at ThoughtWorks on an e-commerce SaaS product, contributing to a cross-team AI Playbook.",
+    "currentWorkDesc": "Frontend engineering at ThoughtWorks on e-commerce SaaS, currently exploring and contributing to a cross-team AI Playbook.",
     "techStack": "Tech Stack",
-    "bio1": "I'm drawn to identifying problems upstream. Spotted a filtering logic gap after a cross-border launch — courses were returned in full, and users only discovered they couldn't subscribe after entering the detail page; pushed for the initiative and led the technical approach. Introduced Figma MCP into a client's private environment, splitting UI construction into structure and event layers, which became a team-wide skill. Built a sub-agent for parallel Azure App Insight queries to auto-generate error reports, replacing manual layer-by-layer investigation. Architecture + UX background — but what I care about most is what can actually be delivered.",
+    "bio1": "My background is in architecture and UX — coming into frontend engineering, that turned out to shape how I see problems more than I expected. I tend to look at systems from the flow down rather than the feature up: noticing where chains break before they become visible, and wanting to fix things upstream rather than waiting for them to surface.",
     "bio2": "That perspective comes from a flow-mapping mindset — understanding where users get stuck is closer to the root of a problem than understanding what they 'want'.",
-    "bio3": "Things I've worked on: Module Federation refactor of the purchase flow (cross-team login state sharing); Chrome Performance profiling to identify filter-switching jank, optimized at both logic and rendering layers; designed a Figma API-driven i18n automation pipeline with built-in multi-country consistency checks; MiniMax AI Hackathon global award winner.",
+    "bio3": "Working at the intersection of engineering and experience, I've always felt that \"can we ship it\" and \"is it worth shipping\" matter equally. AI makes this more interesting — not just as a way to move faster, but as a reason to rethink how delivery itself works.",
     "bio4": "Now breaking these down into articles and demos — systematically validating where AI genuinely adds value across each layer of e-commerce SaaS.",
     "directions": "Focus Areas",
     "dir1Title": "E-commerce SaaS Full Stack",
@@ -52,6 +58,6 @@
   },
   "footer": {
     "copy": "yukiuix.com · 2026",
-    "juejin": "Juejin"
+    "juejin": "Juejin (CN)"
   }
 }

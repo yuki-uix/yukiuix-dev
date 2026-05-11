@@ -6,16 +6,12 @@ export default function Hero() {
 
   return (
     <section className="relative mx-auto max-w-6xl px-4 pb-8 pt-14 sm:px-6 sm:pb-10 sm:pt-20 lg:px-8 lg:pb-12 lg:pt-24">
-      <div className="mb-10 flex items-center gap-3 font-mono text-xs font-medium tracking-wide text-primary">
-        <span
-          className="inline-block h-[1px] w-6 shrink-0 bg-current sm:w-[24px]"
-          aria-hidden
-        />
-        <span>{t("tag")}</span>
-      </div>
-
-      <p className="mb-4 text-base font-semibold text-ink">
+      <p className="mb-2 text-base font-semibold text-ink">
         {t("intro")}
+      </p>
+
+      <p className="mb-10 font-mono text-sm font-medium tracking-wide text-primary">
+        {t("tag")}
       </p>
 
       <h1 className="max-w-4xl font-sans text-3xl font-semibold leading-snug tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-snug">

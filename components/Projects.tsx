@@ -24,10 +24,7 @@ export default function Projects() {
       <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {projects.map((p) => (
           <li key={p.title} className="group">
-            <article
-              className="flex h-full cursor-pointer flex-col border border-hairline bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md"
-              onClick={() => window.open(p.demoUrl, "_blank", "noopener,noreferrer")}
-            >
+            <article className="flex h-full flex-col border border-hairline bg-white p-6 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md">
               <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-primary">
                 {p.title}
               </h3>
@@ -37,15 +34,22 @@ export default function Projects() {
               <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
                 {p.description[locale]}
               </p>
-              <div className="mt-6 flex justify-end">
+              <div className="mt-6 flex items-center justify-end gap-3">
                 <a
                   href={p.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
                   className="border border-hairline px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-primary hover:text-primary"
                 >
                   GitHub →
+                </a>
+                <a
+                  href={p.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-primary bg-primary px-3 py-1.5 font-mono text-xs text-white transition-colors hover:bg-primary-hover"
+                >
+                  {t("liveDemo")}
                 </a>
               </div>
             </article>

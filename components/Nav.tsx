@@ -11,9 +11,10 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   const links = [
+    { href: "#about", label: t("about") },
+    { href: "#experience", label: t("experience") },
     { href: "#projects", label: t("projects") },
     { href: "#writing", label: t("writing") },
-    { href: "#about", label: t("about") },
   ];
 
   return (

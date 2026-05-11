@@ -7,6 +7,7 @@ export default function Footer() {
     { label: "GitHub", href: "https://github.com/yuki-uix" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/kunyu-xu/" },
     { label: t("juejin"), href: "https://juejin.cn/user/3582625834347100" },
+    { label: "dev.to", href: "https://dev.to/yuki-uix" },
     { label: "yuki.uix@gmail.com", href: "mailto:yuki.uix@gmail.com" },
   ];
 
