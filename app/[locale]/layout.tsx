@@ -66,6 +66,35 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Kunyu Xu",
+  alternateName: "Yuki Xu",
+  url: "https://yukiuix.com",
+  jobTitle: "Software Developer",
+  description:
+    "Design Engineer at ThoughtWorks — building at the intersection of frontend engineering, AI tooling, and e-commerce SaaS.",
+  sameAs: [
+    "https://www.linkedin.com/in/kunyu-xu/",
+    "https://github.com/yuki-uix",
+    "https://juejin.cn/user/3582625834347100",
+    "https://dev.to/yuki-uix",
+  ],
+  knowsAbout: [
+    "Frontend Engineering",
+    "React",
+    "TypeScript",
+    "Next.js",
+    "Micro-Frontend Architecture",
+    "AI Agent Engineering",
+    "E-commerce SaaS",
+    "Design Engineering",
+    "Browser Rendering",
+    "Performance Optimization",
+  ],
+};
+
 export default async function LocaleLayout({
   children,
   params,
@@ -83,6 +112,12 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale === "zh" ? "zh-CN" : "en"}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
       <body
         className={`${dmSans.variable} ${dmMono.variable} font-sans antialiased`}
       >
