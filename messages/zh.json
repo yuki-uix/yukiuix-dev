@@ -20,7 +20,16 @@
   "projects": {
     "heading": "项目",
     "subtitle": "精选项目与实验",
-    "liveDemo": "查看 Demo →"
+    "liveDemo": "查看 Demo →",
+    "viewSubmission": "查看提交 →",
+    "viewAll": "查看全部项目 →"
+  },
+  "playground": {
+    "heading": "Playground",
+    "subtitle": "全部项目与实验",
+    "liveDemo": "查看 Demo →",
+    "viewSubmission": "查看提交 →",
+    "watchVideo": "看介绍视频 →"
   },
   "writing": {
     "heading": "文章",

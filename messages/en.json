@@ -20,7 +20,16 @@
   "projects": {
     "heading": "Projects",
     "subtitle": "Selected Projects & Experiments",
-    "liveDemo": "Live Demo →"
+    "liveDemo": "Live Demo →",
+    "viewSubmission": "View Submission →",
+    "viewAll": "View all projects →"
+  },
+  "playground": {
+    "heading": "Playground",
+    "subtitle": "All Projects & Experiments",
+    "liveDemo": "Live Demo →",
+    "viewSubmission": "View Submission →",
+    "watchVideo": "Watch →"
   },
   "writing": {
     "heading": "Writing",

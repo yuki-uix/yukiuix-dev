@@ -1,9 +1,22 @@
+export type ProjectStatus = "live" | "experiment" | "hackathon";
+
 export type Project = {
   title: string;
   tag: string;
   description: { zh: string; en: string };
-  demoUrl: string;
-  githubUrl: string;
+  status?: ProjectStatus;
+  /** Show on home page Projects section */
+  featuredOnHome?: boolean;
+  /** Primary interactive entry — live demo */
+  demoUrl?: string;
+  /** Source code */
+  githubUrl?: string;
+  gitlabUrl?: string;
+  /** Hackathon / competition submission page */
+  submissionUrl?: string;
+  /** Intro / walkthrough video */
+  videoUrl?: string;
+  /** Related article */
   articleUrl?: string;
 };
 
@@ -11,6 +24,8 @@ export const projects: Project[] = [
   {
     title: "Brooch Shop",
     tag: "AI AGENT · E-COMMERCE",
+    status: "live",
+    featuredOnHome: true,
     description: {
       zh: "筛选器解决不了的问题，Agent 从这里开始。用 Claude API + tool calling 构建的 AI 导购 agent，演示自然语言意图理解如何替代传统多级筛选。",
       en: "Where filters fall short, agents begin. An AI shopping agent built with Claude API and tool calling — demonstrating how natural-language intent understanding replaces multi-level filter UX.",
@@ -22,6 +37,8 @@ export const projects: Project[] = [
   {
     title: "Prompt Shop",
     tag: "CHECKOUT · STRIPE",
+    status: "live",
+    featuredOnHome: true,
     description: {
       zh: "完整电商购物流程实验场，Stripe Checkout 集成，覆盖从商品列表到支付完成的全链路。",
       en: "End-to-end e-commerce checkout playground with Stripe integration — covering the full flow from product listing to payment confirmation.",
@@ -32,6 +49,8 @@ export const projects: Project[] = [
   {
     title: "Human vs AI Judge",
     tag: "AI · GAME · E-COMMERCE",
+    status: "live",
+    featuredOnHome: true,
     description: {
       zh: "当 AI 已经做出判断，谁来按那个确认键？与 AI 同场竞技，对真实电商售后工单做意图分类，实时对比人类、Claude、GPT 三方判断差异。",
       en: "When AI has already decided, who presses confirm? Compete with AI on intent classification of real e-commerce support tickets — compare human, Claude, and GPT judgments in real time.",
@@ -43,6 +62,8 @@ export const projects: Project[] = [
   {
     title: "Particle Flow Generator",
     tag: "CANVAS · SIMULATION",
+    status: "live",
+    featuredOnHome: false,
     description: {
       zh: "把时间垒进空间里。用粒子流模拟用户轨迹的空间残留——Canvas 2D 实时渲染，BFS 流场寻路，支持参数调节与 GIF 导出。",
       en: "Stacking time into space. Simulating the spatial residue of user trajectories with particle flows — Canvas 2D real-time rendering, BFS flow-field pathfinding, live parameter tuning and GIF export.",
@@ -50,5 +71,19 @@ export const projects: Project[] = [
     demoUrl: "https://particle-flow-generator.vercel.app/",
     githubUrl: "https://github.com/yuki-uix/particle-flow-generator",
     articleUrl: "https://mp.weixin.qq.com/s/z-yCjuYR-Hq35w9BCJkpKA",
+  },
+  {
+    title: "Spec-Driven Scenario Updater",
+    tag: "AI AGENT · GITLAB HACKATHON",
+    status: "hackathon",
+    featuredOnHome: true,
+    description: {
+      zh: "GitLab AI Hackathon 参赛项目。以「规格鸿沟」为切入点——业务逻辑在产品、设计、开发之间反复翻译导致的失真。用单一 spec 数据源驱动 AI 自动生成代码、测试与文档。",
+      en: "GitLab AI Hackathon submission. Targeting the \"spec gap\" — the distortion that accumulates as business logic is translated across product, design, and engineering. A single spec source drives AI to auto-generate code, tests, and docs.",
+    },
+    gitlabUrl: "https://gitlab.com/gitlab-ai-hackathon/participants/35552697",
+    submissionUrl: "https://devpost.com/software/spec-driven-scenario-updater",
+    videoUrl: "https://www.youtube.com/watch?v=8s4e-s4HmzI",
+    articleUrl: "https://juejin.cn/post/7619524626254970921",
   },
 ];

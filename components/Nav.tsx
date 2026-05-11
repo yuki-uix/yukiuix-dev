@@ -15,7 +15,7 @@ export default function Nav() {
     { href: "/#about", label: t("about") },
     { href: "/#experience", label: t("experience") },
     { href: "/writing", label: t("writing") },
-    { href: "/#projects", label: t("projects") },
+    { href: "/playground", label: t("projects") },
   ];
 
   return (
