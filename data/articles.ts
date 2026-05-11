@@ -1,5 +1,7 @@
 export type Article = {
   title: string;
+  /** English title for Chinese articles shown in the English locale */
+  titleEn?: string;
   /** 发布日期 ISO `YYYY-MM-DD`，用于排序；界面用 `articleMonthLabel` 只显示到月 */
   publishedAt: string;
   /** 原文链接（掘金、公众号等） */
@@ -10,6 +12,8 @@ export type Article = {
   coverAlt?: string;
   /** 列表内推荐语 / 摘要 */
   blurb?: string;
+  /** English blurb for Chinese articles shown in the English locale */
+  blurbEn?: string;
   /** 发布平台 */
   platform?: "juejin" | "wechat" | "devto";
   /** 是否在首页精选展示 */
@@ -26,69 +30,87 @@ export const articles: Article[] = [
   // ── 首页精选 ──────────────────────────────────────────
   {
     title: "「好逛」和「好找」不是同一件事——电商独立站的 IA 取舍",
+    titleEn: "\"Easy to Browse\" vs \"Easy to Find\" — IA Trade-offs in E-commerce Storefronts",
     publishedAt: "2026-05-07",
     url: "https://mp.weixin.qq.com/s/OX441mHruOlWVpQx3YdoWQ",
     coverImage: "/images/articles/boutique-vs-grid-ia.png",
     coverAlt: "插图：精品店式陈列与电商栅格界面的对照",
     blurb:
       "假期逛精品小店，遇到喜欢的东西直接拿下，完全不费力气。但同样的商品放到网上，打开页面却感觉脑袋嗡嗡的——分类、筛选、产品卡片铺天盖地，反而不知道从哪里看起。同样是挑东西，为什么体验差这么多？这篇文章从这个问题出发，聊聊电商独立站的信息架构设计，以及「好逛」和「好找」背后那个很少被说清楚的取舍。",
+    blurbEn:
+      "Browsing a boutique feels effortless — shopping the same item online feels overwhelming. This piece unpacks the IA trade-off between \"enjoyable to browse\" and \"easy to find\" in e-commerce storefronts.",
     platform: "wechat",
     featured: true,
   },
   {
     title: "赛博纺织工厂：一个比喻，讲透 AI Agent 工作流的四次进化",
+    titleEn: "The Cyber Textile Factory: Four Generations of AI Agent Workflow Design",
     publishedAt: "2026-02-27",
     url: "https://juejin.cn/post/7611064285586440219",
     coverImage: "/images/articles/cyber-textile-factory-agent.png",
     coverAlt: "插图：工业织机与数字线程并置，比喻 AI Agent 工作流的四次进化",
     blurb:
       "用纺织工厂改造比喻 Agent 系统的演进——V1 结构化执行，V2 规划反思，V3 记忆管理，V4 安全护栏。能力越强，需要的约束越精密。工程化的关键不在 AI 本身，而在于通过流程设计与安全防护让复杂系统在生产环境里稳定运作。",
+    blurbEn:
+      "A textile factory metaphor to explain four generations of AI Agent workflow design — from structured execution to planning, memory, and safety guardrails. The more capable the system, the more precise the constraints need to be.",
     platform: "juejin",
     featured: true,
   },
   {
     title: "当系统「没了头」(headless)，AI 反而更好接手了？",
+    titleEn: "When a System Goes Headless, Does AI Take Over More Easily?",
     publishedAt: "2026-02-19",
     url: "https://juejin.cn/post/7607255854146273318",
     coverImage: "/images/articles/headless-ai-robot-api.png",
     coverAlt: "插图：开顶建筑结构与机器人直连 API 接口，比喻 Headless 架构被 AI 接管",
     blurb:
       "Headless 架构的本质是「只暴露能力接口，不预设 UI 形态」。AI Agent 作为新型消费方，恰好不需要 UI——这让 Headless 成为最易被 AI 接手的系统形态。但 API 设计与治理成本并没有因此消失。",
+    blurbEn:
+      "Headless architecture exposes capabilities without prescribing UI. AI agents — which don't need UI — turn out to be its ideal consumers. But API governance costs don't disappear; they just shift.",
     platform: "juejin",
     featured: true,
   },
   {
     title: "你的页面对 Google 来说不存在 —— 一次微前端 SEO 链路排查",
+    titleEn: "Your Page Doesn't Exist to Google — A Micro-Frontend SEO Post-mortem",
     publishedAt: "2026-05-03",
     url: "https://juejin.cn/post/7635275904798326838",
     coverImage: "/images/articles/seo-google-chain-four-layers.png",
     coverAlt: "插图：四层纵向栈，第三层断裂，比喻 SEO 链路中的渲染断点",
     blurb:
       "不是排名低，是页面对 Google 完全不存在。这篇记录了一次微前端项目的完整 SEO 排查过程，以及从中整理出的四层诊断框架：链接发现、可访问性、内容渲染、语义理解。断点找错了层，改再多也没用。",
+    blurbEn:
+      "Not low-ranking — completely invisible to Google. A micro-frontend SEO post-mortem and a four-layer diagnostic framework: link discovery, accessibility, content rendering, semantic understanding. Fix the wrong layer and nothing changes.",
     platform: "juejin",
     featured: true,
   },
 
   {
     title: "双 RAF + MutationObserver：微前端跳转后的滚动复原完整方案",
+    titleEn: "Double RAF + MutationObserver: Scroll Restoration After Micro-Frontend Redirects",
     publishedAt: "2026-05-10",
     url: "https://juejin.cn/post/7637770855154548771",
     coverImage: "/images/articles/micro-frontend-focus.png",
     coverAlt: "插图：两帧之间的边界，节点从暗到亮的状态变化，比喻渲染管线时序",
     blurb:
       "微前端跳转后滚动复原，不是一个 scrollTo 能解决的。状态要活过跳转、元素要出现在 DOM、还要等渲染真正完成——三件事都得在浏览器渲染管线的正确时机触发。「元素在 DOM 里」和「元素画好了」是两个不同的问题，用错 API 就会踩坑。",
+    blurbEn:
+      "Scroll restoration after a redirect isn't a scroll problem — it's a timing problem. State must survive the jump, the element must appear in the DOM, and it must be fully painted — in that order, at the right moment in the browser rendering pipeline.",
     platform: "juejin",
     featured: true,
   },
 
   {
     title: "一张微前端技术卡的 AI 协作复盘：业务之下，还有一层",
+    titleEn: "AI Pair Programming Retrospective: There's a Layer Beneath the Business Logic",
     publishedAt: "2026-05-10",
     url: "https://mp.weixin.qq.com/s/ZiGE1HKMhjBxiWETbTbJ2Q",
     coverImage: "/images/articles/looking-layer.png",
     coverAlt: "插图：人向下俯视，地面以下多层地质剖面清晰可见，比喻认知深度决定你能看到的层次",
     blurb:
       "做了一张微前端技术卡，AI 给的代码能跑，但一直有个元素找不到。loop 了三四次才意识到：不是 AI 不行，是我从没给过它业务之下那一层的信息。这篇是对这次 pair coding 的复盘，也是对 AI 协作模式的一次重新想。",
+    blurbEn:
+      "AI wrote code that ran — but kept missing one element. After a few loops I realized: I'd never given it the layer beneath the business logic. A reflection on what context actually means in AI pair programming.",
     platform: "wechat",
     featured: true,
   },

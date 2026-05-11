@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 import { articles, articleMonthLabel, type Article } from "@/data/articles";
 
@@ -15,6 +15,7 @@ function compareArticlesByPublishedDesc(a: Article, b: Article) {
 
 export default function Writing() {
   const t = useTranslations("writing");
+  const locale = useLocale();
 
   const featuredArticles = [...articles]
     .filter((a) => a.featured)
@@ -56,6 +57,7 @@ export default function Writing() {
                   platformLabel={platformLabel}
                   readFullLabel={t("readFull")}
                   coverAltFallback={t("coverAlt")}
+                  locale={locale}
                 />
               </a>
             ) : (
@@ -66,6 +68,7 @@ export default function Writing() {
                   platformLabel={platformLabel}
                   readFullLabel={t("readFull")}
                   coverAltFallback={t("coverAlt")}
+                  locale={locale}
                 />
               </div>
             )}
@@ -93,13 +96,17 @@ function FeaturedBody({
   platformLabel,
   readFullLabel,
   coverAltFallback,
+  locale,
 }: {
   article: Article;
   imagePriority: boolean;
   platformLabel: Record<NonNullable<Article["platform"]>, string>;
   readFullLabel: string;
   coverAltFallback: string;
+  locale: string;
 }) {
+  const displayTitle = locale === "en" && a.titleEn ? a.titleEn : a.title;
+  const displayBlurb = locale === "en" && a.blurbEn ? a.blurbEn : a.blurb;
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
       {a.coverImage ? (
@@ -116,10 +123,10 @@ function FeaturedBody({
       ) : null}
       <div className="min-w-0 flex-1">
         <h3 className="text-base font-semibold leading-snug text-ink transition-colors group-hover:text-primary sm:text-lg">
-          {a.title}
+          {displayTitle}
         </h3>
-        {a.blurb ? (
-          <p className="mt-3 text-sm leading-relaxed text-muted">{a.blurb}</p>
+        {displayBlurb ? (
+          <p className="mt-3 text-sm leading-relaxed text-muted">{displayBlurb}</p>
         ) : null}
         <div className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-2">
           <time
