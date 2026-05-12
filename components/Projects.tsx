@@ -175,7 +175,7 @@ export default function Projects() {
                       <h3 className="mt-2 text-sm font-semibold text-ink transition-colors group-hover:text-primary">
                         {p.title}
                       </h3>
-                      <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted">
+                      <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-muted">
                         {p.description[locale]}
                       </p>
                     </div>
