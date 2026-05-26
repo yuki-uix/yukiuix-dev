@@ -143,6 +143,16 @@ export const articles: Article[] = [
 
   // ── 归档（/writing 页面建好后展示）────────────────────
   {
+    title: "I Asked AI to Fix My UI 20 Times. The Problem Wasn't My Prompts.",
+    topics: ["ai", "frontend"],
+    publishedAt: "2026-05-26",
+    url: "https://dev.to/yuki-uix/i-asked-ai-to-fix-my-ui-20-times-the-problem-wasnt-my-prompts-527j",
+    blurb:
+      "The functionality works, but the interface is lacking. We get AI to optimize it, but after a dozen rounds of revisions, it just gets messier. The problem isn't the prompt — it's that there's no design system at all. This piece documents that realization, and how design tokens turn visual decisions from intuition into something executable.",
+    platform: "devto",
+    featured: false,
+  },
+  {
     title: "筛选器解决不了的问题，Agent 从这里开始",
     titleEn: "When Filters Fail: Where AI Shopping Agents Begin",
     topics: ["ecommerce", "ai"],
