@@ -125,6 +125,22 @@ export const articles: Article[] = [
     featured: true,
   },
 
+  {
+    title: "你让 AI 改的不是 UI，是你从来没做过的那个决定",
+    titleEn: "It's Not the UI You're Asking AI to Change — It's the Decision You've Never Made",
+    topics: ["ai", "frontend"],
+    publishedAt: "2026-05-26",
+    url: "https://mp.weixin.qq.com/s/zcSAZLYUh05r3De_hjrxFQ",
+    coverImage: "/images/articles/how-to-beautify-ui.png",
+    coverAlt: "插图：design token 把视觉决策从感觉变成定义，比喻设计系统的本质",
+    blurb:
+      "功能跑通了，界面差点意思，让 AI 优化，改了十几轮越来越乱——很多人都经历过这个过程。这篇文章记录了我从「prompt 写得不够好」到「原来根本没有设计系统」的认知转变，以及 design token 是怎么把这件事从玄学变成可以被执行的定义。",
+    blurbEn:
+      "The functionality works, but the interface is lacking. We get AI to optimize it, but after a dozen rounds of revisions, it just gets messier — many people have experienced this process. This article documents my shift in understanding from \"the prompt wasn't written well enough\" to \"there's no design system at all,\" and how design tokens transform this from something mystical into an actionable definition.",
+    platform: "wechat",
+    featured: true,
+  },
+
   // ── 归档（/writing 页面建好后展示）────────────────────
   {
     title: "筛选器解决不了的问题，Agent 从这里开始",
