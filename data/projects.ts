@@ -88,7 +88,6 @@ export const projects: Project[] = [
       en: "Design tokens don't just store values — they carry meaning. An experimental tool for analyzing the visual signals that token combinations transmit: mapping the semantics of color, radius, and weight to surface conflicts before a component is built.",
     },
     coverImage: "/images/projects/design-token-signals.png",
-    coverAlt: "Design token swatches emitting semantic signal waves on dark background",
     demoUrl: "https://yuki-uix.github.io/design-token-signals/",
     githubUrl: "https://github.com/yuki-uix/design-token-signals",
     articleUrl: "https://mp.weixin.qq.com/s/zcSAZLYUh05r3De_hjrxFQ",
