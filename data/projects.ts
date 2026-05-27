@@ -79,6 +79,19 @@ export const projects: Project[] = [
     articleUrl: "https://mp.weixin.qq.com/s/z-yCjuYR-Hq35w9BCJkpKA",
   },
   {
+    title: "Design Token Signals",
+    tag: "DESIGN SYSTEM · EXPERIMENT",
+    status: "experiment",
+    featuredOnHome: true,
+    description: {
+      zh: "设计令牌不只是存储数值，它们携带意义。一个用于分析 design token 组合所传达视觉信号的实验工具——映射颜色、圆角、字重的语义，在组件开发之前识别视觉冲突。",
+      en: "Design tokens don't just store values — they carry meaning. An experimental tool for analyzing the visual signals that token combinations transmit: mapping the semantics of color, radius, and weight to surface conflicts before a component is built.",
+    },
+    demoUrl: "https://yuki-uix.github.io/design-token-signals/",
+    githubUrl: "https://github.com/yuki-uix/design-token-signals",
+    articleUrl: "https://mp.weixin.qq.com/s/zcSAZLYUh05r3De_hjrxFQ",
+  },
+  {
     title: "EaseBuy",
     tag: "UX DESIGN · E-COMMERCE · MOBILE",
     status: "award",
