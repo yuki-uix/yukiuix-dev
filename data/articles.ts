@@ -33,6 +33,21 @@ export function articleMonthLabel(publishedAt: string): string {
 export const articles: Article[] = [
   // ── 首页精选 ──────────────────────────────────────────
   {
+    title: "我以为 9 种 token 风格都能用——直到我换了一个 IA",
+    titleEn: "I Thought All 9 Token Styles Were Valid — Until I Changed the IA",
+    topics: ["ai", "frontend"],
+    publishedAt: "2026-05-28",
+    url: "https://mp.weixin.qq.com/s/7I7MCgEYu_M3BvahqVHbKg",
+    coverImage: "/images/articles/token-ia-coherence.png",
+    coverAlt: "插图：几何网格结构上叠着不同色块，对齐的发光，错位的产生干扰，比喻 token 与 IA 的适配关系",
+    blurb:
+      "做了一个 demo：同一套 HTML，9 种不同的 design token，每种呈现出完全不同的产品人格。看起来每套都能用——直到我追了一个问题：换一个 IA 还成立吗？把 Playful 放进数据 dashboard，把 AI Gradient 放进支付流程——感觉立刻不对了。",
+    blurbEn:
+      "Nine token profiles, one HTML structure — each presenting a completely different product personality. They all seemed valid, until I asked: what if this weren't a landing page? Move Playful into a data dashboard, drop AI Gradient into a payment flow — the wrongness is immediate.",
+    platform: "wechat",
+    featured: true,
+  },
+  {
     title: "「好逛」和「好找」不是同一件事——电商独立站的 IA 取舍",
     titleEn: "\"Easy to Browse\" vs \"Easy to Find\" — IA Trade-offs in E-commerce Storefronts",
     topics: ["ecommerce"],
