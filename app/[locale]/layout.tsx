@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Mono, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -125,6 +126,7 @@ export default async function LocaleLayout({
           <div className="grid-background" aria-hidden />
           <div className="relative z-[1] min-h-screen">{children}</div>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
