@@ -158,6 +158,21 @@ export const articles: Article[] = [
 
   // ── 归档（/writing 页面建好后展示）────────────────────
   {
+    title: "用设计系统的眼光读 baoyu-skills 源码，发现了三个熟悉的模式",
+    titleEn: "Reading baoyu-skills Source Code Through a Design Systems Lens — Three Familiar Patterns",
+    topics: ["ai", "frontend"],
+    publishedAt: "2026-05-31",
+    url: "https://mp.weixin.qq.com/s/YSckbphLlJbh6DMwzplLXg",
+    coverImage: "/images/articles/baoyu-skills-layers.png",
+    coverAlt: "插图：三层架构示意，token 参数层、级联优先级层、不可变输出层，比喻 baoyu-skills 的工程设计模式",
+    blurb:
+      "我想用 baoyu-skills 生成技术讲解图，第一张信息密度不够，说不清该怎么调。试着去问参数系统为什么，结果读进了 SKILL.md 源码，发现它在做三件设计系统里很熟悉的事：design token 的正交参数、CSS 的优先级级联、migration 文件的不可变性。",
+    blurbEn:
+      "I wanted to adjust an infographic but couldn't explain what was wrong. Reading the SKILL.md source to find out, I found three patterns straight out of design systems: orthogonal parameters like design tokens, a priority cascade like CSS specificity, and immutable outputs like migration files.",
+    platform: "wechat",
+    featured: false,
+  },
+  {
     title: "I Asked AI to Fix My UI 20 Times. The Problem Wasn't My Prompts.",
     topics: ["ai", "frontend"],
     publishedAt: "2026-05-26",
