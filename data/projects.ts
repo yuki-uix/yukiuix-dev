@@ -65,6 +65,19 @@ export const projects: Project[] = [
     articleUrl: "https://juejin.cn/post/7624378354167398451",
   },
   {
+    title: "Readable & Shareable",
+    tag: "CLAUDE CODE · SKILL · VISUALIZATION",
+    status: "live",
+    featuredOnHome: true,
+    description: {
+      zh: "你写了好文章，但大多数人不会点开链接。Claude Code `/viz` skill：自动识别文章结构，生成思维导图、交互 HTML、图片卡片等可分享产出，每种形式都链回原文，让不同受众找到自己的入口。",
+      en: "You wrote a great article — most people won't click the link. A Claude Code `/viz` skill that detects article structure and generates mind maps, interactive HTML, and shareable image cards — each output links back to the source so every audience finds their entry point.",
+    },
+    coverImage: "/images/projects/readable-and-shareable.png",
+    demoUrl: "https://yuki-uix.github.io/readable-and-shareable/",
+    githubUrl: "https://github.com/yuki-uix/readable-and-shareable",
+  },
+  {
     title: "Particle Flow Generator",
     tag: "CANVAS · SIMULATION",
     status: "live",
