@@ -92,6 +92,19 @@ export const projects: Project[] = [
     articleUrl: "https://mp.weixin.qq.com/s/z-yCjuYR-Hq35w9BCJkpKA",
   },
   {
+    title: "SSB Website",
+    tag: "DESIGN ENGINEERING · FRAMER MOTION",
+    status: "live",
+    featuredOnHome: false,
+    description: {
+      zh: "从零搭建的 B2B 营销站设计工程练习。四页完整实现，含自定义物理弹跳动效 hook（速度向量 + 边界反射）、响应式布局与 Framer Motion 动画。Lighthouse 性能 91 / 无障碍 96 / SEO 100。",
+      en: "A design engineering exercise — four-page B2B marketing site built from scratch. Features a custom physics bounce hook with velocity vectors and wall-reflection, responsive layout, and Framer Motion animations. Lighthouse: Performance 91 / Accessibility 96 / SEO 100.",
+    },
+    coverImage: "/images/projects/ssb-website.png",
+    demoUrl: "https://ssb-website-three.vercel.app/",
+    githubUrl: "https://github.com/yuki-uix/ssb-website",
+  },
+  {
     title: "Design Token Signals",
     tag: "DESIGN SYSTEM · EXPERIMENT",
     status: "experiment",
