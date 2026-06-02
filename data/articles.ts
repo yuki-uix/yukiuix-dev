@@ -60,7 +60,7 @@ export const articles: Article[] = [
     blurbEn:
       "Browsing a boutique feels effortless — shopping the same item online feels overwhelming. This piece unpacks the IA trade-off between \"enjoyable to browse\" and \"easy to find\" in e-commerce storefronts.",
     platform: "wechat",
-    featured: true,
+    featured: false,
   },
   {
     title: "赛博纺织工厂：一个比喻，讲透 AI Agent 工作流的四次进化",
@@ -75,7 +75,7 @@ export const articles: Article[] = [
     blurbEn:
       "A textile factory metaphor to explain four generations of AI Agent workflow design — from structured execution to planning, memory, and safety guardrails. The more capable the system, the more precise the constraints need to be.",
     platform: "juejin",
-    featured: true,
+    featured: false,
   },
   {
     title: "当系统「没了头」(headless)，AI 反而更好接手了？",
@@ -90,7 +90,7 @@ export const articles: Article[] = [
     blurbEn:
       "Headless architecture exposes capabilities without prescribing UI. AI agents — which don't need UI — turn out to be its ideal consumers. But API governance costs don't disappear; they just shift.",
     platform: "juejin",
-    featured: true,
+    featured: false,
   },
   {
     title: "你的页面对 Google 来说不存在 —— 一次微前端 SEO 链路排查",
@@ -137,7 +137,7 @@ export const articles: Article[] = [
     blurbEn:
       "AI wrote code that ran — but kept missing one element. After a few loops I realized: I'd never given it the layer beneath the business logic. A reflection on what context actually means in AI pair programming.",
     platform: "wechat",
-    featured: true,
+    featured: false,
   },
 
   {
