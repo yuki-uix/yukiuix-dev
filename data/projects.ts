@@ -41,7 +41,7 @@ export const projects: Project[] = [
     title: "Prompt Shop",
     tag: "CHECKOUT · STRIPE",
     status: "live",
-    featuredOnHome: true,
+    featuredOnHome: false,
     description: {
       zh: "完整电商购物流程实验场，Stripe Checkout 集成，覆盖从商品列表到支付完成的全链路。",
       en: "End-to-end e-commerce checkout playground with Stripe integration — covering the full flow from product listing to payment confirmation.",
@@ -95,7 +95,7 @@ export const projects: Project[] = [
     title: "SSB Website",
     tag: "DESIGN ENGINEERING · FRAMER MOTION",
     status: "live",
-    featuredOnHome: false,
+    featuredOnHome: true,
     description: {
       zh: "从零搭建的 B2B 营销站设计工程练习。四页完整实现，含自定义物理弹跳动效 hook（速度向量 + 边界反射）、响应式布局与 Framer Motion 动画。Lighthouse 性能 91 / 无障碍 96 / SEO 100。",
       en: "A design engineering exercise — four-page B2B marketing site built from scratch. Features a custom physics bounce hook with velocity vectors and wall-reflection, responsive layout, and Framer Motion animations. Lighthouse: Performance 91 / Accessibility 96 / SEO 100.",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     title: "EaseBuy",
     tag: "UX DESIGN · E-COMMERCE · MOBILE",
     status: "award",
-    featuredOnHome: true,
+    featuredOnHome: false,
     description: {
       zh: "UXcel × UX Pilot 竞赛 Top 10 获奖作品。以「无感购物」为核心，11 个页面覆盖完整电商链路——极简留白、卡片式信息架构、透明结算流程。用 AI 辅助完成从线框到高保真的全流程。",
       en: "Top 10 in UXcel × UX Pilot Design Competition. A minimalist mobile e-commerce app covering the full shopping journey across 11 screens — generous whitespace, card-based IA, transparent checkout. Full flow from wireframe to hi-fi with AI assistance.",
@@ -134,7 +134,7 @@ export const projects: Project[] = [
     title: "Spec-Driven Scenario Updater",
     tag: "AI AGENT · GITLAB HACKATHON",
     status: "hackathon",
-    featuredOnHome: true,
+    featuredOnHome: false,
     description: {
       zh: "GitLab AI Hackathon 参赛项目。以「规格鸿沟」为切入点——业务逻辑在产品、设计、开发之间反复翻译导致的失真。用单一 spec 数据源驱动 AI 自动生成代码、测试与文档。",
       en: "GitLab AI Hackathon submission. Targeting the \"spec gap\" — the distortion that accumulates as business logic is translated across product, design, and engineering. A single spec source drives AI to auto-generate code, tests, and docs.",
