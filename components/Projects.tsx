@@ -141,8 +141,13 @@ export default function Projects() {
         >
           {slides.map((p, i) => {
             const status     = p.status ? statusLabel[p.status] : null;
-            const primaryUrl = p.demoUrl ?? p.submissionUrl;
-            const primaryLabel = p.demoUrl ? t("liveDemo") : t("viewSubmission");
+            // Repo-only entries have no demo — fall back to source so the card stays actionable
+            const primaryUrl = p.demoUrl ?? p.submissionUrl ?? p.githubUrl;
+            const primaryLabel = p.demoUrl
+              ? t("liveDemo")
+              : p.submissionUrl
+              ? t("viewSubmission")
+              : t("viewRepo");
 
             return (
               <div key={`${p.title}-${i}`} style={{ width: CARD_W, flexShrink: 0 }}>
@@ -175,7 +180,12 @@ export default function Projects() {
                       <h3 className="mt-2 text-sm font-semibold text-ink transition-colors group-hover:text-primary">
                         {p.title}
                       </h3>
-                      <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-muted">
+                      {/* Without a cover image the card has ~170px more room — let the copy use it */}
+                      <p
+                        className={`mt-2 text-xs leading-relaxed text-muted ${
+                          p.coverImage ? "line-clamp-4" : "line-clamp-[12]"
+                        }`}
+                      >
                         {p.description[locale]}
                       </p>
                     </div>

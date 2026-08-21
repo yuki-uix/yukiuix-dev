@@ -24,6 +24,50 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "RepoCoach",
+    tag: "AI AGENT · COST & EVALUATION",
+    status: "experiment",
+    featuredOnHome: true,
+    description: {
+      zh: "纸面推断错了两次，实测才对。一个源码学习 agent 的垂直切片——真正的产出是把 agent 工程里几个反直觉的问题跑到了有数据：成本随调用次数超线性增长、工具调用降 28% 而 token 反升 17%、缓存命中 65.6% 让预算指标高估约 3 倍。同时验证了安全闸如何双向覆盖、状态怎么跨进程活下来、以及为什么只写在 prompt 里的约束必须在出口再校验一遍。638 个测试、22 个合并 PR，Claude 定计划、DeepSeek 实现、GPT 复审。项目已主动收尾，把跑出数据的部分整理成可复用的经验。",
+      en: "Two paper estimates, both wrong — only measurement got it right. A vertical slice of a source-reading agent whose real output is data on the counter-intuitive parts of agent engineering: cost grows super-linearly with call count, 28% fewer tool calls raised tokens by 17%, and a 65.6% cache-hit rate inflated the budget metric roughly threefold. It also pinned down how safety gates have to be checked in both directions, how state survives across processes, and why a constraint written only into a prompt still needs a gate at the exit. 638 tests, 22 merged PRs — planned by Claude, implemented by DeepSeek, reviewed by GPT. Development has since been wound down, with the measured parts written up as reusable findings.",
+    },
+    githubUrl: "https://github.com/yuki-uix/RepoCoach",
+  },
+  {
+    title: "Agent Cost Lab",
+    tag: "AI COST · MEASUREMENT",
+    status: "experiment",
+    featuredOnHome: false,
+    description: {
+      zh: "Token 不是钱。几乎每个上下文压缩工具都宣传 token 降低多少，但缓存过的 input token 只要标价的约 10%，而压缩靠改写历史——这会打断缓存前缀，让后面全部重新计价。「省 40% token」和「账单更贵」完全兼容。这个仓库测的是账单：代理探针走真实调用路径，预测先锁进 git，导出闸写成测试而不是清单。装置已建成，结论待测。",
+      en: "Tokens are not money. Nearly every context-compression tool advertises a token-reduction number, but a cached input token costs ~10% of list price and compression works by rewriting history — which breaks the cached prefix and reprices everything after it. \"40% fewer tokens\" and \"a bigger bill\" are entirely compatible. This repo measures the bill: a proxy probe on the real call path, predictions locked into git before measuring, export gates written as tests rather than checklists. Instrument built; results pending.",
+    },
+    githubUrl: "https://github.com/yuki-uix/agent-cost-lab",
+  },
+  {
+    title: "Image to Code",
+    tag: "AI AGENT · DESIGN TO CODE",
+    status: "experiment",
+    featuredOnHome: false,
+    description: {
+      zh: "不是「一张截图生成一个页面」。把 AI 生成的设计稿变成可复用、可验证的前端包——保留真实素材与设计语言，产出带 props、variants、tokens 和 manifest 的组件文件，而不是拍平成单个页面组件。中间产物可观察、契约确定、验证廉价，只在仍需视觉判断的地方保留人工评审。",
+      en: "Not \"a pixel-perfect page from one screenshot\". A Claude Code workflow that turns AI-generated design sources into reusable, validated frontend packages — preserving real assets and design language, materialising component files with props, variants, tokens, and manifests instead of flattening everything into one page component. Observable intermediate artifacts, deterministic contracts, cheap validation, and human review only where visual judgment is still necessary.",
+    },
+    githubUrl: "https://github.com/yuki-uix/image-to-code-agent",
+  },
+  {
+    title: "Design Reasoning Lab",
+    tag: "AI DESIGN · RESEARCH",
+    status: "experiment",
+    featuredOnHome: false,
+    description: {
+      zh: "不问「这个工具能生成什么」，问「它怎么思考」。用可复现的行为实验逆向 AI 原生设计工具的推理方式——它向人索取什么信息、把哪些决策留给人、不同输出模式之间如何关联。当前案例是 Claude Design，v0 作对照；结论按 Fact / Interpretation / Hypothesis / Conclusion 四级分层，事实与解释永远分开记录。",
+      en: "Not \"what can this tool generate\" but \"how does it think\". Reproducible behavioural experiments reverse-engineering how AI-native design tools reason — what they ask the human for, which decisions they delegate, and how output modes relate. The current case study is Claude Design with v0 as contrast; claims are kept at four distinct epistemic levels — fact, interpretation, hypothesis, conclusion — so observation is never merged into explanation.",
+    },
+    githubUrl: "https://github.com/yuki-uix/design-reasoning-lab",
+  },
+  {
     title: "Brooch Shop",
     tag: "AI AGENT · E-COMMERCE",
     status: "live",
