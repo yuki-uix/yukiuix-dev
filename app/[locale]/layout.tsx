@@ -20,15 +20,15 @@ const dmMono = DM_Mono({
 
 const META = {
   zh: {
-    title: "Kunyu Xu · Design Engineer · AI · 电商 SaaS",
+    title: "Kunyu Xu · AI 全栈开发工程师 · 电商 SaaS",
     description:
-      "在 ThoughtWorks 做电商 SaaS 全链路工程，探索 AI 与前端交付的边界。写浏览器原理、渲染管线、AI 工程化。",
+      "Thoughtworks 软件开发工程师。React / TypeScript 前端架构与 BFF，Java / Spring Boot 服务与 Kafka 事件驱动链路；持续投入 AI Engineering——Agent Evaluation、RAG、MCP 与 AI Code Review 的生产落地。",
     url: "https://yukiuix.com",
   },
   en: {
-    title: "Kunyu Xu — Design Engineer · AI · E-commerce",
+    title: "Kunyu Xu — AI Full-Stack Engineer · E-commerce SaaS",
     description:
-      "Design Engineer at ThoughtWorks — building at the intersection of frontend engineering, AI tooling, and e-commerce SaaS. Writing about browser internals, rendering, and product thinking.",
+      "Software developer at Thoughtworks — React/TypeScript frontend architecture and BFF, Java/Spring Boot services and Kafka event pipelines, plus three years of AI engineering: agent evaluation, RAG, MCP, and AI code review in production.",
     url: "https://yukiuix.com/en",
   },
 } as const;
@@ -73,9 +73,23 @@ const personJsonLd = {
   name: "Kunyu Xu",
   alternateName: "Yuki Xu",
   url: "https://yukiuix.com",
-  jobTitle: "Software Developer",
+  jobTitle: "AI Full-Stack Engineer",
   description:
-    "Design Engineer at ThoughtWorks — building at the intersection of frontend engineering, AI tooling, and e-commerce SaaS.",
+    "Software developer at Thoughtworks — React/TypeScript frontend architecture and BFF, Java/Spring Boot services and Kafka event pipelines, with AI engineering work spanning agent evaluation, RAG, MCP, and AI code review in production.",
+  worksFor: {
+    "@type": "Organization",
+    name: "Thoughtworks",
+    url: "https://www.thoughtworks.com/",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Hunan University",
+  },
+  award: [
+    "AI/works Hackathon APAC Top 3 — Thoughtworks (2026)",
+    "AI Agent Hackathon Remix Winners, Global Prize — MiniMax (2025)",
+    "Uxcel + UX Pilot AI Contest Top 3 — Uxcel (2025)",
+  ],
   sameAs: [
     "https://www.linkedin.com/in/kunyu-xu/",
     "https://github.com/yuki-uix",
@@ -83,16 +97,25 @@ const personJsonLd = {
     "https://dev.to/yuki-uix",
   ],
   knowsAbout: [
-    "Frontend Engineering",
+    "AI Engineering",
+    "Agent Evaluation",
+    "Retrieval-Augmented Generation",
+    "Model Context Protocol",
+    "Prompt Engineering",
+    "AI Code Review",
     "React",
     "TypeScript",
     "Next.js",
-    "Micro-Frontend Architecture",
-    "AI Agent Engineering",
+    "Backend for Frontend",
+    "GraphQL",
+    "Java",
+    "Spring Boot",
+    "Kafka",
+    "PostgreSQL",
+    "Redis",
+    "Kubernetes",
     "E-commerce SaaS",
-    "Design Engineering",
-    "Browser Rendering",
-    "Performance Optimization",
+    "CI/CD",
   ],
 };
 

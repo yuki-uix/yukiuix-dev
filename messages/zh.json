@@ -10,12 +10,13 @@
   },
   "hero": {
     "intro": "嗨👋 欢迎来到 「许昆瑜」 的个人网页",
-    "tag": "Design Engineer · AI · E-commerce",
-    "headingBefore": "深入工程，在电商 SaaS 探索",
-    "headingAfter": "与交付的边界",
-    "description": "在电商 SaaS 全链路做工程与体验的交付，用 AI 放大判断力，用数据校验直觉。",
+    "tag": "AI Engineering · Full-Stack · E-commerce",
+    "headingBefore": "从前端到 BFF 与后端服务，把",
+    "headingAfter": "做成可复用的交付能力",
+    "description": "近 4 年软件工程经验，主攻 React / TypeScript 前端架构与 BFF，同时承担 Java / Spring Boot 服务与 Kafka 事件驱动链路；近 3 年投入 AI Engineering，把 Agent Evaluation、RAG 与 AI Code Review 落到生产。",
     "viewProjects": "查看项目",
-    "contact": "联系我"
+    "contact": "联系我",
+    "location": "成都 · 远程办公"
   },
   "projects": {
     "heading": "项目",

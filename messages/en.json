@@ -10,12 +10,13 @@
   },
   "hero": {
     "intro": "Hi, this is Kunyu Xu.",
-    "tag": "Design Engineer · AI · E-commerce",
-    "headingBefore": "Engineering at the E-commerce SaaS ×",
-    "headingAfter": "frontier",
-    "description": "Building across the full e-commerce SaaS stack — from frontend engineering to AI-assisted delivery, with a design-engineering lens.",
+    "tag": "AI Engineering · Full-Stack · E-commerce",
+    "headingBefore": "From frontend to BFF and backend services — turning",
+    "headingAfter": "into reusable delivery capability",
+    "description": "Four years of software engineering — React/TypeScript frontend architecture and BFF, alongside Java/Spring Boot services and Kafka event pipelines. Three of those years on AI engineering: taking agent evaluation, RAG, and AI code review into production.",
     "viewProjects": "View Projects",
-    "contact": "Contact"
+    "contact": "Contact",
+    "location": "Chengdu, China · Remote"
   },
   "projects": {
     "heading": "Projects",

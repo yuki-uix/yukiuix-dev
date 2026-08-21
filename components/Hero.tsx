@@ -10,8 +10,12 @@ export default function Hero() {
         {t("intro")}
       </p>
 
-      <p className="mb-10 font-mono text-sm font-medium tracking-wide text-primary">
-        {t("tag")}
+      <p className="mb-10 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm font-medium tracking-wide">
+        <span className="text-primary">{t("tag")}</span>
+        <span aria-hidden className="text-hairline">
+          /
+        </span>
+        <span className="text-muted">{t("location")}</span>
       </p>
 
       <h1 className="max-w-4xl font-sans text-3xl font-semibold leading-snug tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-snug">
