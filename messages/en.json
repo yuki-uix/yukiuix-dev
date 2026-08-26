@@ -91,5 +91,9 @@
   "footer": {
     "copy": "yukiuix.com · 2026",
     "juejin": "Juejin (CN)"
+  },
+  "feed": {
+    "title": "Kunyu Xu · Writing",
+    "description": "Articles and notes on frontend engineering, AI tooling, and e-commerce SaaS."
   }
 }

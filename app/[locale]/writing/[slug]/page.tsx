@@ -22,12 +22,7 @@ import {
   resolveArticleBody,
   selfHostedArticles,
 } from "@/lib/writing";
-
-const BASE = "https://yukiuix.com";
-
-function localePath(locale: Locale, path: string): string {
-  return locale === "zh" ? `${BASE}${path}` : `${BASE}/${locale}${path}`;
-}
+import { SITE_URL, absoluteUrl, feedAlternates } from "@/lib/site";
 
 function normalizeLocale(raw: string): Locale {
   return raw === "en" ? "en" : "zh";
@@ -56,28 +51,28 @@ export async function generateMetadata({
 
   // 这一语言没有正文时页面回落到另一语言，正文与 canonical 版本重复——
   // canonical 指回真正有这版正文的地址，避免被判成重复内容。
-  const canonical = localePath(bodyLocale === locale ? locale : bodyLocale, path);
+  const canonical = absoluteUrl(bodyLocale === locale ? locale : bodyLocale, path);
 
   const bodyLocales = availableBodyLocales(article.slug);
   const languages = Object.fromEntries(
-    bodyLocales.map((l) => [l, localePath(l, path)]),
+    bodyLocales.map((l) => [l, absoluteUrl(l, path)]),
   );
 
   return {
-    metadataBase: new URL(BASE),
+    metadataBase: new URL(SITE_URL),
     title: `${title} · Kunyu Xu`,
     description,
-    alternates: { canonical, languages },
+    alternates: { canonical, languages, types: feedAlternates(locale) },
     openGraph: {
       type: "article",
       title,
       description,
-      url: localePath(locale, path),
+      url: absoluteUrl(locale, path),
       siteName: "yukiuix.com",
       locale: locale === "zh" ? "zh_CN" : "en_US",
       publishedTime: article.publishedAt,
       authors: ["Kunyu Xu"],
-      ...(article.coverImage ? { images: [`${BASE}${article.coverImage}`] } : {}),
+      ...(article.coverImage ? { images: [`${SITE_URL}${article.coverImage}`] } : {}),
     },
   };
 }
@@ -122,14 +117,14 @@ export default async function ArticlePage({
     description: lede,
     datePublished: article.publishedAt,
     inLanguage: bodyLocale === "zh" ? "zh-CN" : "en",
-    author: { "@type": "Person", name: "Kunyu Xu", url: BASE },
+    author: { "@type": "Person", name: "Kunyu Xu", url: SITE_URL },
     mainEntityOfPage: {
       // 和 <link rel="canonical"> 保持同一个地址：这一语言没有正文时，
       // 两处都要指向真正承载正文的那一版，否则等于自己给出两个不同的原文声明。
       "@type": "WebPage",
-      "@id": localePath(bodyLocale, `/writing/${article.slug}`),
+      "@id": absoluteUrl(bodyLocale, `/writing/${article.slug}`),
     },
-    ...(article.coverImage ? { image: `${BASE}${article.coverImage}` } : {}),
+    ...(article.coverImage ? { image: `${SITE_URL}${article.coverImage}` } : {}),
     ...(variants.length
       ? { sameAs: variants.map((v) => v.url) }
       : {}),

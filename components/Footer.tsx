@@ -1,13 +1,19 @@
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+
+import type { Locale } from "@/data/articles";
+import { feedPath } from "@/lib/site";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const locale = useLocale();
 
   const social = [
     { label: "GitHub", href: "https://github.com/yuki-uix" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/kunyu-xu/" },
     { label: t("juejin"), href: "https://juejin.cn/user/3582625834347100" },
     { label: "dev.to", href: "https://dev.to/yuki-uix" },
+    // 只在 <head> 里给自动发现是不够的——大部分人是在页脚找 RSS 的
+    { label: "RSS", href: feedPath(locale as Locale) },
     { label: "yuki.uix@gmail.com", href: "mailto:yuki.uix@gmail.com" },
   ];
 
