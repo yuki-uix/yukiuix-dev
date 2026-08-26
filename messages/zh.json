@@ -91,5 +91,9 @@
   "footer": {
     "copy": "yukiuix.com · 2026",
     "juejin": "掘金"
+  },
+  "feed": {
+    "title": "Kunyu Xu · 文章",
+    "description": "前端工程、AI 工程化、电商 SaaS 的文章与笔记。"
   }
 }

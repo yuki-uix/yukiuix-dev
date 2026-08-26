@@ -28,6 +28,7 @@ I studied architecture before I wrote code. That gave me a framework for underst
 | **Playground grid** | Status strip + animated reveal on hover (`translate-x` + background fill) |
 | **OG image** | `ImageResponse`-generated, middleware-blocked from direct browser access |
 | **Canonical writing** | Articles live here as MDX; platform posts are declared as variants, not separate entries |
+| **RSS** | Per-locale feed at `/feed.xml` and `/en/feed.xml`, slug-based `guid` so migrated posts don't re-notify |
 
 ---
 
@@ -51,6 +52,12 @@ An article can have a Chinese body and no English one yet. `/en/writing/<slug>` 
 **Hand-written long-form CSS, not `@tailwindcss/typography`**
 The plugin's defaults (rounded corners, drop shadows, neutral greys) fight the warm off-white and 0.5px hairlines this site is built on. Overriding them back costs more than the ~150 lines in `.prose-article`.
 
+**Canonical URLs have to be the URLs that actually serve**
+`localePrefix: "as-needed"` — Chinese is the primary language and gets no prefix, so `/writing` serves directly instead of redirecting to `/zh/writing`. A `canonical` or `hreflang` pointing at a redirect is a weak signal, and the whole point of hosting originals here is to make that signal unambiguous. Every absolute URL on the site comes from `lib/site.ts`, so the prefix rule lives in exactly one function. The sitemap goes further and lists only the locale that actually has a body — advertising a URL whose own `canonical` points elsewhere would undo the work.
+
+**Feed items point at wherever the piece currently lives**
+The feed reuses the same `articleLink()` the list pages use, so it can never disagree with the site. `guid` is the slug, not the URL — when an article moves from a platform to this site its link changes but its identity doesn't, and subscribers don't get it twice.
+
 **Middleware gating on `/opengraph-image`**
 The OG route needs to exist for crawlers (`Accept: image/*`) but shouldn't be navigable in a browser (`Accept: text/html`). Middleware checks the header and redirects humans to `/` while letting bots through.
 
@@ -71,6 +78,7 @@ app/[locale]/
   page.tsx          # Home — Hero, Projects carousel, About
   playground/       # Full project grid
   writing/          # Archive, plus [slug]/ for self-hosted articles
+  feed.xml/         # Per-locale RSS (a top-level app/feed.xml/ mirrors the default)
 components/
   Projects.tsx      # Infinite auto-carousel
   Playground.tsx    # 3-col grid with animated status strip
@@ -81,6 +89,8 @@ data/
   articles.ts       # Article metadata, canonical/variant relationships
 lib/
   writing.ts        # Reads content/, resolves locale fallback, reading time
+  feed.ts           # RSS 2.0 builder, shares articleLink() with the UI
+  site.ts           # Absolute URLs — the one place the locale-prefix rule lives
 ```
 
 ---
