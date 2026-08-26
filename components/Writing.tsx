@@ -2,7 +2,16 @@ import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
-import { articles, articleMonthLabel, type Article } from "@/data/articles";
+import {
+  articleBlurb,
+  articleLink,
+  articleMonthLabel,
+  articleTitle,
+  articles,
+  type Article,
+  type ArticleLink,
+  type Platform,
+} from "@/data/articles";
 
 
 /** `publishedAt` ISO 日期，新在前；同一时刻按标题稳定排序 */
@@ -21,7 +30,7 @@ export default function Writing() {
     .filter((a) => a.featured)
     .sort(compareArticlesByPublishedDesc);
 
-  const platformLabel: Record<NonNullable<Article["platform"]>, string> = {
+  const platformLabel: Record<Platform, string> = {
     juejin: t("platforms.juejin"),
     wechat: t("platforms.wechat"),
     devto: t("platforms.devto"),
@@ -42,38 +51,44 @@ export default function Writing() {
       <p className="mt-2 text-base font-semibold text-ink">{t("subtitle")}</p>
 
       <ul className="mt-8 divide-y-[0.5px] divide-hairline border-y border-structure">
-        {featuredArticles.map((a, index) => (
-          <li key={a.title} className="py-6 sm:py-8">
-            {a.url ? (
-              <a
-                href={a.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block border border-hairline bg-white p-5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md sm:p-6"
-              >
-                <FeaturedBody
-                  article={a}
-                  imagePriority={index === 0}
-                  platformLabel={platformLabel}
-                  readFullLabel={t("readFull")}
-                  coverAltFallback={t("coverAlt")}
-                  locale={locale}
-                />
-              </a>
-            ) : (
-              <div className="border border-hairline bg-white p-5 shadow-sm sm:p-6">
-                <FeaturedBody
-                  article={a}
-                  imagePriority={index === 0}
-                  platformLabel={platformLabel}
-                  readFullLabel={t("readFull")}
-                  coverAltFallback={t("coverAlt")}
-                  locale={locale}
-                />
-              </div>
-            )}
-          </li>
-        ))}
+        {featuredArticles.map((a, index) => {
+          const link = articleLink(a, locale);
+          const body = (
+            <FeaturedBody
+              article={a}
+              link={link}
+              imagePriority={index === 0}
+              platformLabel={platformLabel}
+              readLabel={link?.external ? t("readFull") : t("readOnSite")}
+              onSiteLabel={t("originalHere")}
+              coverAltFallback={t("coverAlt")}
+              locale={locale}
+            />
+          );
+          const cardClass =
+            "group block border border-hairline bg-white p-5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-md sm:p-6";
+
+          return (
+            <li key={a.slug} className="py-6 sm:py-8">
+              {!link ? (
+                <div className="border border-hairline bg-white p-5 shadow-sm sm:p-6">{body}</div>
+              ) : link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cardClass}
+                >
+                  {body}
+                </a>
+              ) : (
+                <Link href={link.href} className={cardClass}>
+                  {body}
+                </Link>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       <div className="mt-6 text-right">
@@ -90,21 +105,25 @@ export default function Writing() {
 
 function FeaturedBody({
   article: a,
+  link,
   imagePriority,
   platformLabel,
-  readFullLabel,
+  readLabel,
+  onSiteLabel,
   coverAltFallback,
   locale,
 }: {
   article: Article;
+  link: ArticleLink | null;
   imagePriority: boolean;
-  platformLabel: Record<NonNullable<Article["platform"]>, string>;
-  readFullLabel: string;
+  platformLabel: Record<Platform, string>;
+  readLabel: string;
+  onSiteLabel: string;
   coverAltFallback: string;
   locale: string;
 }) {
-  const displayTitle = locale === "en" && a.titleEn ? a.titleEn : a.title;
-  const displayBlurb = locale === "en" && a.blurbEn ? a.blurbEn : a.blurb;
+  const displayTitle = articleTitle(a, locale);
+  const displayBlurb = articleBlurb(a, locale);
   return (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
       {a.coverImage ? (
@@ -133,14 +152,17 @@ function FeaturedBody({
           >
             {articleMonthLabel(a.publishedAt)}
           </time>
-          {a.platform ? (
+          {/* 本站有正文时标出出处，其余显示落地的平台 */}
+          {link && !link.external ? (
+            <span className="font-mono text-xs text-primary">{onSiteLabel}</span>
+          ) : link ? (
             <span className="font-mono text-xs text-muted">
-              {platformLabel[a.platform]}
+              {platformLabel[link.platform]}
             </span>
           ) : null}
-          {a.url ? (
+          {link ? (
             <span className="font-mono text-xs text-primary transition-colors group-hover:text-ink">
-              {readFullLabel}
+              {readLabel}
             </span>
           ) : null}
         </div>
