@@ -50,6 +50,20 @@
       "juejin": "Juejin (CN)",
       "wechat": "WeChat (CN)",
       "devto": "dev.to"
+    },
+    "readOnSite": "Read on this site →",
+    "originalHere": "Original here",
+    "backToArchive": "← All writing",
+    "readingMinutes": "{minutes} min read",
+    "bodyLocaleFallback": "This piece is currently available in {language} only — the original is below.",
+    "alsoPublished": "Also published on",
+    "alsoPublishedNote": "Each platform version is restructured for its audience. This page is the source.",
+    "moreArticles": "More writing",
+    "newerPost": "← Newer post",
+    "olderPost": "Older post →",
+    "languages": {
+      "zh": "Chinese",
+      "en": "English"
     }
   },
   "experience": {

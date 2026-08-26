@@ -50,6 +50,20 @@
       "juejin": "掘金",
       "wechat": "公众号",
       "devto": "dev.to"
+    },
+    "readOnSite": "阅读原文 →",
+    "originalHere": "本站原文",
+    "backToArchive": "← 全部文章",
+    "readingMinutes": "{minutes} 分钟阅读",
+    "bodyLocaleFallback": "这篇目前只有{language}版本，以下为原文。",
+    "alsoPublished": "也发布在",
+    "alsoPublishedNote": "各平台版本会按平台读者做结构调整，本页是原文出处。",
+    "moreArticles": "更多文章",
+    "newerPost": "← 更新的一篇",
+    "olderPost": "更早的一篇 →",
+    "languages": {
+      "zh": "中文",
+      "en": "英文"
     }
   },
   "experience": {
