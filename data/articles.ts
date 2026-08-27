@@ -190,6 +190,8 @@ export const articles: Article[] = [
     titleEn: "We Can Build an Agent in Ten Minutes — Why Does Shipping It Still Take Weeks?",
     topics: ["ai"],
     publishedAt: "2026-08-27",
+    coverImage: "/images/articles/agent-demo-to-delivery.png",
+    coverAlt: "插图：天平一头是十分钟拼起来的小机器，另一头是沉得压到桌面的一摞测试案例",
     blurb:
       "所有人都说搭一个 agent 太快了，也都说 agent 上线怎么这么难——两句都对，说的不是同一件事。这篇拆开从 demo 到交付的那几周：先是发现它会怎么坏，再是定出什么叫「做对了」，最后是每改一次都得重新验一次。成本没有降下来，只是从「写」挪到了「验」，挪过去之后还更贵。",
     blurbEn:
