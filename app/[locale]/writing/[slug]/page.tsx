@@ -12,6 +12,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import {
   articleBlurb,
+  articleCoverAlt,
   articleMonthLabel,
   articleTitle,
   type Article,
@@ -197,7 +198,7 @@ export default async function ArticlePage({
             <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden border-[0.5px] border-hairline">
               <Image
                 src={article.coverImage}
-                alt={article.coverAlt ?? t("coverAlt")}
+                alt={articleCoverAlt(article, locale) ?? t("coverAlt")}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
                 className="object-cover object-center"

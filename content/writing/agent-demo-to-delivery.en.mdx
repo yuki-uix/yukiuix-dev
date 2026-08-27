@@ -1,0 +1,526 @@
+The clearest change this year is that building an agent is no longer especially hard. Given an idea, you can have a demo running in ten minutes, or an afternoon at most. Models, tools, and memory have all become pluggable. Frameworks such as DeepSeek Harness and pi take modularity to the point where even the agent loop is a plugin. And MCP has delivered on its original promise: you no longer need to maintain a separate connector for every data source.
+
+But nobody wants only a demo. What people want is an agent they can hand over with confidence. That demand has produced another wave of infrastructure: all kinds of harnesses and eval systems, each trying to answer the same question: **how do we know whether it got this run right?** On August 21, Anthropic published *The AI-Native SDLC Playbook*. Its first section is titled **"Code is no longer the bottleneck."** The bottleneck has moved to the stages on either side of coding, where work still proceeds at human speed.
+
+The two ends have split apart. Building a demo keeps getting faster, to the point where the cost is almost negligible. Proving that it is ready to ship keeps getting harder: you need test sets, reproducible runs, and a way to know when it will fail. That is why you now hear two statements everywhere, though rarely together:
+
+> Everyone says building an agent is incredibly fast now.
+>
+> Everyone also says getting an agent into production is incredibly hard.
+
+Both are true. They describe different things. **The cost of building an agent only appears to have fallen. In reality, it moved from one end to the other, and became more expensive in the process.** This article is my attempt to organize what I found after reading widely and trying it myself. I want to answer one question: **what exactly happens during those weeks between demo and delivery?**
+
+---
+
+## 1. What Modularity Actually Removed
+
+"Building an agent" is a misleading phrase. It can refer to at least three different things whose timelines differ by two orders of magnitude.
+
+The rough scale looks like this. It is a layered framework, not a measurement. **What matters is the order-of-magnitude gap between layers, not the exact numbers:**
+
+| Layer | Typical time | What holds it up |
+| --- | --- | --- |
+| A demo that runs | Ten minutes to a few hours | Almost nothing anymore |
+| Something you use every day | A few days | You can intervene manually and tolerate failures |
+| Something other people can rely on | Weeks to months | You cannot intervene: you need evals and must know when it fails |
+
+The people saying "it is so fast" mean the first layer. The people saying "it is so hard" mean the third. They do not disagree; they are talking about different layers.
+
+As I see it, the modularity in DSH and pi has compressed the top layer.
+Before MCP, connecting a tool meant writing the integration, authentication, pagination, and format parsing yourself. Now an entire tool can be a decorator:
+
+```python
+# server.py -- adding it takes one command:
+#   claude mcp add my-tools -- python server.py
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP(name="my-tools")
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Return the sum of a and b."""
+    return a + b
+```
+
+The function signature becomes JSON Schema automatically. The docstring becomes the description shown to the model. You do not have to handle the protocol, validation, or transport.
+
+DeepSeek Harness takes the same idea inside the runtime. In Cordis, its underlying framework, a tool is just a plugin:
+
+```typescript
+import type { Context } from '@deepseek-ai/cordis'
+import { defineTool } from '@deepseek-ai/dsh-tools'
+
+export const name = 'greet-tool'
+export const inject = ['tools']        // Dependency: start after the tools service is ready
+
+export function apply(ctx: Context) {
+  ctx.tools.register(defineTool({
+    name: 'greet',
+    description: 'Greet the named person.',
+    parameters: {
+      name: { type: 'string', required: true, description: 'Who to greet' },
+    },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: value }],
+    },
+    async execute(args) {
+      return `Hello, ${args.name}!`
+    },
+  }))
+}
+```
+
+The important line is `inject`. `ctx.tools` is a service, and `ctx.llm` and `ctx.sessions` are **services with the same shape**. That is the literal meaning of "Everything is a Plugin": models and sessions occupy the same kind of slot as tools and follow the same lifecycle for registration and removal.
+
+**This layer has genuinely been rebuilt. It compresses hours into minutes, not weeks into days.**
+
+---
+
+## 2. What Happens During Those Weeks
+
+The weeks between "I can use this myself" and "I can give this to someone else" fall into roughly three stages, each slower than the last: **first you discover how it fails, then define what "correct" means, and finally re-verify the whole thing after every change.**
+
+### Discovering How It Fails
+
+The first failure is often not that the agent did something wrong. It did nothing at all, then told you it was finished. I had a project where I delegated implementation in headless runs, one isolated worktree per task, then reviewed each result. The first batch came back with exit code 0 and `"subtype": "success"` in the output JSON. Everything looked fine.
+
+Then I opened the payload from the same record:
+
+```json
+{"is_error": true, "api_error_status": 402,
+ "result": "API Error: 402 Insufficient Balance"}
+```
+
+The account had run out of credit. **Not a single tool call had run, and the worktree was empty.**
+
+Exit code 0, `subtype: success`, and `is_error: true` were all true in the same record. I looked at only the first two and assumed the task was complete.
+
+The pattern behind this kind of failure is that **a signal meaning "nothing happened" gets read as "something happened, and it went fine."** Inside an agent, the classic version is a tool returning `[]`. The agent treats that as confirmation that there are no results, continues, and eventually produces a conclusion built on empty data.
+
+Fine, fix that one. Then I hit another failure: the context approached its limit, and the compression strategy dropped a constraint from the middle. Fix that, then find a third failure, and a fourth. **Because of the long tail, many of these failures are hard to enumerate during design. They surface one by one in real tasks.** After enough of them, you realize this cannot continue. You need something you can run as regression tests.
+
+### Defining What "Correct" Means
+
+So you sit down and turn each failure into a case. By the third case, you get stuck. Every case needs an expected output, and **that field is often impossible to fill in.**
+
+The `[]` case is easy: the expected behavior is "stop and ask instead of inventing an answer." A machine can check that. Most real tasks look different. Is this research complete? Did the summary capture the important points? Should the agent ask a follow-up question or propose a solution now? **You know which answer is better, but you cannot express it as a criterion a machine can execute.**
+
+There are three options for a case without an executable criterion, and none is cheap. Downgrade it to "have a person look," which keeps it out of CI. Use an LLM judge, which gives you another component that also needs evaluation. Or exclude it from the case set, so your pass rate covers only the easy-to-judge portion.
+
+**Most teams choose the first option.** LangChain's *2026 State of Agent Engineering*, based on more than 1,300 practitioners, found that **human review remains the most common evaluation method at 59.8%**. It is not that teams do not want automation. A substantial share of the work cannot be judged automatically.
+
+### Re-Verifying After Every Change
+
+Suppose you have collected twenty cases. You change one sentence in the prompt and run them. Five minutes later, three have failed.
+
+The problem is that you do not know what caused those failures. It could be the prompt sentence. It could be the tool description changed last week. Or it could be nothing: the same batch failed two cases yesterday. So you rerun with a controlled variable, another five minutes. To rule out noise, you run it three more times, another fifteen.
+
+That means **a judgment you can defend starts at twenty minutes**: five minutes per round, three or four rounds before you can say the change really helped. A unit test for a one-line change in conventional code takes two hundred milliseconds.
+
+That is where the weeks go. There is still code to write: tracing, retries, idempotency, fallbacks, permissions. None of it disappears. **But progress is no longer determined by connecting the functionality. It is determined by discovering failures, establishing judgment criteria, and validating repeatedly.**
+
+The three-stage split is my own account of the process; the industry has no standard version. But two unrelated surveys point to the same underlying shift.
+
+The LangChain survey reports an awkward contrast: **89% of teams have observability, but only 52.4% run offline evaluations and 37.3% run online evaluations.** Overall, 29.5% do no evaluation at all. Even among teams with agents in production, the figure is still **22.8%**. The tools are installed, but they are not being used to decide what is right or wrong. A CHI paper this year by van der Maden et al., *Results-Actionability Gap*, interviewed 19 people building production LLM products across healthcare, law, education, and enterprise software. It cites another study of Microsoft teams by Nahar et al. (26 interviews and 332 survey responses): teams spent **76.6%** of their effort on manual testing, while only **36.3%** had a proper evaluation mechanism. Those figures measure where effort goes, not how the three weeks above divide up. But they do show that the effort sits on the verification side, not the building side.
+
+---
+
+## 3. Why This Happens
+
+The first two sections make two claims: **building keeps getting faster, while shipping keeps getting slower.** This section accounts for the gap.
+
+The explanation is more specific than "agents are more complex." The difficult half has moved **from writing to verifying**. Once there, verification costs rise in three directions at once. The same practice is the first to buckle under the load.
+
+### Implementation Got Cheaper; Verification Did Not
+
+The hard part of a demo is **implementation**: connecting the model, tools, and loop. The hard part of delivery is **verification**: knowing when it will fail.
+
+In conventional software, verification can lean on implementation structure. Types, control flow, error handling, and conditionals let you infer a meaningful portion of behavior from the code. Distributed and concurrent systems also have large unpredictable regions, but code review and tests at several levels can at least cover the deterministic surface.
+
+Agents narrow that path considerably. Their critical behaviors, such as whether they choose the right tool, start inventing details at step x, or drop a constraint from context, are difficult to infer directly from implementation.
+
+The earlier bug would be rare in a conventional program. `[]` and `throw` are completely different control paths, and the compiler and type system force you to handle them separately. In an agent, the tool result is serialized into a string and appended to the message history. **To the model, `[]`, `null`, and `{"error": "rate limited"}` are all text. There is no type boundary and no exception propagation.** It reads the text and continues reasoning from it.
+
+> **Frameworks have lowered the cost of implementing agents without lowering the cost of proving them reliable by the same amount.**
+
+### Even "Run It Twice and Get the Same Result" Does Not Hold
+
+The usual explanation is floating-point non-associativity plus concurrent GPU scheduling. Thinking Machines Lab's *Defeating Nondeterminism in LLM Inference* showed that this explanation is wrong. Repeating the same matrix multiplication produces bitwise-identical results; concurrency and floating point are not the culprit.
+
+**The actual cause is that kernels lack batch invariance.** Server-side batch size changes dynamically with **concurrent load**, while the reduction strategies in RMSNorm, matrix multiplication, and attention depend on batch size. Each kernel execution is deterministic, but the size of the batch containing your request depends on **what other people are sending at that moment**.
+
+In their test, Qwen3-235B at temperature 0 received the same prompt 1,000 times:
+
+- It produced **80 different completions**; the most common appeared 78 times.
+- The first 102 tokens were identical, then the outputs **diverged at token 103**.
+- 992 outputs said "Queens, New York" and eight said "New York City."
+
+With batch-invariant kernels, all 1,000 outputs were bitwise identical. The cost was that the same workload rose from 26 seconds to 55, then fell to 42 seconds after improvements to the attention kernel.
+
+For delivery, this means **three failed regression cases may have nothing to do with your change.** You cannot tell unless you accept roughly 60% slower inference in this example (26 seconds to 42), or repeat every result enough times. Cost and latency constrain both options.
+
+More precisely, an agent has at least three layers of uncertainty:
+
+1. **Inference**: the same input produces different tokens, as above.
+2. **Control**: a small output difference can lead to a different tool choice and execution path.
+3. **Environment**: search results, databases, permissions, and external services change independently.
+
+**A batch-invariant kernel, whose reduction order is fixed rather than changing with batch size, solves only the first layer.** It makes regression results easier to reproduce. It does not clean up the other two, and it does not tell you whether the output is correct.
+
+### More Tools Make Failures Harder to Attribute
+
+Does adding one tool reduce the accuracy of the others?
+
+Someone has measured it. *How Many Tools Should an LLM Agent See?* tested BFCL (370 tools), MetaTool (199), and ToolBench (3,251). On BFCL, an adaptive strategy showed Claude Sonnet 4.6 an average of only **2.2 candidate tools**. When the correct tool was among them, the model chose it **93.1%** of the time. With a fixed set of five tools on every query, that rate was **87.1%**.
+
+Showing fewer, better candidates raised selection accuracy by six percentage points, from 87.1% to 93.1%.
+
+But the same paper reports a cost that should not be skipped. On medium-difficulty queries, where the correct tool ranks second through fifth, a fixed set of five guarantees that the correct tool is **always among the candidates** and selects it 60.9% of the time. The adaptive strategy included the correct tool for only **62.3%** of queries, then selected it 76.8% of the time when included.
+
+Those are two gates, so they multiply: first the tool must enter the candidate set, then the model must select it. **0.623 × 0.768 ≈ 48%**, well below the fixed-five result of 60.9%. (The paper does not report 48%; I derived it from the first two figures.)
+
+So the lesson is not "fewer is always better." **Fewer candidates improve selection precision at the cost of sometimes withholding the right tool entirely.**
+
+For delivery, the deeper problem is not accuracy itself. It is **attribution**.
+
+A failure could come from a bad prompt, a bad tool description, or the model failing to select the right tool. **As the tool set grows, those three causes become harder to separate**, yet the correct fix depends on separating them.
+
+Anthropic makes the same point in its engineering post on MCP. As the number of connected tools grows, loading every tool definition up front and passing intermediate results through the context window slows the agent and raises costs. With thousands of tools connected, the agent may have to process hundreds of thousands of tokens before it can even read the request.
+
+Their solution is progressive disclosure: load only the tools the model actually needs. In the post's Google Drive and Salesforce example, token use falls from 150,000 to 2,000.
+
+### There Is Often No Assertion, and the Loop Is Slow
+
+First, **"did it do the right thing?" often has no assertion.**
+
+Is this research report good? Did the summary capture the main points? Conventional testing rests on assertions: explicit expected values that a machine can evaluate. Much of agent correctness is a fuzzy judgment. It requires either a person or an LLM judge, and the judge is itself unreliable.
+
+In the CHI paper above, 13 of the 19 participants had tried moving conventional ML automation metrics into production systems. Their assessment was **"bordering on useless."**
+
+The playbook from the opening provides a useful counterexample. It embeds agents into six stages of software development, with more than a dozen plays, each paired with gates, evaluations, and readable metrics. It can be this specific because assertions already exist in that domain. Its definition of an eval is "tests pass, lint clean, behavior unchanged, policy followed." Exit codes, lint warning counts, screenshot diffs, and green CI checks are all machine-readable.
+
+**Coding happens to be one of the few domains rich in assertions.** Replace it with writing a research report, making a customer-service judgment, or synthesizing interviews, and those gates fall back one by one to humans or LLM judges. The document has not changed, but the cost structure has. The playbook is therefore not a counterexample to this section. It marks the boundary of how far cheap verification can go.
+
+Second, **the feedback loop is three orders of magnitude slower.**
+
+Advancing only five or six defensible judgments per day is not an efficiency problem. It is structural. Conventional tests get feedback from deterministic local computation. Agent tests get feedback from paid, networked inference whose result can fluctuate. **You can experiment freely with the former; every attempt with the latter costs money.** "Run it a few more times to make sure," nearly free in conventional engineering, now becomes something you budget for.
+
+### Code Review Is the First Thing to Break
+
+Once noise, attribution, and cost arrive together, something many people assume will keep working is the first to fail.
+
+"Code review" is under pressure in two directions.
+
+One is using agents to accelerate conventional delivery. Agents produce more diffs than people can read, so the review queue grows. That is a **volume** problem. More reviewers, tiering, sampling, or an agent doing the first pass can all help. Anthropic's playbook devotes an entire stage to it.
+
+The other is the subject of this article: **the thing you are building is itself an agent.** You change one prompt sentence, a tool description, a truncation threshold, or a compression strategy. The diff may be three lines. A reviewer can read and understand every line and still learn nothing about the result.
+
+Code review works because **behavior can be inferred from implementation**. With an agent, that premise fails:
+
+- Change one prompt sentence. The diff is three readable lines, but it does not tell you whether behavior improved.
+- Add a tool. The code is fine, but will it reduce selection accuracy for other tools? You cannot read that from the diff.
+- Change a truncation threshold from 4,000 to 6,000. Staring at the line tells you nothing.
+
+All three share one fact: **the information is not in the diff.** It appears in the results after the configuration runs against a set of cases, and those results are not on the pull request page.
+
+"Review more carefully" cannot fill this gap. Neither a more experienced reviewer nor a more detailed checklist can recover information that the material in front of them does not contain.
+
+**When building an agent, focusing attention on the diff is looking in the wrong place.** You need the case results, an attribution for each failure, and a count of how many variables changed. Those live outside the pull request. Human attention is finite, and every minute spent on the diff is a minute taken from that work.
+
+As long as agent changes pass review through diff reading alone, the gate is empty. Changes merge, problems appear in production, and everyone wonders why something that was reviewed still failed.
+
+---
+
+## 4. What Can We Do?
+
+Each of the three stages in section two can be shortened, but each requires a different method: **reduce the failures you encounter in the first stage, preserve what you collect in the second, and make the third capable of supporting a conclusion.**
+
+They all depend on one foundation.
+
+Every practice below buys the same thing: **it narrows the gap between the 300 trials you need and the 30 you can run in a day.**
+
+### Build the Experiment Infrastructure Before Tuning the Prompt
+
+The common sequence is to build the agent first, then figure out how to test it when it performs badly. Reverse it. **Before writing the first prompt, you should be able to run a fixed set of cases with one command and produce directly comparable results.**
+
+- Keep the input set fixed.
+- Change one variable at a time. Do not change the prompt while swapping the model.
+- Make the full configuration of every run recoverable. Otherwise, a week later you will not know how you produced that good result.
+
+The reason is the three-order-of-magnitude gap. **An agent's feedback loop is a thousand times slower than conventional software's. The same investment in infrastructure buys hundreds of times more iterations here.**
+
+### If It Can Be a Gate, Do Not Leave It to Evaluation
+
+The cheapest way to encounter fewer failures is not to encounter them earlier. It is to **make them impossible**. Some properties should never depend on evaluation.
+
+The playbook draws a clean distinction: a skill is **guidance**, while a hook provides **enforcement** behind it:
+
+> "nothing forces a session to comply with it. A policy that must always hold needs something deterministic behind the skill... The skill makes violations rare and the hook makes them close to impossible."
+
+A model can still violate a constraint in the prompt; the prompt only lowers the probability. You can know that the probability is lower only by running samples. **That turns a property that could have been deterministic into something you must pay to measure.**
+
+The rule, then, is: **use the prompt to express intent and an output gate to enforce properties.** Validate every condition that must always hold at the output boundary and block results that violate it. A gate is deterministic. You write it once; it consumes no samples and no experiment budget.
+
+The monitoring section of the same document goes further. Detection of departures from the sigma band never passes through a model: "detection stays entirely deterministic, with no model involved." Only after a breach does an agent diagnose it. **Keep deterministic work in code; give only judgment to the model.**
+
+The gate most worth copying protects not the agent's task output, but **the evaluation apparatus itself**: a session fixing a bug may not edit the test files. The reason is concise: **"an agent fixing code must not be able to weaken the check on that code."**
+
+The earlier failure modes, such as a tool returning `[]` or compression dropping a constraint, occur at the task layer. This gate protects a different layer. It recognizes that **the system under evaluation can rewrite its own evaluation infrastructure**, and that the pass rate will not reveal the problem. It will only look better.
+
+### Do Not Put Every Tool on the Table
+
+More tools do more than reduce selection accuracy; they make failure attribution harder. In practice, that leads to three rules. Treat tool count as a budget. Whenever you add one, compare results before and after and check whether other tasks regressed. Prefer progressive loading over making the full registry present by default.
+
+pi takes this to an extreme. It does not support MCP, sub-agents, plan loading, background shell commands, or todo management. It keeps four tools and a system prompt only a few tokens long. Its `Agent` constructor makes that decision explicit:
+
+```typescript
+// Note: these are the old package names; they have moved to
+// @earendil-works/pi-agent-core and @earendil-works/pi-ai
+import { Agent } from "@mariozechner/pi-agent-core";
+import { getModel } from "@mariozechner/pi-ai";
+
+const agent = new Agent({
+  initialState: {
+    model: getModel("anthropic", "claude-sonnet-4-20250514"),   // ID used in the docs at the time
+    systemPrompt: "You are a helpful coding assistant.",
+    tools: [readTool, bashTool, editTool, writeTool],   // Only these four
+    thinkingLevel: "medium",
+  },
+  convertToLlm: (messages) => messages.filter(
+    m => m.role === "user" || m.role === "assistant" || m.role === "toolResult"
+  ),
+});
+```
+
+Two details matter.
+
+`tools` is an ordinary array in the constructor. **How many tools to expose is an explicit decision, not a default that mounts the entire registry.**
+
+`convertToLlm` is the final gate before a request is sent. **The callback explicitly decides which internal messages enter model context.** This example filters by message role. The context savings depend on the actual proportion of each message type in a run.
+
+Most frameworks hide this step. Once hidden, "everything by default" becomes the norm, and you discover it later in the token bill.
+
+As for pi's results: on the public Terminal-Bench evaluation available at the time, under the specified model and configuration, it ranked near the top while showing substantially better cost performance. Leaderboards change with models and versions, so any citation should include a date.
+
+### Let Cases Accumulate Automatically
+
+If cases cannot be reused across teams and you have to collect your own, the only viable path is to make collection a by-product of normal operation rather than a separate phase. Turn every production failure into a case automatically. Record every human intervention and correction as an expected behavior.
+
+This changes the shape of the cost. Verification moves from a fixed cost toward one with diminishing marginal cost. **It is one of the few parts of delivery that gets cheaper over time.**
+
+Only one of them, though, and not permanently. Case sets decay. As models improve, cases that once separated good configurations from bad ones lose their discriminating power. The playbook calls this out: "cases that once discriminated stop doing so." Such cases do not remove themselves. They keep consuming every run's budget and inflate the pass rate, giving a false sense of coverage. Automatic collection therefore needs a companion practice: **regularly remove cases that no longer discriminate.** If a case passes for every configuration over several rounds, it is no longer a case. It is background noise.
+
+This is also a gap in current evaluation tools. At the time of writing, LangSmith, Braintrust, and Langfuse can all record traces, manage datasets, and run evaluations. But extracting an input, human correction, and expected behavior from a production anomaly and turning it into a regression-ready case still usually requires human confirmation.
+
+### To Know Whether It Improved, Look Case by Case
+
+Once the cases exist, the hard question begins: **is this batch large enough to support a conclusion?**
+
+The twenty-case example in section two is a trap, but the trap is not the case count.
+
+Suppose the baseline passes 18/20 and the changed version passes 16/20. Is that a regression?
+
+**Those two totals cannot answer the question.** Regression testing runs two versions against the same cases, which makes the observations **paired data**. The information is not in the two pass rates, but in **what happened to each case**: how many went from pass to fail, and how many from fail to pass.
+
+The same 18/20 → 16/20 can represent three very different patterns:
+
+| Pass → fail | Fail → pass | Discordant pairs | McNemar exact test |
+| --- | --- | --- | --- |
+| 2 | 0 | 2 | p = 0.500 |
+| 4 | 2 | 6 | p = 0.688 |
+| 6 | 4 | 10 | p = 0.754 |
+
+The totals are identical. In the first row, two cases simply regress. In the third, six regress and four improve. **The latter means the change is reshaping behavior broadly**, a fact entirely absent from "16/20."
+
+**The first discipline is therefore not "collect enough cases." It is "save the result of every case."**
+
+Once you save case-level results, the required case count can be lower than intuition suggests. In a paired design, only cases whose before and after results disagree carry information:
+
+| Discordant share | Regression : improvement | Required cases |
+| --- | --- | --- |
+| 20% | Regression only | 21 |
+| 20% | 9 : 1 | 48 |
+| 20% | 3 : 1 | 145 |
+| 10% | Regression only | 41 |
+
+**If a change causes a clean regression, about twenty cases are enough**; the table gives 21. But once it produces both regressions and improvements, as most prompt changes do, the signals cancel and the required sample size rises quickly.
+
+That is the danger of looking only at total pass rate: **it discards exactly the information that cancels out in the aggregate.**
+
+Using pass rate as a gate is not a straw man. The continuous-evaluation section of the SDLC playbook recommends exactly this:
+
+> "Gate configuration changes on the results. A skill change that drops the pass rate gets reviewed before it merges."
+
+The same section recommends 20 to 50 cases. Compare that range with the table above. **Twenty is one short even for the cleanest all-regression case. Fifty only just covers a 9:1 mix**, which is already a fairly clean change.
+
+The direction is right: treat configuration such as prompts, skills, and hooks as code, and run regressions after changes. **But a gate based on pass rate depends on a number that throws away all paired information.** The runs are already paired, and retaining case-level results costs almost nothing, yet it improves the gate's discriminating power by an order of magnitude.
+
+(An independent two-proportion test on the same data gives p = 0.376 and says you need 199 cases. That number answers a different question because it assumes the before and after observations are different case sets.)
+
+How many times should each case run? **Let observed variance and cost decide; do not hard-code one answer.** Some cases return the same result every time, so repetition only burns money. Others oscillate between outcomes and need repeated runs.
+
+One caution matters in the analysis: **twenty cases run five times each are not one hundred independent cases.** The observations remain clustered by case. A defensible approach is to summarize each case into one state (stable pass, stable fail, or unstable), then compare versions with the case as the unit.
+
+The aggregation rule belongs in configuration, not in an ad hoc decision during analysis. **Mark a case as a stable pass only if all n runs pass; place everything else on the failure side.** Stable failures and unstable cases both count as failure. An unstable case is not shippable, so for delivery it belongs in the same category as a stable failure.
+
+McNemar accepts only binary outcomes, so the three states must collapse into two. **The direction of that collapse determines what you measure.** Counting instability as pass measures the system's capability ceiling. Counting it as failure measures shippability. Both are valid, but a report must choose one and state it. The sample output below uses the latter.
+
+Two functions are enough. `mcnemar_exact(b, c)` returns the exact-test p-value; `mcnemar_n(discordant_share, regression_share)` computes the required case count in reverse. Every value in the two tables above comes from these functions. **The implementation is in the appendix**, has no dependencies, and runs on Python 3.9+.
+
+### What a Run Must Preserve
+
+Running a batch is straightforward, but three things are mandatory.
+
+**A configuration fingerprint:** hash the model, temperature, system prompt, tool set, and truncation threshold into a short ID. Recording only the model name and prompt is insufficient. Switching providers can also change the tokenizer, context-window policy, and default sampling parameters while you think you changed one variable. **Repeat every case n times:** default to five rather than one because of the batch-invariance issue above. A pass rate from one run cannot separate capability from luck. **Report an interval, not a single number:** 89% feels reassuring; `[81.4%, 93.7%]` shows where you actually stand.
+
+Together, those three requirements produce a comparison like this. **First report how many variables changed, then whether the result difference can be attributed:**
+
+```text
+Configuration differences: 1
+  system: 'v1' → 'v2'
+
+Cases 20    Total runs 60 (3 per case)
+  Baseline  55/60 = 91.7%  95% CI [81.9%, 96.4%]
+  Current   47/60 = 78.3%  95% CI [66.4%, 86.9%]
+
+Per-case state transitions (the part that carries information in paired data):
+  Stable pass → Unstable      8   ←
+  Stable pass → Stable pass   7
+  Unstable    → Unstable      3
+  Unstable    → Stable pass   2   ←
+
+Regressions 8, improvements 2, discordant pairs 10
+McNemar exact test p = 0.109
+→ This set cannot distinguish a direction. That means "cannot distinguish," not "no change."
+```
+
+The two percentages are not the most important part of this output. A fall from 91.7% to 78.3% looks like a clear regression. At case level, however, it is eight regressions against two improvements with only ten discordant pairs. **McNemar gives p = 0.109, so this set cannot distinguish the direction.**
+
+The "Configuration differences: 1" line is not decoration either. It catches an easy mistake: believing you changed only the model when the tokenizer, context policy, and default sampling parameters changed with it. **Any conclusion based on that comparison is invalid**, and without this line you would not know.
+
+The complete implementation is at **[github.com/yuki-uix/agent-eval-harness](https://github.com/yuki-uix/agent-eval-harness)**. It is a single 285-line file with no dependencies, including configuration fingerprints, per-case state transitions, paired sample-size estimation, and an SDK integration example.
+
+Clone it and run `python3 eval_harness.py`. You can see the output above without an API key.
+
+### Review Standards Must Change Too
+
+If a diff cannot tell you whether behavior improved, review cannot stop at the diff. When a prompt change or tool-set adjustment comes up for review, the reviewer should ask for the before-and-after comparison across the case set, not "I read it and it looks fine."
+
+Without that evidence, the review gate is empty. It applies a stamp without checking anything.
+
+**This depends on the earlier foundation: without experiment infrastructure, you cannot conduct the review at all.** If you change only one thing from this section, change the first one.
+
+---
+
+## Closing
+
+Two years ago, building a working agent in ten minutes would have been hard to imagine. Modularity has delivered exactly what it promised. But the promise was to reduce repetitive integration code, which concerns **implementation**. Delivery is constrained by **verification**. They are different dimensions.
+
+Those weeks will not disappear simply because frameworks become easier to use. Code still has to be written, but it is no longer the main bottleneck. Time goes into finding failure modes, defining judgment criteria, collecting cases, and waiting for experiments to finish.
+
+The whole argument rests on one premise: **an agent's critical behavior is difficult to infer directly from implementation. It has to be observed, and observation is expensive.**
+
+That premise is being weakened from both ends. Batch-invariant kernels can already produce 1,000 bitwise-identical inference runs at the cost of roughly 60% more time. **That shows at least some irreproducibility is an engineering choice, not a law of physics.** Deterministic output gates can move some properties from "we must sample to find out" back to "we write it once and it holds," removing them from the verification budget entirely.
+
+Both improvements trim the edges. Kernels reduce **noise in verification**; gates reduce **the surface that needs verification**. Neither defines correctness, proves that the case set covers enough, or freezes a changing external environment.
+
+**Verification will get cheaper. It will not disappear.**
+
+---
+
+## Appendix: A Minimal McNemar Implementation
+
+The figures in both tables above come from this code. It has no dependencies and runs on Python 3.9+.
+
+```python
+import math
+
+def mcnemar_exact(b: int, c: int) -> float:
+    """Exact test for paired binary data: the right test for regression runs.
+
+    b = passed before, failed after (regression)
+    c = failed before, passed after (improvement)
+    Only discordant cases carry information. Cases that pass both runs or fail
+    both runs say nothing about whether this change had an effect.
+    """
+    n = b + c
+    if n == 0:
+        return 1.0
+    k = max(b, c)
+    tail = sum(math.comb(n, i) for i in range(k, n + 1)) / 2 ** n
+    return min(1.0, 2 * tail)
+
+def mcnemar_n(p_discordant: float, regress_share: float) -> int:
+    """Required case count for a paired design.
+
+    p_discordant  Share of cases whose before/after outcomes disagree
+    regress_share Share of discordant pairs that are regressions
+
+    The count depends on discordant pairs, not pass rate. That is why it cannot
+    be computed if you save only aggregate pass rates.
+
+    A two-sided test considers only the distance from one half, so 0.4 and 0.6
+    return the same count. One favors improvements and the other regressions,
+    but they require the same sample size.
+    """
+    if not 0 < p_discordant <= 1:
+        raise ValueError("p_discordant must be in (0, 1]")
+    psi = 2 * min(max(regress_share, 0.001), 0.999) - 1
+    if abs(psi) < 1e-9:
+        raise ValueError("regressions and improvements are evenly split; no directional effect can be detected")
+    za, zb = 1.959963985, 0.841621234     # alpha=0.05 two-sided, power=0.8
+    n_disc = ((za + zb * math.sqrt(1 - psi ** 2)) / abs(psi)) ** 2
+    return math.ceil(n_disc / p_discordant)
+```
+
+## References
+
+> All sources were accessed on 2026-08-27. Links and versions were checked against primary sources.
+
+**Surveys and papers**
+
+- van der Maden, Sadek, Xiao, Mottelson, Liao, Zhu. *Results-Actionability Gap: Understanding How Practitioners Evaluate LLM Products in the Wild*. CHI '26.
+  [arXiv:2604.16304](https://arxiv.org/abs/2604.16304) | [ACM DOI 10.1145/3772318.3791069](https://dl.acm.org/doi/full/10.1145/3772318.3791069)
+  Semi-structured interviews with 19 practitioners building production LLM products. The phrase "bordering on useless" comes from this paper.
+
+- Nahar, Kästner, Butler, Parnin, Zimmermann, Bird. *Beyond the Comfort Zone: Emerging Solutions to Overcome Challenges in Integrating LLMs into Software Products*. ICSE-SEIP 2025.
+  [arXiv:2410.12071](https://arxiv.org/abs/2410.12071)
+  26 interviews and 332 survey responses. **The 76.6% and 36.3% figures in the article are cited through the CHI paper above; I did not verify the exact wording in the original.**
+
+- LangChain. *State of Agent Engineering* (2026 report).
+  [www.langchain.com/state-of-agent-engineering](https://www.langchain.com/state-of-agent-engineering)
+  Surveyed **2025-11-18 to 2025-12-02, n = 1,340**. The five figures in the article were checked on the original page: 89% use observability, 52.4% run offline evaluations, 37.3% run online evaluations, 29.5% overall do no evaluation (22.8% among teams in production), and 59.8% use human review.
+
+- Thinking Machines Lab. *Defeating Nondeterminism in LLM Inference* (2025-09-10).
+  [thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference)
+  Qwen3-235B-A22B-Instruct-2507 / temperature 0 / 1,000 requests / 80 distinct completions (the most common appeared 78 times) / first 102 tokens identical, divergence at token 103 / 992 outputs of "Queens, New York" versus eight of "New York City"; throughput: 26 seconds (vLLM default) → 55 seconds (unoptimized deterministic version) → 42 seconds (improved attention kernel). **Every figure above was checked against the original.**
+
+- *How Many Tools Should an LLM Agent See? A Chance-Corrected Answer*.
+  [arXiv:2605.24660](https://arxiv.org/abs/2605.24660) (v1 2026-05-23; v2 2026-06-07)
+  Three benchmarks: BFCL, MetaTool, and ToolBench. The article cites the Claude Sonnet 4.6 results from the paper's downstream-validation section. **That agent was retrained with step_cost=0.01 and K=2.2±0.4; this is not the K=7.4 main experiment in the abstract, and citations should identify the group.** 93.1% and 87.1% are selection rates conditional on the correct tool appearing among the candidates, not end-to-end rates. In the medium-difficulty group, BoR returned candidates for 62.3±2.0% of queries and selected correctly 76.8±2.5% of the time when it did; FK=5 always returned candidates and selected correctly 60.9% of the time. **The 48% in the article is my end-to-end calculation, 62.3% × 76.8%; the paper does not report that number.**
+
+**Anthropic documentation**
+
+- *Introducing the Model Context Protocol* (2024-11-25).
+  [www.anthropic.com/news/model-context-protocol](https://www.anthropic.com/news/model-context-protocol)
+  Source for MCP's original problem statement and promise quoted in the opening.
+
+- *Code execution with MCP: building more efficient AI agents* (Adam Jones and Conor Kelly).
+  [www.anthropic.com/engineering/code-execution-with-mcp](https://www.anthropic.com/engineering/code-execution-with-mcp)
+  Source for the cost of loading all tools, progressive disclosure, and the 150,000 → 2,000 token reduction. **The latter is a single scenario, not a general benchmark.**
+
+- *The AI-Native SDLC Playbook* (Louis Claxton, 2026-08-21, 43 min; categorized as Enterprise AI / Claude Code).
+  [claude.com/blog/the-ai-native-sdlc-playbook](https://claude.com/blog/the-ai-native-sdlc-playbook)
+  Source for "Code is no longer the bottleneck," pass-rate gates and the 20-50 case range, skills as guidance versus hooks as enforcement, "detection stays entirely deterministic," and preventing a bug-fixing session from editing tests. Two caveats matter: **it is entirely normative and contains no empirical figures**, so I cite it as an official recommendation, not as evidence; and **it discusses using agents to build software, while this article discusses shipping an agent as a product**. They are analogous phenomena in different domains, not the same argument.
+
+**Code and frameworks**
+
+- The evaluation harness from this article: [github.com/yuki-uix/agent-eval-harness](https://github.com/yuki-uix/agent-eval-harness)
+  One 285-line file with no dependencies. The sample output in the article is the actual result of `python3 eval_harness.py`; the two appendix functions match the repository implementation (verified against 15 comparison sets).
+
+- pi (Mario Zechner). The repository has moved to [github.com/earendil-works/pi](https://github.com/earendil-works/pi); `mariozechner/pi` no longer exists. **The `@mariozechner/pi-agent-core` and `@mariozechner/pi-ai` imports in the article are old package names.** The current names are `@earendil-works/pi-agent-core` and `@earendil-works/pi-ai` (v0.84.3 when checked), with source in `packages/agent` and `packages/ai`. **Terminal-Bench results should be cited with leaderboard date, benchmark version, model and harness versions, and cost accounting**, since the ranking changes over time.
+
+- DeepSeek Harness ("Everything is a Plugin"). Plugin and tool-registration code comes from the Cordis tutorial: [github.com/deepseek-ai/deepseek-harness/tree/main/docs/cordis-tutorial](https://github.com/deepseek-ai/deepseek-harness/tree/main/docs/cordis-tutorial), specifically `01-first-plugin.md`. The directory also contains Chinese versions (`*.zh.md`).
+
+- MCP Python SDK (FastMCP): [github.com/modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk) (v2.1.1, 2026-08-25). The `@mcp.tool()` example appears in the README. See the official Claude Code documentation at [code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp) for `claude mcp add`; the full syntax is `claude mcp add [options] <name> -- <command> [args...]`.

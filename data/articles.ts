@@ -34,6 +34,8 @@ export type Article = {
   coverImage?: string;
   /** 封面图简短说明，供无障碍与搜索引擎 */
   coverAlt?: string;
+  /** English cover description for the English locale */
+  coverAltEn?: string;
   /** 列表内推荐语 / 摘要 */
   blurb?: string;
   /** English blurb for Chinese articles shown in the English locale */
@@ -60,6 +62,10 @@ export function articleBlurb(a: Article, locale: string): string | undefined {
   return locale === "en" && a.blurbEn ? a.blurbEn : a.blurb;
 }
 
+export function articleCoverAlt(a: Article, locale: string): string | undefined {
+  return locale === "en" && a.coverAltEn ? a.coverAltEn : a.coverAlt;
+}
+
 export type ArticleLink =
   | { href: string; external: false }
   | { href: string; external: true; platform: Platform };
@@ -84,13 +90,15 @@ export const articles: Article[] = [
   {
     slug: "agent-demo-to-delivery",
     source: "self",
-    bodyLocales: ["zh"],
+    bodyLocales: ["zh", "en"],
     title: "我们十分钟就能搭一个 agent，为什么还要几周才能交付",
     titleEn: "We Can Build an Agent in Ten Minutes — Why Does Shipping It Still Take Weeks?",
     topics: ["ai"],
     publishedAt: "2026-08-27",
     coverImage: "/images/articles/agent-demo-to-delivery.png",
     coverAlt: "插图：天平一头是十分钟拼起来的小机器，另一头是沉得压到桌面的一摞测试案例",
+    coverAltEn:
+      "Illustration of a scale balancing a small machine assembled in ten minutes against a heavy stack of test cases",
     blurb:
       "所有人都说搭一个 agent 太快了，也都说 agent 上线怎么这么难——两句都对，说的不是同一件事。这篇拆开从 demo 到交付的那几周：先是发现它会怎么坏，再是定出什么叫「做对了」，最后是每改一次都得重新验一次。成本没有降下来，只是从「写」挪到了「验」，挪过去之后还更贵。",
     blurbEn:

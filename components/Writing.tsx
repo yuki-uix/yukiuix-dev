@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 
 import {
   articleBlurb,
+  articleCoverAlt,
   articleLink,
   articleMonthLabel,
   articleTitle,
@@ -130,7 +131,7 @@ function FeaturedBody({
         <div className="relative h-44 w-full overflow-hidden border-[0.5px] border-hairline sm:h-[120px] sm:w-40 sm:shrink-0">
           <Image
             src={a.coverImage}
-            alt={a.coverAlt ?? coverAltFallback}
+            alt={articleCoverAlt(a, locale) ?? coverAltFallback}
             fill
             sizes="(max-width: 640px) 100vw, 160px"
             className="object-cover object-center"

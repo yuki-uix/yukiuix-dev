@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 
 import {
   articleBlurb,
+  articleCoverAlt,
   articleLink,
   articleMonthLabel,
   articleTitle,
@@ -160,7 +161,7 @@ export default function WritingArchive() {
                             <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden sm:h-[84px] sm:w-[84px]">
                               <Image
                                 src={a.coverImage!}
-                                alt={a.coverAlt ?? t("coverAlt")}
+                                alt={articleCoverAlt(a, locale) ?? t("coverAlt")}
                                 fill
                                 sizes="84px"
                                 className="object-cover object-center"
