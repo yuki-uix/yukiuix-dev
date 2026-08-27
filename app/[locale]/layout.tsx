@@ -5,7 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { absoluteUrl, feedAlternates } from "@/lib/site";
+import { SITE_URL, absoluteUrl, feedAlternates } from "@/lib/site";
 import "../globals.css";
 
 const dmSans = DM_Sans({
@@ -43,7 +43,7 @@ export async function generateMetadata({
   const m = META[locale];
 
   return {
-    metadataBase: new URL("https://yukiuix.com"),
+    metadataBase: new URL(SITE_URL),
     title: m.title,
     description: m.description,
     openGraph: {
@@ -74,7 +74,7 @@ const personJsonLd = {
   "@type": "Person",
   name: "Kunyu Xu",
   alternateName: "Yuki Xu",
-  url: "https://yukiuix.com",
+  url: SITE_URL,
   jobTitle: "AI Full-Stack Engineer",
   description:
     "Software developer at Thoughtworks — React/TypeScript frontend architecture and BFF, Java/Spring Boot services and Kafka event pipelines, with AI engineering work spanning agent evaluation, RAG, MCP, and AI code review in production.",
