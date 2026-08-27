@@ -60,6 +60,10 @@ export async function buildFeed(locale: Locale): Promise<string> {
         `      <link>${escapeXml(itemUrl(a, locale))}</link>`,
         // guid 用 slug 而不是 URL：文章从平台回迁到本站时地址会变，
         // 用 URL 当 guid 会让订阅者第二次收到同一篇。
+        //
+        // 下面这个 `yukiuix.com:` 是固定的身份前缀，不是地址，所以刻意不走
+        // SITE_URL——换域名时它必须原样不动，跟着改会让所有订阅者把整个
+        // 列表重收一遍。改域名的人容易顺手全局替换，这行是例外。
         `      <guid isPermaLink="false">yukiuix.com:article:${escapeXml(a.slug)}</guid>`,
         `      <pubDate>${rfc822(a.publishedAt)}</pubDate>`,
         `      <dc:creator>${escapeXml(AUTHOR_NAME)}</dc:creator>`,

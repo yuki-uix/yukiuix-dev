@@ -1,7 +1,7 @@
 import { routing } from "@/i18n/routing";
 import type { Locale } from "@/data/articles";
 
-export const SITE_URL = "https://yukiuix.com";
+export const SITE_URL = "https://www.yukiuix.com";
 export const SITE_NAME = "yukiuix.com";
 export const AUTHOR_NAME = "Kunyu Xu";
 

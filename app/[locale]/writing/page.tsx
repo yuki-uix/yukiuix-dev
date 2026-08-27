@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WritingArchive from "@/components/WritingArchive";
-import { absoluteUrl, feedAlternates } from "@/lib/site";
+import { SITE_URL, absoluteUrl, feedAlternates } from "@/lib/site";
 
 const META = {
   zh: {
@@ -27,7 +27,7 @@ export async function generateMetadata({
   const locale = (params.locale === "en" ? "en" : "zh") as "zh" | "en";
   const m = META[locale];
   return {
-    metadataBase: new URL("https://yukiuix.com"),
+    metadataBase: new URL(SITE_URL),
     title: m.title,
     description: m.description,
     openGraph: {
