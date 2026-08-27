@@ -20,7 +20,7 @@ export default function PlaygroundPage() {
   return (
     <>
       <Nav />
-      <main>
+      <main id="main-content">
         <Playground />
       </main>
       <Footer />

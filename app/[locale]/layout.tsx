@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DM_Mono, DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SITE_URL, absoluteUrl, feedAlternates } from "@/lib/site";
@@ -135,6 +135,7 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: "nav" });
 
   return (
     <html lang={locale === "zh" ? "zh-CN" : "en"}>
@@ -148,6 +149,9 @@ export default async function LocaleLayout({
         className={`${dmSans.variable} ${dmMono.variable} font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
+          <a href="#main-content" className="skip-link">
+            {t("skipToContent")}
+          </a>
           <div className="grid-background" aria-hidden />
           <div className="relative z-[1] min-h-screen">{children}</div>
         </NextIntlClientProvider>

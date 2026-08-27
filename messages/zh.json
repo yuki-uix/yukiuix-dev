@@ -6,7 +6,8 @@
     "writing": "文章",
     "closeMenu": "关闭菜单",
     "openMenu": "打开菜单",
-    "switchLang": "EN"
+    "switchLang": "EN",
+    "skipToContent": "跳到正文"
   },
   "hero": {
     "intro": "嗨👋 欢迎来到 「许昆瑜」 的个人网页",
@@ -64,7 +65,8 @@
     "languages": {
       "zh": "中文",
       "en": "英文"
-    }
+    },
+    "tableOfContents": "目录"
   },
   "experience": {
     "heading": "经历",
