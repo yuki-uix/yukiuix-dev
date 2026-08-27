@@ -66,18 +66,23 @@ body {
   font-size: 1.125rem;
   line-height: 1.85;
   color: var(--color-text);
+  /* 参考文献里那种长 URL 链接文字没有空格，默认不断行。390px 宽下会顶出
+     视口 13px，整页跟着横向滚。只有单词自己放不下时才断，正常文本不受影响。 */
+  overflow-wrap: break-word;
 }
 
 .prose-article > * + * {
   margin-top: 1.4em;
 }
 
+/* 注意不要再加 scroll-margin-top：html 上已经有 scroll-padding-top: 5.5rem，
+   两者会叠加。原先两处都写了，点锚点会落到标题下方 176px 而不是 88px——
+   正好差一个导航栏的高度，标题被顶出屏幕外。目录做出来之后这个偏移才显形。 */
 .prose-article h2,
 .prose-article h3,
 .prose-article h4 {
   font-weight: 600;
   line-height: 1.4;
-  scroll-margin-top: 5.5rem;
 }
 
 .prose-article h2 {
@@ -269,8 +274,7 @@ body {
 
 /* ── 手机上的代码块 ──────────────────────────────────────────────────
    实测：六个代码块全部横向溢出，最宽那块藏掉 48%，每一行都断在
-   标识符中间。横拉着逐行读没人真会做，所以窄屏改成软换行——
-   续行往右缩一格，看得出是同一行折下来的，不是新的一行。
+   标识符中间。横拉着逐行读没人真会做，所以窄屏改成软换行，
    同时挣脱容器的左右 padding，多拿回 32px。 */
 @media (max-width: 640px) {
   .prose-article pre {
@@ -289,5 +293,55 @@ body {
   .prose-article pre code {
     white-space: pre-wrap;
     overflow-wrap: break-word;
+  }
+}
+
+/* ── 跳到正文 ────────────────────────────────────────────────────────
+   键盘用户原先每次进文章都要 Tab 过整个导航才够得到正文。
+   平时移出视口，聚焦时才落下来——鼠标用户看不见，键盘用户第一下就拿到。 */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 1rem;
+  z-index: 60;
+  transform: translateY(-120%);
+  padding: 0.5rem 1rem;
+  border: 0.5px solid var(--color-border);
+  background: var(--color-bg);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  transition: transform 120ms ease-out;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* ── 标题锚点 ────────────────────────────────────────────────────────
+   22 个 id 原先没有任何可点的入口。`#` 平时透明，
+   hover 或键盘聚焦时才显形——正文的观感一点不动。 */
+.prose-article .heading-anchored {
+  position: relative;
+}
+
+.prose-article .heading-anchor {
+  margin-left: 0.4em;
+  font-weight: 400;
+  color: var(--color-primary);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+
+.prose-article .heading-anchored:hover .heading-anchor,
+.prose-article .heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+/* 触摸设备没有 hover，锚点永远显不出来——那儿直接常驻一个淡的 */
+@media (hover: none) {
+  .prose-article .heading-anchor {
+    opacity: 0.4;
   }
 }

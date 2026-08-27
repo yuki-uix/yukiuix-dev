@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 import ArticleBody from "@/components/ArticleBody";
+import ArticleToc from "@/components/ArticleToc";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
+import ReadingProgress from "@/components/ReadingProgress";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import {
@@ -22,6 +24,7 @@ import {
   resolveArticleBody,
   selfHostedArticles,
 } from "@/lib/writing";
+import { extractHeadings } from "@/lib/headings";
 import { SITE_URL, absoluteUrl, feedAlternates } from "@/lib/site";
 
 function normalizeLocale(raw: string): Locale {
@@ -105,6 +108,9 @@ export default async function ArticlePage({
     ecommerce: t("topics.ecommerce"),
   } as const;
 
+  // 目录来自正文那一份源码，不是另抄一份——两份迟早会对不上
+  const headings = extractHeadings(body.content);
+
   const ordered = selfHostedArticles();
   const index = ordered.findIndex((a) => a.slug === article.slug);
   const newer = index > 0 ? ordered[index - 1] : undefined;
@@ -133,7 +139,8 @@ export default async function ArticlePage({
   return (
     <>
       <Nav />
-      <main>
+      <ReadingProgress targetId="article-body" />
+      <main id="main-content">
         <article className="article-surface relative mx-auto max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pt-12">
           <script
             type="application/ld+json"
@@ -199,7 +206,9 @@ export default async function ArticlePage({
             </div>
           ) : null}
 
-          <div className="mt-10">
+          <ArticleToc headings={headings} label={t("tableOfContents")} />
+
+          <div id="article-body" className="mt-10">
             <ArticleBody source={body.content} />
           </div>
 

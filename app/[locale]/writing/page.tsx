@@ -52,7 +52,7 @@ export default function WritingPage() {
   return (
     <>
       <Nav />
-      <main>
+      <main id="main-content">
         <WritingArchive />
       </main>
       <Footer />
