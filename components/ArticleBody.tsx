@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { compileMDX } from "next-mdx-remote/rsc";
+import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 /** 从 heading 的 children 里递归取纯文本，用来生成锚点 id */
@@ -60,7 +61,13 @@ export default async function ArticleBody({ source }: { source: string }) {
     components,
     options: {
       parseFrontmatter: false,
-      mdxOptions: { remarkPlugins: [remarkGfm] },
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        // 高亮只上类名，配色写在 globals.css 里——和正文一样手写，
+        // 才能配得上暖米白那套配色。`detect: false` 是刻意的：
+        // 没标语言的块（正文里那段样例输出）保持纯文本，别被猜成代码。
+        rehypePlugins: [[rehypeHighlight, { detect: false, ignoreMissing: true }]],
+      },
     },
   });
 

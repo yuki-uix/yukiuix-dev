@@ -134,7 +134,7 @@ export default async function ArticlePage({
     <>
       <Nav />
       <main>
-        <article className="relative mx-auto max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pt-12">
+        <article className="article-surface relative mx-auto max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pt-12">
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

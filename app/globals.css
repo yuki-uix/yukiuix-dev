@@ -10,6 +10,19 @@
   --color-text-muted: #4f5a68;
   --color-border: #e2d9c8;
   --color-border-strong: #1a202c;
+
+  /* 正文列自己的底色。比页面底色高一点，让固定网格停在页边而不是
+     横穿一万八千字的正文——长文里那是持续的低频干扰。 */
+  --color-surface-read: #fdfcf8;
+
+  /* 代码高亮。和正文 CSS 一样手写：highlight.js 自带主题全是冷灰阶，
+     压在暖米白上很脏。每个色都按 #fffdf8 底算过对比度，最低 5.3:1。 */
+  --code-comment: #6f6a5e;
+  --code-keyword: #2b6cb0;
+  --code-string: #3f6212;
+  --code-number: #9a3412;
+  --code-title: #1f4b7a;
+  --code-meta: #6b5b95;
 }
 
 html {
@@ -42,8 +55,15 @@ body {
    它的默认观感（圆角、阴影、中性灰阶）和 SPEC 的暖米白 + 0.5px 细线
    基调对不上，改回来的量比自己写还大。 */
 
+/* 正文列。18000 字的中文长文，底色不透明，网格只留在页边 */
+.article-surface {
+  background: var(--color-surface-read);
+}
+
 .prose-article {
-  font-size: 1.0625rem;
+  /* 17px 时实测 42 汉字/行，比中文长文的舒适区（30–40）宽。
+     提字号而不是收窄容器：对中文更友好，量下来落到 40。 */
+  font-size: 1.125rem;
   line-height: 1.85;
   color: var(--color-text);
 }
@@ -124,12 +144,17 @@ body {
   color: var(--color-text-muted);
 }
 
+/* 这篇正文里有 34 处行内代码。原先每处都带一圈 0.5px 边框，
+   铺开来像出疹子；其中 9 处还会断行，断开的两截各自围一圈边框，
+   看起来像两个不相干的东西。去掉边框只留暖底，
+   `box-decoration-break: clone` 保证断行的两截仍是同一块。 */
 .prose-article code {
   font-family: var(--font-dm-mono), ui-monospace, monospace;
   font-size: 0.875em;
   padding: 0.1em 0.35em;
-  border: 0.5px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.6);
+  background: #f3efe4;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .prose-article pre {
@@ -139,6 +164,10 @@ body {
   background: #fffdf8;
   font-size: 0.8125rem;
   line-height: 1.7;
+  /* 溢出时让滚动条常驻，读者才知道右边还有东西。
+     没用渐隐——那是渐变，跟 SPEC 的「无阴影无渐变」冲突。 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
 }
 
 .prose-article pre code {
@@ -170,10 +199,17 @@ body {
 /* 宽表格自己横向滚动，页面本身永远不横向滚 */
 .prose-article .table-scroll {
   overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
 }
 
+/* `width: 100%` 而没有 min-width，表格永远「塞得下」，
+   overflow-x 从来不触发——.table-scroll 一直是死代码。实测后果：
+   四列表格最窄列被压到 53px，表头「过→挂」竖成三行。
+   给一个下限，表格才会真的溢出，包裹层才开始工作。 */
 .prose-article table {
   width: 100%;
+  min-width: 34rem;
   border-collapse: collapse;
   font-size: 0.9375rem;
 }
@@ -189,4 +225,69 @@ body {
 .prose-article th {
   background: rgba(255, 255, 255, 0.6);
   font-weight: 600;
+}
+
+/* ── 代码高亮 ────────────────────────────────────────────────────────
+   rehype-highlight 只上 hljs-* 类名，配色在这里定。取五个角色就够了，
+   再多就吵——正文本来就是安静的调子。每个色都按 #fffdf8 底算过，
+   最低 5.3:1，全部过 AA。 */
+.prose-article .hljs-comment,
+.prose-article .hljs-quote {
+  color: var(--code-comment);
+}
+
+.prose-article .hljs-keyword,
+.prose-article .hljs-built_in,
+.prose-article .hljs-type,
+.prose-article .hljs-selector-tag {
+  color: var(--code-keyword);
+}
+
+.prose-article .hljs-string,
+.prose-article .hljs-regexp,
+.prose-article .hljs-addition {
+  color: var(--code-string);
+}
+
+.prose-article .hljs-number,
+.prose-article .hljs-literal {
+  color: var(--code-number);
+}
+
+.prose-article .hljs-title,
+.prose-article .hljs-title.function_,
+.prose-article .hljs-title.class_,
+.prose-article .hljs-attr,
+.prose-article .hljs-property,
+.prose-article .hljs-name {
+  color: var(--code-title);
+}
+
+.prose-article .hljs-meta {
+  color: var(--code-meta);
+}
+
+/* ── 手机上的代码块 ──────────────────────────────────────────────────
+   实测：六个代码块全部横向溢出，最宽那块藏掉 48%，每一行都断在
+   标识符中间。横拉着逐行读没人真会做，所以窄屏改成软换行——
+   续行往右缩一格，看得出是同一行折下来的，不是新的一行。
+   同时挣脱容器的左右 padding，多拿回 32px。 */
+@media (max-width: 640px) {
+  .prose-article pre {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 1rem;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  /* 只软换行，不做续行缩进。pre-wrap 下整个代码块是一个块级盒，
+     text-indent 只作用于其中第一行——试过，结果是第一行被顶出去
+     16px，其余行纹丝不动，正好和想要的效果相反。要做逐行悬挂缩进
+     得把每行包成独立元素，那是 rehype 层的事，不值得为它加插件。
+     源码本来的缩进由 pre-wrap 保留，折行处读起来不至于误解。 */
+  .prose-article pre code {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
 }
