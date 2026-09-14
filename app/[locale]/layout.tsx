@@ -21,15 +21,15 @@ const dmMono = DM_Mono({
 
 const META = {
   zh: {
-    title: "Kunyu Xu · AI 全栈开发工程师 · 电商 SaaS",
+    title: "Kunyu Xu · AI 工程师 · Agent 评估与开发者工具",
     description:
-      "Thoughtworks 软件开发工程师。React / TypeScript 前端架构与 BFF，Java / Spring Boot 服务与 Kafka 事件驱动链路；持续投入 AI Engineering——Agent Evaluation、RAG、MCP 与 AI Code Review 的生产落地。",
+      "Thoughtworks 软件开发工程师，构建 AI Agent、评估系统与开发者工具，用可检查的证据支持交付判断。工作覆盖 TypeScript、React、Node.js、Python 与 Java / Spring Boot。",
     url: absoluteUrl("zh"),
   },
   en: {
-    title: "Kunyu Xu — AI Full-Stack Engineer · E-commerce SaaS",
+    title: "Kunyu Xu · AI Engineer · Agent Evals & Developer Tools",
     description:
-      "Software developer at Thoughtworks — React/TypeScript frontend architecture and BFF, Java/Spring Boot services and Kafka event pipelines, plus three years of AI engineering: agent evaluation, RAG, MCP, and AI code review in production.",
+      "Software Engineer at Thoughtworks building AI agents, evaluation systems, and developer tools with measurable evidence for delivery decisions. TypeScript, React, Node.js, Python, and Java/Spring Boot.",
     url: absoluteUrl("en"),
   },
 } as const;
@@ -75,9 +75,9 @@ const personJsonLd = {
   name: "Kunyu Xu",
   alternateName: "Yuki Xu",
   url: SITE_URL,
-  jobTitle: "AI Full-Stack Engineer",
+  jobTitle: "Software Engineer",
   description:
-    "Software developer at Thoughtworks — React/TypeScript frontend architecture and BFF, Java/Spring Boot services and Kafka event pipelines, with AI engineering work spanning agent evaluation, RAG, MCP, and AI code review in production.",
+    "Software Engineer at Thoughtworks building AI agents, evaluation systems, and developer tools with measurable evidence for delivery decisions.",
   worksFor: {
     "@type": "Organization",
     name: "Thoughtworks",

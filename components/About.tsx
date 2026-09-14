@@ -1,18 +1,18 @@
 import { useTranslations } from "next-intl";
 
 const stack = [
-  "React",
   "TypeScript",
+  "React",
   "Next.js",
-  "Tailwind CSS",
   "Node.js",
-  "GraphQL",
-  "Claude API",
-  "Vertex AI",
-  "ECharts",
-  "MicroFrontend",
-  "Mixpanel",
-  "Azure",
+  "Python",
+  "Java",
+  "Spring Boot",
+  "PostgreSQL",
+  "GCP",
+  "Docker",
+  "GitHub Actions",
+  "MCP",
 ];
 
 export default function About() {

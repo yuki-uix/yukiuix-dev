@@ -5,7 +5,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38bdf8?logo=tailwindcss&logoColor=white)
 ![Live](https://img.shields.io/badge/Live-yukiuix.com-2b6cb0)
 
-> Design engineer portfolio — bilingual, motion-considered, built to think out loud.
+> AI engineering portfolio — bilingual, evidence-led, and built around measurable delivery decisions.
 
 ![Preview](public/images/web-site-preview.png)
 
@@ -13,9 +13,12 @@
 
 ## Why this exists
 
-Most portfolios list skills. This one tries to show how I think.
+Most portfolios list skills. This one shows the systems I build and the evidence
+I use to decide whether they are ready to ship.
 
-I studied architecture before I wrote code. That gave me a framework for understanding how people navigate systems — not just how they click, but why they stop, turn back, or give up. This site applies that lens to frontend: every layout decision, every animation, every piece of copy has a reason.
+I studied architecture before I wrote code. That background still shapes how I
+design agent interactions, failure paths, and developer tools: as systems people
+have to move through, understand, and trust.
 
 ---
 

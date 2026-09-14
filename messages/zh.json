@@ -10,18 +10,18 @@
     "skipToContent": "跳到正文"
   },
   "hero": {
-    "intro": "嗨👋 欢迎来到 「许昆瑜」 的个人网页",
-    "tag": "AI Engineering · Full-Stack · E-commerce",
-    "headingBefore": "从前端到 BFF 与后端服务，把",
-    "headingAfter": "做成可复用的交付能力",
-    "description": "近 4 年软件工程经验，主攻 React / TypeScript 前端架构与 BFF，同时承担 Java / Spring Boot 服务与 Kafka 事件驱动链路；近 3 年投入 AI Engineering，把 Agent Evaluation、RAG 与 AI Code Review 落到生产。",
+    "intro": "你好，我是许昆瑜。",
+    "tag": "AI Engineering · Agent Systems · Developer Tools",
+    "headingBefore": "构建团队能审查、衡量与交付的",
+    "headingAfter": "系统",
+    "description": "Thoughtworks 软件开发工程师，工作覆盖 TypeScript、React、Node.js、Python 与 Java / Spring Boot。我构建 Agent、评估工具和生产工作流，用清晰证据支持交付判断。",
     "viewProjects": "查看项目",
     "contact": "联系我",
     "location": "成都 · 远程办公"
   },
   "projects": {
     "heading": "项目",
-    "subtitle": "精选项目与实验",
+    "subtitle": "精选 AI 系统与实验",
     "liveDemo": "查看 Demo →",
     "viewSubmission": "查看提交 →",
     "viewRepo": "查看仓库 →",
@@ -72,23 +72,35 @@
     "heading": "经历",
     "subtitle": "工作经历"
   },
+  "impact": {
+    "heading": "成果",
+    "subtitle": "可量化的交付结果",
+    "rolloutValue": "≈90% 时间缩短",
+    "rolloutLabel": "多市场 rollout 配置",
+    "bundleValue": "1,018 → 92 KB",
+    "bundleLabel": "评估 worker 体积",
+    "testsValue": "31 个 HTTP 测试",
+    "testsLabel": "集成覆盖",
+    "awardValue": "APAC Top 3",
+    "awardLabel": "Thoughtworks AI/works 挑战赛"
+  },
   "about": {
     "heading": "关于",
-    "subtitle": "背景与方向",
-    "currentWork": "现在在做",
-    "currentWorkDesc": "在 ThoughtWorks 做电商 SaaS 全链路前端工程，现参与跨团队 AI Playbook 的探索与撰写。",
+    "subtitle": "系统、证据与交付",
+    "currentWork": "当前方向",
+    "currentWorkDesc": "在 Thoughtworks 构建电商 SaaS，同时推进 Agent 评估、AI Code Review 与跨团队可复用的 AI 交付实践。",
     "techStack": "技术栈",
-    "bio1": "有建筑学和 UX 的背景，转到前端之后发现这些经历带来了一种特别的视角——习惯从整体动线往下看，而不是从单个功能往上建。这让我更容易在需求还没清晰的时候就注意到链路里的断点，比起等问题暴露，更想在上游就把它找出来。",
-    "bio2": "这个视角来自动线思维——理解用户在哪里卡住，比理解他们「想要什么」更接近问题的根。",
-    "bio3": "在工程和体验的交叉点工作，一直觉得「能不能交付」和「值不值得交付」同样重要。AI 的出现让这件事变得更有意思——不只是把开发提速，更像是一个重新审视交付方式本身的机会。",
-    "bio4": "现在把这些拆成文章和 demo，系统验证 AI 在电商 SaaS 每一层的真实介入价值。",
+    "bio1": "我从建筑与 UX 转入软件工程。这段背景让我习惯把产品看成一条动线：人在哪里犹豫，状态在哪里丢失，系统又是从哪里开始失去帮助。",
+    "bio2": "现在的工作横跨前端、BFF 和后端服务。我把 Agent 当成交付系统的一部分，为它设计界面、API、数据契约、可观测性与明确的失败路径。",
+    "bio3": "我的项目会用固定测试集、安全闸、人工复核和成本实测，让模型行为可以被检查。",
+    "bio4": "我关心什么有效、什么会失败，以及现有证据是否足以支持下一次交付判断。",
     "directions": "探索方向",
-    "dir1Title": "电商 SaaS 全链路",
-    "dir1Desc": "从 Discovery 到 Checkout 逐层拆解与实验",
-    "dir2Title": "AI Agent 工程化",
-    "dir2Desc": "Claude API / tool calling 真实落地",
-    "dir3Title": "Design Engineering",
-    "dir3Desc": "在工程与体验的交叉点做交付"
+    "dir1Title": "Agent 评估",
+    "dir1Desc": "固定测试集、安全闸、人工复核与可衡量的上线判断",
+    "dir2Title": "有依据的生成",
+    "dir2Desc": "RAG、受 Schema 约束的 UI 与带证据的回答",
+    "dir3Title": "开发者工具",
+    "dir3Desc": "AI Code Review、MCP 工作流与可复用的交付自动化"
   },
   "footer": {
     "copy": "yukiuix.com · 2026",
@@ -96,6 +108,6 @@
   },
   "feed": {
     "title": "Kunyu Xu · 文章",
-    "description": "前端工程、AI 工程化、电商 SaaS 的文章与笔记。"
+    "description": "AI 工程、Agent 评估、开发者工具与电商 SaaS 的文章和笔记。"
   }
 }

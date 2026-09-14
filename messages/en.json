@@ -10,18 +10,18 @@
     "skipToContent": "Skip to content"
   },
   "hero": {
-    "intro": "Hi, this is Kunyu Xu.",
-    "tag": "AI Engineering · Full-Stack · E-commerce",
-    "headingBefore": "From frontend to BFF and backend services — turning",
-    "headingAfter": "into reusable delivery capability",
-    "description": "Four years of software engineering — React/TypeScript frontend architecture and BFF, alongside Java/Spring Boot services and Kafka event pipelines. Three of those years on AI engineering: taking agent evaluation, RAG, and AI code review into production.",
+    "intro": "Hi, I'm Kunyu Xu.",
+    "tag": "AI Engineering · Agent Systems · Developer Tools",
+    "headingBefore": "Building",
+    "headingAfter": "systems teams can review, measure, and ship",
+    "description": "Software Engineer at Thoughtworks, working across TypeScript, React, Node.js, Python, and Java/Spring Boot. I build agents, evaluation harnesses, and production workflows with clear evidence for delivery decisions.",
     "viewProjects": "View Projects",
     "contact": "Contact",
     "location": "Chengdu, China · Remote"
   },
   "projects": {
     "heading": "Projects",
-    "subtitle": "Selected Projects & Experiments",
+    "subtitle": "Selected AI Systems & Experiments",
     "liveDemo": "Live Demo →",
     "viewSubmission": "View Submission →",
     "viewRepo": "View Repo →",
@@ -72,23 +72,35 @@
     "heading": "Experience",
     "subtitle": "Work History"
   },
+  "impact": {
+    "heading": "Impact",
+    "subtitle": "Measured outcomes",
+    "rolloutValue": "≈90% less time",
+    "rolloutLabel": "Multi-market rollout setup",
+    "bundleValue": "1,018 → 92 KB",
+    "bundleLabel": "Evaluation worker bundle",
+    "testsValue": "31 HTTP tests",
+    "testsLabel": "Integration coverage",
+    "awardValue": "Top 3 · APAC",
+    "awardLabel": "Thoughtworks AI/works challenge"
+  },
   "about": {
     "heading": "About",
-    "subtitle": "Background & Direction",
-    "currentWork": "Currently",
-    "currentWorkDesc": "Frontend engineering at ThoughtWorks on e-commerce SaaS, currently exploring and contributing to a cross-team AI Playbook.",
+    "subtitle": "Systems, evidence, and delivery",
+    "currentWork": "Current focus",
+    "currentWorkDesc": "Building e-commerce SaaS at Thoughtworks while developing agent evaluation, AI code review, and reusable AI delivery practices across teams.",
     "techStack": "Tech Stack",
-    "bio1": "My background is in architecture and UX — coming into frontend engineering, that turned out to shape how I see problems more than I expected. I tend to look at systems from the flow down rather than the feature up: noticing where chains break before they become visible, and wanting to fix things upstream rather than waiting for them to surface.",
-    "bio2": "That perspective comes from a flow-mapping mindset — understanding where users get stuck is closer to the root of a problem than understanding what they 'want'.",
-    "bio3": "Working at the intersection of engineering and experience, I've always felt that \"can we ship it\" and \"is it worth shipping\" matter equally. AI makes this more interesting — not just as a way to move faster, but as a reason to rethink how delivery itself works.",
-    "bio4": "Now breaking these down into articles and demos — systematically validating where AI genuinely adds value across each layer of e-commerce SaaS.",
+    "bio1": "I came to software through architecture and UX. That background trained me to read products as flows: where people hesitate, where state gets lost, and where a system quietly stops helping.",
+    "bio2": "Today I work across frontend, BFF, and backend services. I treat agents as part of that delivery stack, with interfaces, APIs, data contracts, observability, and explicit failure paths.",
+    "bio3": "My projects use frozen test sets, safety gates, human review, and cost measurements to make model behaviour inspectable.",
+    "bio4": "I want to know what works, what fails, and whether the evidence supports the next delivery decision.",
     "directions": "Focus Areas",
-    "dir1Title": "E-commerce SaaS Full Stack",
-    "dir1Desc": "Layer-by-layer breakdown from Discovery to Checkout",
-    "dir2Title": "AI Agent Engineering",
-    "dir2Desc": "Real-world Claude API / tool calling implementation",
-    "dir3Title": "Design Engineering",
-    "dir3Desc": "Delivering at the intersection of engineering and experience"
+    "dir1Title": "Agent Evaluation",
+    "dir1Desc": "Golden sets, safety gates, human review, and measurable ship decisions",
+    "dir2Title": "Grounded Generation",
+    "dir2Desc": "RAG, schema-constrained UI, and evidence-aware responses",
+    "dir3Title": "Developer Tools",
+    "dir3Desc": "AI code review, MCP workflows, and reusable delivery automation"
   },
   "footer": {
     "copy": "yukiuix.com · 2026",
@@ -96,6 +108,6 @@
   },
   "feed": {
     "title": "Kunyu Xu · Writing",
-    "description": "Articles and notes on frontend engineering, AI tooling, and e-commerce SaaS."
+    "description": "Articles and notes on AI engineering, agent evaluation, developer tools, and e-commerce SaaS."
   }
 }

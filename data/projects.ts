@@ -24,24 +24,46 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Pace Triage Agent",
+    tag: "AI AGENT · EVALUATION · SAFETY",
+    status: "experiment",
+    featuredOnHome: true,
+    description: {
+      zh: "保险咨询分流与回复起草 Agent，配有固定 golden set、人工复核队列和 2×2 模型 / prompt 评估矩阵。所有受测配置都未达到安全门槛，因此结论不是上线，而是一份有证据的 no-ship 判断。",
+      en: "Insurance enquiry triage and reply drafting with a frozen golden set, human review queue, and 2×2 model/prompt evaluation matrix. Every tested configuration missed the safety bars, producing a defensible no-ship decision.",
+    },
+    githubUrl: "https://github.com/yuki-uix/pace-triage-agent",
+  },
+  {
     title: "RepoCoach",
     tag: "AI AGENT · COST & EVALUATION",
     status: "experiment",
     featuredOnHome: true,
     description: {
-      zh: "纸面推断错了两次，实测才对。一个源码学习 agent 的垂直切片——真正的产出是把 agent 工程里几个反直觉的问题跑到了有数据：成本随调用次数超线性增长、工具调用降 28% 而 token 反升 17%、缓存命中 65.6% 让预算指标高估约 3 倍。同时验证了安全闸如何双向覆盖、状态怎么跨进程活下来、以及为什么只写在 prompt 里的约束必须在出口再校验一遍。638 个测试、22 个合并 PR，Claude 定计划、DeepSeek 实现、GPT 复审。项目已主动收尾，把跑出数据的部分整理成可复用的经验。",
-      en: "Two paper estimates, both wrong — only measurement got it right. A vertical slice of a source-reading agent whose real output is data on the counter-intuitive parts of agent engineering: cost grows super-linearly with call count, 28% fewer tool calls raised tokens by 17%, and a 65.6% cache-hit rate inflated the budget metric roughly threefold. It also pinned down how safety gates have to be checked in both directions, how state survives across processes, and why a constraint written only into a prompt still needs a gate at the exit. 638 tests, 22 merged PRs — planned by Claude, implemented by DeepSeek, reviewed by GPT. Development has since been wound down, with the measured parts written up as reusable findings.",
+      zh: "一个源码学习 Agent 的工程切片。通过 638 个测试与 22 个合并 PR，验证了 Agent 循环成本、双向安全闸与跨进程状态，并把实测结果整理成可复用的工程经验。",
+      en: "A source-learning agent used to test agent-loop economics, bidirectional safety gates, and cross-process state. The findings from 638 tests and 22 merged pull requests became reusable engineering guidance.",
     },
     githubUrl: "https://github.com/yuki-uix/RepoCoach",
+  },
+  {
+    title: "RAG Generative UI Explorer",
+    tag: "RAG · GENERATIVE UI · EVALUATION",
+    status: "experiment",
+    featuredOnHome: true,
+    description: {
+      zh: "把有依据的检索结果转换成受 Schema 约束的交互式知识卡，而不是让模型生成任意 UI 代码。60 道评估题中，dense retrieval 的 Recall@10 达到 63.7%，高于 BM25 的 47.6%。",
+      en: "Grounded evidence becomes schema-constrained, interactive knowledge cards instead of arbitrary model-generated UI code. Across 60 evaluation questions, dense retrieval reached 63.7% Recall@10 versus 47.6% for BM25.",
+    },
+    githubUrl: "https://github.com/yuki-uix/rag-generative-ui-explorer",
   },
   {
     title: "Agent Cost Lab",
     tag: "AI COST · MEASUREMENT",
     status: "experiment",
-    featuredOnHome: false,
+    featuredOnHome: true,
     description: {
-      zh: "Token 不是钱。几乎每个上下文压缩工具都宣传 token 降低多少，但缓存过的 input token 只要标价的约 10%，而压缩靠改写历史——这会打断缓存前缀，让后面全部重新计价。「省 40% token」和「账单更贵」完全兼容。这个仓库测的是账单：代理探针走真实调用路径，预测先锁进 git，导出闸写成测试而不是清单。装置已建成，结论待测。",
-      en: "Tokens are not money. Nearly every context-compression tool advertises a token-reduction number, but a cached input token costs ~10% of list price and compression works by rewriting history — which breaks the cached prefix and reprices everything after it. \"40% fewer tokens\" and \"a bigger bill\" are entirely compatible. This repo measures the bill: a proxy probe on the real call path, predictions locked into git before measuring, export gates written as tests rather than checklists. Instrument built; results pending.",
+      zh: "一个专门测 Agent 真实账单的实验室。首轮实验发现，一次上下文压缩需要 18–19 轮才能回本，远慢于测量前预测的 2–4 轮；减少 token 并不自动等于降低成本。",
+      en: "A measurement lab for real agent bills. The first experiment found that one context compaction took 18–19 turns to pay back, far beyond the 2–4 turns predicted before measurement; fewer tokens did not automatically mean lower cost.",
     },
     githubUrl: "https://github.com/yuki-uix/agent-cost-lab",
   },
@@ -98,7 +120,7 @@ export const projects: Project[] = [
     title: "Human vs AI Judge",
     tag: "AI · GAME · E-COMMERCE",
     status: "live",
-    featuredOnHome: true,
+    featuredOnHome: false,
     description: {
       zh: "当 AI 已经做出判断，谁来按那个确认键？与 AI 同场竞技，对真实电商售后工单做意图分类，实时对比人类、Claude、GPT 三方判断差异。",
       en: "When AI has already decided, who presses confirm? Compete with AI on intent classification of real e-commerce support tickets — compare human, Claude, and GPT judgments in real time.",
@@ -139,7 +161,7 @@ export const projects: Project[] = [
     title: "SSB Website",
     tag: "DESIGN ENGINEERING · FRAMER MOTION",
     status: "live",
-    featuredOnHome: true,
+    featuredOnHome: false,
     description: {
       zh: "从零搭建的 B2B 营销站设计工程练习。四页完整实现，含自定义物理弹跳动效 hook（速度向量 + 边界反射）、响应式布局与 Framer Motion 动画。Lighthouse 性能 91 / 无障碍 96 / SEO 100。",
       en: "A design engineering exercise — four-page B2B marketing site built from scratch. Features a custom physics bounce hook with velocity vectors and wall-reflection, responsive layout, and Framer Motion animations. Lighthouse: Performance 91 / Accessibility 96 / SEO 100.",
@@ -152,7 +174,7 @@ export const projects: Project[] = [
     title: "Design Token Signals",
     tag: "DESIGN SYSTEM · EXPERIMENT",
     status: "experiment",
-    featuredOnHome: true,
+    featuredOnHome: false,
     description: {
       zh: "设计令牌不只是存储数值，它们携带意义。一个用于分析 design token 组合所传达视觉信号的实验工具——映射颜色、圆角、字重的语义，在组件开发之前识别视觉冲突。",
       en: "Design tokens don't just store values — they carry meaning. An experimental tool for analyzing the visual signals that token combinations transmit: mapping the semantics of color, radius, and weight to surface conflicts before a component is built.",
