@@ -345,3 +345,12 @@ body {
     opacity: 0.4;
   }
 }
+
+/* The introduction runs once; the cursor rests when typing is paused or done. */
+.hero-typewriter .Typewriter__cursor { animation: hero-cursor 1s steps(2, start) infinite; }
+.hero-typewriter[data-state="paused"] .Typewriter__cursor { animation: none; }
+.hero-typewriter[data-state="done"] .Typewriter__cursor { visibility: hidden; animation: none; }
+@keyframes hero-cursor { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-typewriter .Typewriter__cursor { display: none; animation: none; }
+}

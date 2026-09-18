@@ -17,7 +17,17 @@
     "description": "Software Engineer at Thoughtworks, working across TypeScript, React, Node.js, Python, and Java/Spring Boot. I build agents, evaluation harnesses, and production workflows with clear evidence for delivery decisions.",
     "viewProjects": "View Projects",
     "contact": "Contact",
-    "location": "Chengdu, China · Remote"
+    "location": "Chengdu, China · Remote",
+    "typewriter": {
+      "prefix": "I build ",
+      "first": "buildings.",
+      "second": "AI agents.",
+      "final": "ideas into things people can use.",
+      "label": "A LITTLE BACKSTORY",
+      "pause": "Pause",
+      "resume": "Resume",
+      "replay": "Replay"
+    }
   },
   "projects": {
     "heading": "Projects",

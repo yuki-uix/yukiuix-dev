@@ -17,7 +17,17 @@
     "description": "Thoughtworks 软件开发工程师，工作覆盖 TypeScript、React、Node.js、Python 与 Java / Spring Boot。我构建 Agent、评估工具和生产工作流，用清晰证据支持交付判断。",
     "viewProjects": "查看项目",
     "contact": "联系我",
-    "location": "成都 · 远程办公"
+    "location": "成都 · 远程办公",
+    "typewriter": {
+      "prefix": "我搭建",
+      "first": "建筑。",
+      "second": "AI Agent。",
+      "final": "能让人用起来的想法。",
+      "label": "一点关于我",
+      "pause": "暂停",
+      "resume": "继续",
+      "replay": "重播"
+    }
   },
   "projects": {
     "heading": "项目",

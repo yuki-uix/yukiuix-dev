@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import HeroTypewriter from "@/components/HeroTypewriter";
 import { Link } from "@/i18n/navigation";
 
 export default function Hero() {
@@ -23,6 +24,13 @@ export default function Hero() {
         <span className="text-primary">AI</span>{" "}
         {t("headingAfter")}
       </h1>
+
+      <HeroTypewriter copy={{
+        prefix: t("typewriter.prefix"), first: t("typewriter.first"),
+        second: t("typewriter.second"), final: t("typewriter.final"),
+        label: t("typewriter.label"), pause: t("typewriter.pause"),
+        resume: t("typewriter.resume"), replay: t("typewriter.replay"),
+      }} />
 
       <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
         {t("description")}
