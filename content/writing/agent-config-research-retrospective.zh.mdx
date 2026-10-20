@@ -1,6 +1,6 @@
 当我打开电脑，界面越来越多地停留在 Agent 对话里，而不是网页上时，我开始想：如果把 Agent 也当作项目的用户，现有的文档、接口和权限，能不能支持它准确完成一次操作？
 
-这次我选了开源 LLM 请求路由项目 [Semantic Router](https://github.com/vllm-project/semantic-router) 的规则配置。任务很小：只为目标规则准备 `description` 修改，保留其他配置，取得对应的服务端检查，再把候选和检查结果交给用户审阅；不保存、不激活。
+这次我选了一个规则配置场景。任务很小：只为目标规则准备 `description` 修改，保留其他配置，取得对应的服务端检查，再把候选和检查结果交给用户审阅；不保存、不激活。
 
 我原本以为，让 Agent 改一个字段，再根据结果判断通过或失败，就能初步回答这个问题。但实验开始后，我发现自己得先弄清楚：这里的“做对了”，到底依据什么判断。
 
@@ -54,7 +54,7 @@ flowchart TD
 | `POST /api/v1/config/plan` | 完整候选校验、热加载兼容性、`current_etag` 与 `candidate_etag` | 不代表已保存或实际激活成功 |
 | `POST /api/v1/config/recipes/validate` | 将 recipe 修改应用到内存中的完整配置后校验，返回 `valid/name/action` | 无候选 ETag、无热加载检查；也不返回绑定本次基线的 `current_etag` |
 
-这里对照的是实验使用的固定代码版本：plan 的[响应与行为](https://github.com/vllm-project/semantic-router/blob/2ae3f3d2450721867ad77ff2119f8641d9fa924f/src/semantic-router/pkg/apiserver/route_router_config_plan.go#L17-L68)、它共用的[候选校验与热加载检查](https://github.com/vllm-project/semantic-router/blob/2ae3f3d2450721867ad77ff2119f8641d9fa924f/src/semantic-router/pkg/apiserver/route_router_config_update.go#L115-L153)，以及 [recipe validation 的实现](https://github.com/vllm-project/semantic-router/blob/2ae3f3d2450721867ad77ff2119f8641d9fa924f/src/semantic-router/pkg/apiserver/route_recipe_config.go#L84-L117)。
+这些行为来自实验使用的固定代码版本。这里的接口名和返回字段用于说明这次实验中的两条路径，不代表其他系统也提供相同的保证。
 
 ## 第三次追问：接口成功，就说明只改了目标字段吗？
 
@@ -82,7 +82,7 @@ decisions:
     description: 新描述
 ```
 
-对照 [merge 的实现](https://github.com/vllm-project/semantic-router/blob/2ae3f3d2450721867ad77ff2119f8641d9fa924f/src/semantic-router/pkg/apiserver/route_router_config_update.go#L373-L405)才发现，这里的 merge 会按字段合并对象，但遇到 `decisions` 这样的列表，会用请求中的整个列表替换旧列表，并不会按 `name` 找到其中一条进行更新。因此，只提交 `target`，就可能在改对 description 的同时，把未包含在请求中的 `other` 删除。
+对照这次实验使用的实现才发现，这里的 merge 会按字段合并对象，但遇到 `decisions` 这样的列表，会用请求中的整个列表替换旧列表，并不会按 `name` 找到其中一条进行更新。因此，只提交 `target`，就可能在改对 description 的同时，把未包含在请求中的 `other` 删除。
 
 | 检查内容 | 原始配置 | 期望候选 | 实际候选 |
 | --- | --- | --- | --- |
@@ -329,18 +329,19 @@ Agent 已经提出了序列化器这个解释，我便用类型已知的 object 
 
 这次异路径复验没有再次调用模型，因此不能用它证明模型下次也能成功。报告、记录和运行材料各自支持的检查，需要分别写清楚：
 
-| 别人想检查什么 | 需要提供什么 | 当前能支持到哪里 |
+| 别人想检查什么 | 需要提供什么 | 材料能支持的检查范围 |
 | --- | --- | --- |
 | config-plan 示例及其检查是否按预期工作 | 固定代码版本、测试输入、运行入口、预期结果 | 附件支持这 9 个示例流程案例，已完成异路径复验；不覆盖前面的完整候选评估矩阵 |
-| 已发生的模型实验中，我是否解释错了记录 | 脱敏调用记录、实际请求与响应、分项检查结果 | 读者可以核对报告中的判断是否有对应证据 |
+| 已发生的模型实验中，我是否解释错了记录 | 脱敏调用记录、实际请求与响应、分项检查结果 | 拿到记录后，可以核对报告中的判断是否有对应证据 |
 | 模型在相同任务下是否仍能完成 | 初始 prompt、文档与工具定义、fixture、权限和模型运行条件 | 需要重新进行模型实验；不能用前两项代替，也不保证输出完全相同 |
 
 换路径跑通，只排除了一部分目录和旧产物依赖。我仍要注明测试使用了什么环境，哪些条件没有验证，例如全新机器或其他平台。这样，别人知道可以从哪里开始检查，也知道哪些结论还不能从附件中得到。
 
-### 材料与复验入口
+### 本文提供的范围
 
-- [实验报告](https://github.com/vllm-project/semantic-router/issues/4972#issuecomment-6248657524)记录了本轮模型实验的条件、分项结果和限制；[脱敏证据包（ZIP）](https://github.com/user-attachments/files/33626119/semantic-router-4972-sanitized-evidence-compact.zip)提供调用记录、请求与响应、逐次审核和状态观察，供读者核对已经发生的实验。它不是可以直接重跑全部模型实验的完整工程。
-- [config-plan 复现附件（ZIP）](https://github.com/user-attachments/files/33647856/semantic-router-5245-local-reproduction.zip)提供上述 9 个示例流程案例、检查程序、运行方法和预期结果，对应 [PR #5245](https://github.com/vllm-project/semantic-router/pull/5245)。它固定在代码版本 `43620353de408c9c52123d5a387ca1c4ba52edfd`，检查范围是相关处理函数，没有调用模型，也不覆盖完整 Router 部署或前面的完整候选评估矩阵。
+本文记录验收方法的形成过程，未附原项目源码、原始运行记录或复现附件。因此，读者可以沿着这里的例子检查推理，但不能仅凭本文独立复核这些实测结果。
+
+当时整理的脱敏记录用于核对已经发生的实验，并不是可以直接重跑全部模型实验的完整工程。9 个示例流程案例的复现附件则固定在相应代码版本，检查范围是相关处理函数，没有调用模型，也不覆盖完整系统部署或前面的完整候选评估矩阵。
 
 ## 回看这一路追问
 
@@ -357,7 +358,7 @@ flowchart LR
     Evidence -. "③④⑤" .-> Checks["内容、状态、行为<br/>分别提供证据"]
     Evidence -. "⑥" .-> Verify["用已知样例核对<br/>检查程序可靠吗？"]
     Result -. "⑦" .-> Diagnosis["失败时定位现象<br/>区分原因与出现范围"]
-    Result -. "⑧" .-> Reproduce["交付材料与预期<br/>别人也能核对"]
+    Result -. "⑧" .-> Reproduce["整理材料与预期<br/>说明可复验的范围"]
 
     classDef initial fill:#f2f2f2,stroke:#888;
     classDef added fill:#e8f1ff,stroke:#4a76b8;
