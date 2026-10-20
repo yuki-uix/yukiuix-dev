@@ -95,6 +95,11 @@ export const articles: Article[] = [
     titleEn: "When an Agent Changes One Field, How Do We Know It Got It Right?",
     topics: ["ai"],
     publishedAt: "2026-10-20",
+    coverImage: "/images/articles/agent-config-research-retrospective.jpg",
+    coverAlt:
+      "油画插图：黄色托盘中整齐排列着陶红色拼块，一块蓝灰色替换块单独放在旁边的卡片上，深绿色放大镜覆盖其上",
+    coverAltEn:
+      "Oil painting of terracotta tiles arranged in a yellow tray, with a separate blue-gray replacement tile on a card beneath a dark green magnifying glass",
     blurb:
       "一次 Agent 配置操作实验：原本只想让它改一个 description，却逐步发现，候选合法、内容符合要求、系统状态没变、没有写入尝试，需要各自的证据。这篇记录了八次追问，以及我怎样检查评估程序、核查失败解释，再整理复验需要的材料与边界。",
     blurbEn:
