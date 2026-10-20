@@ -88,6 +88,20 @@ export function articleLink(a: Article, locale: string): ArticleLink | null {
 export const articles: Article[] = [
   // ── 首页精选 ──────────────────────────────────────────
   {
+    slug: "semantic-router-research-retrospective",
+    source: "self",
+    bodyLocales: ["zh"],
+    title: "让 Agent 改一个字段，怎样才算做对了？",
+    titleEn: "When an Agent Changes One Field, How Do We Know It Got It Right?",
+    topics: ["ai"],
+    publishedAt: "2026-10-20",
+    blurb:
+      "一次 Semantic Router 配置实验：原本只想让 Agent 改一个 description，却逐步发现，候选合法、内容符合要求、系统状态没变、没有写入尝试，需要各自的证据。这篇记录了八次追问，以及我怎样检查评估程序、核查失败解释，再把材料交给别人复验。",
+    blurbEn:
+      "A Semantic Router configuration experiment began with one description change. Eight questions followed: whether the candidate was valid, whether other fields survived, whether state changed, and whether a write was attempted. This retrospective follows how those checks were tested, a failure explanation was examined, and evidence was prepared for others to review.",
+    featured: true,
+  },
+  {
     slug: "agent-demo-to-delivery",
     source: "self",
     bodyLocales: ["zh", "en"],

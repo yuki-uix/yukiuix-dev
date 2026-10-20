@@ -1,9 +1,10 @@
-import type { ReactNode } from "react";
+import { isValidElement, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 import { headingId } from "@/lib/headings";
+import MermaidDiagram from "@/components/MermaidDiagram";
 
 /** 从 heading 的 children 里递归取纯文本，用来生成锚点 id */
 function headingText(node: ReactNode): string {
@@ -40,7 +41,19 @@ function Anchored({
   );
 }
 
+function CodeBlock({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
+  if (
+    isValidElement<{ className?: string; children?: ReactNode }>(children) &&
+    children.props.className?.split(/\s+/).includes("language-mermaid")
+  ) {
+    return <MermaidDiagram source={headingText(children.props.children)} />;
+  }
+
+  return <pre {...props}>{children}</pre>;
+}
+
 const components = {
+  pre: CodeBlock,
   h2: ({ children }: { children?: ReactNode }) => (
     <Anchored as="h2">{children}</Anchored>
   ),
@@ -83,7 +96,9 @@ export default async function ArticleBody({ source }: { source: string }) {
         // 高亮只上类名，配色写在 globals.css 里——和正文一样手写，
         // 才能配得上暖米白那套配色。`detect: false` 是刻意的：
         // 没标语言的块（正文里那段样例输出）保持纯文本，别被猜成代码。
-        rehypePlugins: [[rehypeHighlight, { detect: false, ignoreMissing: true }]],
+        rehypePlugins: [
+          [rehypeHighlight, { detect: false, ignoreMissing: true, plainText: ["mermaid"] }],
+        ],
       },
     },
   });

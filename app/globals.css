@@ -208,6 +208,67 @@ body {
   scrollbar-color: var(--color-border) transparent;
 }
 
+/* Mermaid keeps its natural size, so labels stay readable on a narrow screen.
+   Only the diagram scrolls; ordinary code blocks retain their existing styles. */
+.prose-article .mermaid-diagram {
+  min-width: 0;
+  max-width: 100%;
+  border: 0.5px solid var(--color-border);
+  background: var(--color-surface-read);
+}
+
+.mermaid-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1.25rem;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.mermaid-scroll > svg {
+  display: block;
+  width: var(--mermaid-width);
+  max-width: none !important;
+  height: auto;
+  margin-inline: auto;
+}
+
+.mermaid-scroll:focus-visible,
+.mermaid-source summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.mermaid-status {
+  padding: 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.mermaid-source {
+  border-top: 0.5px solid var(--color-border);
+}
+
+.mermaid-source summary {
+  padding: 0.625rem 1rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.prose-article .mermaid-source pre {
+  margin: 0;
+  border: 0;
+  border-top: 0.5px solid var(--color-border);
+  padding: 1rem;
+}
+
+.prose-article .mermaid-source pre code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 /* `width: 100%` 而没有 min-width，表格永远「塞得下」，
    overflow-x 从来不触发——.table-scroll 一直是死代码。实测后果：
    四列表格最窄列被压到 53px，表头「过→挂」竖成三行。
