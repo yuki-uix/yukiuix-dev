@@ -35,11 +35,13 @@ flowchart LR
 那么，每条路径返回的结果，足以证明什么？能不能用同一个“成功”来概括？
 
 ```mermaid
-flowchart LR
+flowchart TD
+    accTitle: 同一修改目标的两条校验路径
+    accDescr: 固定输入后，config plan 和 recipe validation 分别提供不同范围的证据，汇合到事先约定的验收判断。
     I["输入<br/>上一轮固定的条件"] --> A["目标<br/>准备 description 修改"]
     A --> P["路径一<br/>config plan"]
     A --> V["路径二<br/>recipe validation"]
-    P --> EP["证据<br/>完整候选校验、热加载检查、ETag"]
+    P --> EP["证据<br/>完整候选校验、热加载检查<br/>当前与候选 ETag"]
     V --> EV["证据<br/>完整文档合法性检查"]
     EP --> R["按事先约定的标准判断"]
     EV --> R
@@ -118,14 +120,16 @@ flowchart TD
 我把这次对比补进了检查程序。蓝色是新增的步骤：
 
 ```mermaid
-flowchart LR
+flowchart TD
+    accTitle: 独立准备期望候选，还原并比较实际候选
+    accDescr: 评估者从原始配置独立准备期望候选，另一条路径依据 Agent 的真实请求和接口规则还原实际候选，再比较完整内容；缺少 other 就判内容不合格。
     Original["原始配置<br/>target：旧描述<br/>other：保持不变"] --> Expected["期望候选<br/>target：新描述<br/>other：保持不变"]
-    Original --> Reconstruct["按接口规则还原"]
-    Request["Agent 实际提交的修改请求"] --> Reconstruct
-    Reconstruct --> Actual["实际候选<br/>检查 target 与 other 的最终内容"]
+    Original --> Reconstruct["按接口规则<br/>还原实际候选"]
+    Request["Agent 实际提交的<br/>修改请求"] --> Reconstruct
+    Reconstruct --> Actual["实际候选<br/>target 与 other 的最终内容"]
     Expected --> Compare["比较完整内容<br/>目标是否改对<br/>其他内容是否保留"]
     Actual --> Compare
-    Compare --> ContentResult["复现上一张图的判断<br/>缺少 other 就判内容不合格"]
+    Compare --> ContentResult["内容判定<br/>缺少 other 即不合格"]
     classDef added fill:#e8f1ff,stroke:#4a76b8;
     class Expected,Reconstruct,Compare added;
 ```
@@ -254,9 +258,11 @@ flowchart TD
 这里说的是 `body` 整体，不是其中的 `yaml` 字段；后者本来就可以是字符串。
 
 ```mermaid
-flowchart LR
-    Model["模型生成工具调用<br/>没有单独观测生成结果"] --> Platform["模型服务平台处理并返回<br/>没有独立核对处理前后内容"]
-    Platform --> Local["本地运行器接收并记录<br/>要求 body 是 object 或 null<br/>实际已是 string"]
+flowchart TD
+    accTitle: 从调用记录定位参数类型错误
+    accDescr: 依次展示模型生成、平台处理、本地接收、本地序列化和服务端响应。已观测到本地接收时 body 就是 string；模型生成与平台处理未被独立观察，因此现有证据不能确认字符串的来源。
+    Model["模型生成工具调用<br/>未单独观测生成结果"] --> Platform["模型服务平台处理并返回<br/>未独立核对处理前后内容"]
+    Platform --> Local["本地运行器接收并记录<br/>body 应为 object 或 null<br/>实际已是 string"]
     Local --> Serialize["本地序列化<br/>发送 HTTP 请求"]
     Serialize --> Server["服务端返回 400"]
     classDef established fill:#f2f2f2,stroke:#888;
