@@ -2,6 +2,7 @@ import { isValidElement, type ComponentPropsWithoutRef, type ReactNode } from "r
 import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
+import { getLocale } from "next-intl/server";
 
 import { headingId } from "@/lib/headings";
 import MermaidDiagram from "@/components/MermaidDiagram";
@@ -26,15 +27,17 @@ function headingText(node: ReactNode): string {
 function Anchored({
   as: Tag,
   children,
+  anchorLabel,
 }: {
   as: "h2" | "h3";
   children?: ReactNode;
+  anchorLabel: string;
 }) {
   const id = headingId(headingText(children));
   return (
     <Tag id={id} className="heading-anchored">
       {children}
-      <a href={`#${id}`} className="heading-anchor" aria-label="链接到这一节">
+      <a href={`#${id}`} className="heading-anchor" aria-label={anchorLabel}>
         #
       </a>
     </Tag>
@@ -52,13 +55,13 @@ function CodeBlock({ children, ...props }: ComponentPropsWithoutRef<"pre">) {
   return <pre {...props}>{children}</pre>;
 }
 
-const components = {
+const components = (anchorLabel: string) => ({
   pre: CodeBlock,
   h2: ({ children }: { children?: ReactNode }) => (
-    <Anchored as="h2">{children}</Anchored>
+    <Anchored as="h2" anchorLabel={anchorLabel}>{children}</Anchored>
   ),
   h3: ({ children }: { children?: ReactNode }) => (
-    <Anchored as="h3">{children}</Anchored>
+    <Anchored as="h3" anchorLabel={anchorLabel}>{children}</Anchored>
   ),
   // 宽表格自己横向滚动，页面本身永远不横向滚
   table: ({ children }: { children?: ReactNode }) => (
@@ -83,12 +86,13 @@ const components = {
     // eslint-disable-next-line @next/next/no-img-element
     <img src={props.src} alt={props.alt ?? ""} loading="lazy" />
   ),
-};
+});
 
 export default async function ArticleBody({ source }: { source: string }) {
+  const locale = await getLocale();
   const { content } = await compileMDX({
     source,
-    components,
+    components: components(locale === "en" ? "Link to this section" : "链接到这一节"),
     options: {
       parseFrontmatter: false,
       mdxOptions: {
