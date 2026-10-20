@@ -208,6 +208,185 @@ body {
   scrollbar-color: var(--color-border) transparent;
 }
 
+/* Article diagrams show the complete relationship at a glance. Readers can
+   open a separate, keyboard-accessible view to read labels at their full size. */
+.prose-article .mermaid-diagram {
+  min-width: 0;
+  max-width: 100%;
+  border: 0.5px solid var(--color-border);
+  background: var(--color-surface-read);
+}
+
+.mermaid-preview {
+  max-width: 100%;
+  padding: 1.25rem;
+}
+
+.mermaid-preview > svg {
+  display: block;
+  width: var(--mermaid-width);
+  max-width: 100% !important;
+  height: auto;
+  margin-inline: auto;
+}
+
+.mermaid-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1rem 0.75rem;
+}
+
+.mermaid-control {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 0.5px solid var(--color-border);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.mermaid-control:hover {
+  border-color: var(--color-primary);
+}
+
+.mermaid-control[aria-pressed="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+
+.mermaid-control:focus-visible,
+.mermaid-source summary:focus-visible,
+.mermaid-viewer-viewport:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.mermaid-status {
+  padding: 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.mermaid-source {
+  border-top: 0.5px solid var(--color-border);
+}
+
+.mermaid-source summary {
+  padding: 0.625rem 1rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.prose-article .mermaid-source pre {
+  margin: 0;
+  border: 0;
+  border-top: 0.5px solid var(--color-border);
+  padding: 1rem;
+}
+
+.prose-article .mermaid-source pre code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Portalled to body so article typography and ancestor transforms cannot
+   affect the native modal. The original-size canvas is the scrolling fallback. */
+.mermaid-viewer {
+  width: calc(100vw - 2rem);
+  max-width: 80rem;
+  height: calc(100vh - 2rem);
+  height: calc(100dvh - 2rem);
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 0.5px solid var(--color-border);
+  background: var(--color-surface-read);
+  color: var(--color-text);
+  overflow: hidden;
+}
+
+.mermaid-viewer[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.mermaid-viewer::backdrop {
+  background: color-mix(in srgb, var(--color-text) 45%, transparent);
+}
+
+.mermaid-viewer-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.mermaid-viewer-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.mermaid-viewer-toolbar {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.mermaid-viewer-modes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mermaid-viewer-toolbar p {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.mermaid-viewer-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.mermaid-viewer-canvas {
+  display: grid;
+  place-items: center;
+  width: max-content;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 1rem;
+}
+
+.mermaid-viewer-canvas > svg {
+  display: block;
+  width: var(--mermaid-width);
+  max-width: none !important;
+  height: auto;
+}
+
+.mermaid-viewer-fallback pre {
+  padding: 1rem;
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 /* `width: 100%` 而没有 min-width，表格永远「塞得下」，
    overflow-x 从来不触发——.table-scroll 一直是死代码。实测后果：
    四列表格最窄列被压到 53px，表头「过→挂」竖成三行。

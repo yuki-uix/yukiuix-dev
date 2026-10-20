@@ -88,6 +88,20 @@ export function articleLink(a: Article, locale: string): ArticleLink | null {
 export const articles: Article[] = [
   // ── 首页精选 ──────────────────────────────────────────
   {
+    slug: "agent-config-research-retrospective",
+    source: "self",
+    bodyLocales: ["zh", "en"],
+    title: "让 Agent 改一个字段，怎样才算做对了？",
+    titleEn: "When an Agent Changes One Field, How Do We Know It Got It Right?",
+    topics: ["ai"],
+    publishedAt: "2026-10-20",
+    blurb:
+      "一次 Agent 配置操作实验：原本只想让它改一个 description，却逐步发现，候选合法、内容符合要求、系统状态没变、没有写入尝试，需要各自的证据。这篇记录了八次追问，以及我怎样检查评估程序、核查失败解释，再整理复验需要的材料与边界。",
+    blurbEn:
+      "An agent configuration experiment began with one description change. Eight questions followed: whether the candidate was valid, whether other fields were preserved, whether state changed, and whether a write was attempted. This retrospective follows how I tested the checks, examined a failure explanation, and worked out what others would need to verify the results.",
+    featured: true,
+  },
+  {
     slug: "agent-demo-to-delivery",
     source: "self",
     bodyLocales: ["zh", "en"],
