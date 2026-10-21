@@ -138,6 +138,25 @@ Now the request above would be recognized as wrong because the actual candidate 
 
 The server-side checks answer whether the candidate passes the corresponding validation. The full-content comparison answers whether it meets the requested change. Only now were those two pieces of evidence connected.
 
+### Can the comparison baseline become outdated?
+
+The full-content comparison above establishes that, relative to the configuration read earlier, the candidate changes only the target description. But if someone subsequently changes another rule, the candidate still contains that rule's old value and may already be outdated. Nothing has been written back here, so no one else's changes have been overwritten. What needs checking again is whether this candidate is still suitable for the current configuration.
+
+This led me to look at how the configuration's identity is recorded. The API calls this an ETag, which can be understood as a “fingerprint” of the configuration contents. The existing example records the ETag when reading the configuration, then compares it with the `current_etag` returned by plan to check whether the baseline actually used by the plan still matches the one read earlier.
+
+```mermaid
+flowchart TD
+    accTitle: Detect a baseline change between reading and planning
+    accDescr: After the candidate is prepared but before plan reads the configuration, the test program changes another rule in the temporary server-side configuration. plan still returns 200, but the script detects a mismatch between the ETag recorded on read and current_etag, and stops without reporting preparation success.
+    Read["Read configuration and record ETag<br/>Prepare candidate"] --> Change["Test program changes another rule"]
+    Change --> Plan["plan returns 200<br/>But uses a new baseline"]
+    Plan --> Stop["The two ETags differ<br/>Script stops without reporting<br/>preparation success"]
+```
+
+To check that this comparison worked, I ran two additional local cases. With no intervening change, the original script passed. When the test program changed the temporary server-side configuration after the candidate had been prepared but before plan read the configuration, plan still returned 200, but the script exited at the ETag comparison without reporting preparation success.
+
+This added a condition beyond the full-content comparison: **when judging a candidate, I also need to identify the baseline it is being judged against.** The experiment tested only this controlled baseline change between reading and planning. It did not lock the configuration or guarantee that a later write would still be safe.
+
 ## Fourth question: the candidate is correct, but did the system state change?
 
 After checking the candidate's contents, I paused before looking for more unusual cases. I went back to the original task and asked whether the current checks covered everything it required.
