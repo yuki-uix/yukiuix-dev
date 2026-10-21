@@ -157,6 +157,23 @@ To check that this comparison worked, I ran two additional local cases. With no 
 
 This added a condition beyond the full-content comparison: **when judging a candidate, I also need to identify the baseline it is being judged against.** The experiment tested only this controlled baseline change between reading and planning. It did not lock the configuration or guarantee that a later write would still be safe.
 
+### How should I report insufficient evidence?
+
+If the two ETags differ, I know the baseline consistency check has not passed. But if the read response lacks an ETag, I cannot complete that comparison; this does not establish that the candidate's contents are wrong. Both cases should stop the process, but they call for different conclusions: a confirmed mismatch in the first case, and insufficient evidence in the second. Other checks should still be reported according to their own evidence.
+
+```mermaid
+flowchart LR
+    accTitle: Proposed reporting guidance for baseline consistency
+    accDescr: This diagram proposes how to report the baseline consistency check; it does not describe structured output currently emitted by the script. If a required ETag is missing, this check remains unverified. If both ETags are available but differ, there is a confirmed mismatch. Matching ETags pass this check. Other checks are reported according to their own evidence.
+    A["Check baseline consistency<br/>Reporting guidance"] --> B{"Are both required<br/>ETags available?"}
+    B -->|"No"| U["Unverified<br/>Stop and retain records"]
+    B -->|"Yes"| C{"Do the ETags match?"}
+    C -->|"No"| F["Confirmed mismatch<br/>Stop"]
+    C -->|"Yes"| P["This check passes"]
+```
+
+Looking back at my initial “pass or fail” framing, I also need to make room for insufficient evidence. This addition is reporting guidance: the example script still stops when a check does not pass, and does not yet automatically emit structured pass/fail/unknown results.
+
 ## Fourth question: the candidate is correct, but did the system state change?
 
 After checking the candidate's contents, I paused before looking for more unusual cases. I went back to the original task and asked whether the current checks covered everything it required.
