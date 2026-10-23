@@ -9,12 +9,12 @@ export default function Footer() {
 
   const social = [
     { label: "GitHub", href: "https://github.com/yuki-uix" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/kunyu-xu/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/kunyu-xu/", analyticsTarget: "linkedin" },
     { label: t("juejin"), href: "https://juejin.cn/user/3582625834347100" },
     { label: "dev.to", href: "https://dev.to/yuki-uix" },
     // 只在 <head> 里给自动发现是不够的——大部分人是在页脚找 RSS 的
     { label: "RSS", href: feedPath(locale as Locale) },
-    { label: "yuki.uix@gmail.com", href: "mailto:yuki.uix@gmail.com" },
+    { label: "yuki.uix@gmail.com", href: "mailto:yuki.uix@gmail.com", analyticsTarget: "email" },
   ];
 
   return (
@@ -26,6 +26,9 @@ export default function Footer() {
             <li key={s.label}>
               <a
                 href={s.href}
+                data-analytics-event={s.analyticsTarget ? "contact_clicked" : undefined}
+                data-analytics-placement={s.analyticsTarget ? "footer" : undefined}
+                data-analytics-target={s.analyticsTarget}
                 target={s.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={
                   s.href.startsWith("mailto:")

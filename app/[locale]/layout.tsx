@@ -6,6 +6,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SITE_URL, absoluteUrl, feedAlternates } from "@/lib/site";
+import PortfolioAnalytics from "@/components/PortfolioAnalytics";
 import "../globals.css";
 
 const dmSans = DM_Sans({
@@ -155,6 +156,7 @@ export default async function LocaleLayout({
           <div className="grid-background" aria-hidden />
           <div className="relative z-[1] min-h-screen">{children}</div>
         </NextIntlClientProvider>
+        <PortfolioAnalytics locale={locale} />
         <Analytics />
       </body>
     </html>

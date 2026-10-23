@@ -76,6 +76,10 @@ export default function Writing() {
               ) : link.external ? (
                 <a
                   href={link.href}
+                  data-analytics-event="article_link_clicked"
+                  data-analytics-placement="home_writing"
+                  data-analytics-article={a.slug}
+                  data-analytics-target="external"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cardClass}
@@ -83,7 +87,14 @@ export default function Writing() {
                   {body}
                 </a>
               ) : (
-                <Link href={link.href} className={cardClass}>
+                <Link
+                  href={link.href}
+                  data-analytics-event="article_link_clicked"
+                  data-analytics-placement="home_writing"
+                  data-analytics-article={a.slug}
+                  data-analytics-target="internal"
+                  className={cardClass}
+                >
                   {body}
                 </Link>
               )}

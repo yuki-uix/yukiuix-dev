@@ -45,6 +45,9 @@ export default function Hero() {
         </Link>
         <a
           href="mailto:yuki.uix@gmail.com"
+          data-analytics-event="contact_clicked"
+          data-analytics-placement="hero"
+          data-analytics-target="email"
           className="inline-flex h-11 items-center justify-center border border-structure bg-transparent px-6 text-sm font-medium text-ink transition-colors hover:-translate-y-0.5 hover:border-primary"
         >
           {t("contact")}

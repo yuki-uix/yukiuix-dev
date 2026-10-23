@@ -40,12 +40,12 @@ export default function Playground() {
 
           // Secondary links — plain text, low visual weight
           const secondaryLinks = [
-            p.githubUrl  && { href: p.githubUrl,  label: "GitHub →" },
-            p.gitlabUrl  && { href: p.gitlabUrl,  label: "GitLab →" },
+            p.githubUrl  && { href: p.githubUrl,  label: "GitHub →", analyticsTarget: "repository" },
+            p.gitlabUrl  && { href: p.gitlabUrl,  label: "GitLab →", analyticsTarget: "repository" },
             p.videoUrl   && !p.demoUrl && !p.submissionUrl
               ? null
-              : p.videoUrl && { href: p.videoUrl, label: t("watchVideo") },
-          ].filter(Boolean) as { href: string; label: string }[];
+              : p.videoUrl && { href: p.videoUrl, label: t("watchVideo"), analyticsTarget: "video" },
+          ].filter(Boolean) as { href: string; label: string; analyticsTarget: "repository" | "video" }[];
 
           return (
             <li key={p.title} className="relative">
@@ -97,10 +97,14 @@ export default function Playground() {
 
                   {/* Action row */}
                   <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {secondaryLinks.map(({ href, label }) => (
+                    {secondaryLinks.map(({ href, label, analyticsTarget }) => (
                       <a
                         key={href}
                         href={href}
+                        data-analytics-event="project_link_clicked"
+                        data-analytics-placement="playground"
+                        data-analytics-project={p.title}
+                        data-analytics-target={analyticsTarget}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-[11px] text-muted transition-colors hover:text-primary"
@@ -111,6 +115,10 @@ export default function Playground() {
                     {primaryUrl && (
                       <a
                         href={primaryUrl}
+                        data-analytics-event="project_link_clicked"
+                        data-analytics-placement="playground"
+                        data-analytics-project={p.title}
+                        data-analytics-target={p.demoUrl ? "demo" : p.submissionUrl ? "submission" : "video"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="ml-auto border border-primary bg-primary px-3 py-1.5 font-mono text-xs text-white transition-colors hover:bg-primary-hover"

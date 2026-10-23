@@ -193,6 +193,10 @@ export default function Projects() {
                     {primaryUrl && (
                       <a
                         href={primaryUrl}
+                        data-analytics-event="project_link_clicked"
+                        data-analytics-placement="home_projects"
+                        data-analytics-project={p.title}
+                        data-analytics-target={p.demoUrl ? "demo" : p.submissionUrl ? "submission" : "repository"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 block border border-primary bg-primary px-3 py-1.5 text-center font-mono text-xs text-white transition-colors hover:bg-primary-hover"
