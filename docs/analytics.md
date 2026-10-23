@@ -33,7 +33,11 @@ flowchart LR
 
 邮件目标只记录 `mailto:`，不会发送邮箱字符串。网址移除 query/hash；关闭 UTM 参数保存、自动交互采集、会话回放、热图、异常、性能、问卷和功能开关请求，不采集页面正文、表单或链接文字。匿名 ID 存在 localStorage；不调用 `identify`，不创建用户资料。
 
+在本次默认配置下，PostHog 服务端仍会接收请求 IP，并可生成城市、国家等 GeoIP 属性；使用匿名 ID 不等于完全不采集个人数据。
+
 ## 验收与看板
+
+当前项目：[数据看板](https://us.posthog.com/project/682515/dashboard/2248718) · [事件列表](https://us.posthog.com/project/682515/activity/events)（验收时筛选 `is_test=true`）。
 
 1. 在 PostHog 的事件列表（Activity / Live events）筛选 `is_test=true`，打开 `/zh?analytics_test=1`，确认出现一个 `$pageview`。
 2. 通过站内导航进入文章归档、Playground 或切换语言，确认每次路径变化新增一个 `$pageview`；刷新本身也应新增一次。开发环境 Strict Mode 不应导致双发。
