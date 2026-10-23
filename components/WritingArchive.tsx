@@ -83,10 +83,12 @@ export default function WritingArchive() {
   /** 卡片与标题行都要在「内部路由 / 站外新窗 / 无链接」之间切，抽出来复用 */
   function Wrap({
     link,
+    articleSlug,
     className,
     children,
   }: {
     link: ArticleLink | null;
+    articleSlug: string;
     className?: string;
     children: React.ReactNode;
   }) {
@@ -95,6 +97,10 @@ export default function WritingArchive() {
       return (
         <a
           href={link.href}
+          data-analytics-event="article_link_clicked"
+          data-analytics-placement="writing_archive"
+          data-analytics-article={articleSlug}
+          data-analytics-target="external"
           target="_blank"
           rel="noopener noreferrer"
           className={className ?? "block"}
@@ -104,7 +110,14 @@ export default function WritingArchive() {
       );
     }
     return (
-      <Link href={link.href} className={className ?? "block"}>
+      <Link
+        href={link.href}
+        data-analytics-event="article_link_clicked"
+        data-analytics-placement="writing_archive"
+        data-analytics-article={articleSlug}
+        data-analytics-target="internal"
+        className={className ?? "block"}
+      >
         {children}
       </Link>
     );
@@ -156,7 +169,7 @@ export default function WritingArchive() {
                       const link = articleLink(a, locale);
                       const displayBlurb = articleBlurb(a, locale);
                       return (
-                        <Wrap key={a.slug} link={link}>
+                        <Wrap key={a.slug} link={link} articleSlug={a.slug}>
                           <div className="group flex gap-5 border border-hairline bg-white p-5 shadow-sm transition-shadow duration-150 hover:shadow-md">
                             <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden sm:h-[84px] sm:w-[84px]">
                               <Image
@@ -201,7 +214,7 @@ export default function WritingArchive() {
                     {secondary.map((a) => {
                       const link = articleLink(a, locale);
                       return (
-                        <Wrap key={a.slug} link={link}>
+                        <Wrap key={a.slug} link={link} articleSlug={a.slug}>
                           <div className="group flex items-baseline justify-between gap-4 py-3 transition-transform duration-150 hover:translate-x-1">
                             <span className="line-clamp-1 text-sm text-muted transition-colors group-hover:text-ink">
                               {articleTitle(a, locale)}
